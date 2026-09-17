@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MH24 Basket - Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Poppins', 'Mukta', sans-serif; background-color: #f8fafc; padding-bottom: 80px; -webkit-tap-highlight-color: transparent; }
+        .hidden { display: none !important; }
+        .premium-shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0,0,0,0.02); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; padding: 12px 0 20px 0; z-index: 50; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #94a3b8; cursor: pointer; font-weight: 600; transition: color 0.2s; }
+        .nav-item.active { color: #15803d; }
+        .nav-item.active svg { stroke: #15803d; }
+        .custom-input { width: 100%; padding: 14px 16px; border: 1.5px solid #e2e8f0; border-radius: 14px; background-color: #ffffff; margin-bottom: 16px; font-size: 14px; transition: all 0.2s; color: #1e293b; }
+        .custom-input:focus { outline: none; border-color: #15803d; box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.1); }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center max-w-lg">
+            <div class="flex flex-col">
+                <h1 class="text-xl font-bold text-gray-800 tracking-tight">MH24 Basket</h1>
+                <p class="text-[10px] text-green-700 font-bold uppercase tracking-widest">Fresh • Local • Latur</p>
+            </div>
+            <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-700 border border-green-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 max-w-lg mt-6">
+        <div id="view-home" class="fade-in">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 leading-tight">ताजी भाजी आणि फळे<br><span class="text-green-600">घरपोच मिळवा!</span></h2>
+                <p class="text-gray-500 text-sm mt-1">आपल्या लातूर मधून, ताजे आणि स्वस्त.</p>
+            </div>
+            <h3 class="text-md font-bold text-gray-800 mb-4">कॅटेगरी निवडा (Select Category)</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div onclick="openCategory('leafy', 'पालेभाज्या')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
+                    <div class="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">🥬</span></div>
+                    <p class="font-bold text-gray-800 text-sm">पालेभाज्या</p>
+                    <p class="text-[10px] text-gray-400 mt-1 font-medium">Leafy Vegetables</p>
+                </div>
+                <div onclick="openCategory('regular', 'रेग्युलर भाज्या')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
+                    <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">🍅</span></div>
+                    <p class="font-bold text-gray-800 text-sm">रेग्युलर भाज्या</p>
+                    <p class="text-[10px] text-gray-400 mt-1 font-medium">Regular Vegetables</p>
+                </div>
+                <div onclick="openCategory('fruits', 'फळे')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
+                    <div class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">🍎</span></div>
+                    <p class="font-bold text-gray-800 text-sm">फळे</p>
+                    <p class="text-[10px] text-gray-400 mt-1 font-medium">Fruits</p>
+                </div>
+                <div onclick="openCategory('seasonal', 'हंगामी फळे')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
+                    <div class="w-14 h-14 bg-yellow-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">🥭</span></div>
+                    <p class="font-bold text-gray-800 text-sm">हंगामी फळे</p>
+                    <p class="text-[10px] text-gray-400 mt-1 font-medium">Seasonal Fruits</p>
+                </div>
+            </div>
+            <div class="mt-16 text-center">
+                <button onclick="requestAdminAccess()" class="text-[10px] text-gray-400 font-medium border border-gray-200 px-4 py-2 rounded-full">⚙️ Admin Panel</button>
+            </div>
+        </div>
+
+        <div id="view-category" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100 active:scale-90">←</button>
+                <h2 id="categoryTitle" class="text-xl font-bold text-gray-800"></h2>
+            </div>
+            <div id="categoryProductGrid" class="grid grid-cols-2 gap-4"></div>
+        </div>
+
+        <div id="view-basket" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100 active:scale-90">←</button>
+                <h2 class="text-xl font-bold text-gray-800">My Basket</h2>
+            </div>
+            <div id="basketItems" class="space-y-4"></div>
+            <div id="basketSummary" class="mt-6 hidden">
+                <div class="bg-[#e8f5e9] p-6 rounded-3xl mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm font-semibold text-gray-700">Total Items</span>
+                        <span class="font-bold text-gray-800" id="totalItemsCount">0</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm font-semibold text-gray-700">Total Minimum Estimated Saving</span>
+                        <span class="font-bold text-green-700" id="totalSavings">₹0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-semibold text-gray-700">Weekly Service / Delivery Fee</span>
+                        <span class="font-bold text-gray-800">₹99 only</span>
+                    </div>
+                </div>
+                <button onclick="sendWhatsAppOrder()" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-2 active:scale-95">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 2C6.472 2 2 6.472 2 12.031c0 1.766.457 3.425 1.257 4.871L2 22l5.246-1.379c1.406.766 3.012 1.203 4.785 1.203 5.559 0 10.031-4.472 10.031-10.031S17.59 2 12.031 2zm0 18.062c-1.543 0-2.984-.414-4.234-1.141l-.305-.18-3.148.828.84-3.07-.195-.312A8.025 8.025 0 014 12.031C4 7.582 7.582 4 12.031 4S20.062 7.582 20.062 12.031s-3.582 8.031-8.031 8.031zM16.41 14.52c-.219-.109-1.293-.637-1.492-.711-.199-.074-.344-.109-.488.109-.145.219-.562.711-.688.855-.125.145-.25.164-.469.055-.219-.109-.922-.34-1.754-1.082-.648-.578-1.086-1.293-1.211-1.512-.125-.219-.014-.336.094-.445.098-.098.219-.258.328-.387.109-.129.145-.219.219-.363.074-.145.035-.273-.02-.383-.055-.109-.488-1.176-.668-1.609-.176-.422-.352-.363-.488-.371-.125-.008-.27-.008-.418-.008-.148 0-.387.055-.59.273-.203.219-.773.754-.773 1.836 0 1.082.793 2.129.902 2.277.109.148 1.555 2.375 3.766 3.328.527.227.938.363 1.258.465.531.168 1.012.145 1.395.086.426-.066 1.293-.527 1.477-1.039.184-.512.184-.949.129-1.039-.055-.09-.199-.145-.418-.254z"/></svg>
+                    WhatsApp वर ऑर्डर पाठवा
+                </button>
+            </div>
+        </div>
+
+        <div id="view-success" class="hidden text-center pt-8 fade-in">
+            <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-5xl text-green-600">✓</span></div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">ऑर्डर पाठवली!</h2>
+            <p class="text-gray-600 font-medium mb-8">Order Sent to WhatsApp</p>
+            <div class="bg-[#e8f5e9] p-6 rounded-3xl mb-8 text-left">
+                <p class="text-sm font-semibold text-gray-700 mb-1">Total Minimum Estimated Saving</p>
+                <p class="text-3xl font-bold text-green-700 mb-4">₹<span id="successTotalSavings">0</span></p>
+                <div class="border-t border-green-200 pt-3 flex justify-between text-xs text-gray-600 font-semibold">
+                    <span>Weekly Service / Delivery Fee</span><span>₹99 only</span>
+                </div>
+            </div>
+            <button onclick="navigateTo('view-home')" class="w-full bg-white border-2 border-green-600 text-green-700 py-4 rounded-2xl font-bold text-lg active:scale-95">होम वर परत जा / Back to Home</button>
+        </div>
+
+        <div id="view-profile" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100 active:scale-90">←</button>
+                <h2 class="text-xl font-bold text-gray-800">ग्राहक माहिती</h2>
+            </div>
+            <div id="profileForm" class="bg-white p-6 rounded-3xl premium-shadow">
+                <label class="block text-sm font-bold text-gray-700 mb-2">पूर्ण नाव *</label>
+                <input type="text" id="custName" class="custom-input" placeholder="तुमचे पूर्ण नाव">
+                <label class="block text-sm font-bold text-gray-700 mb-2">मोबाईल नंबर *</label>
+                <input type="tel" id="custPhone" class="custom-input" placeholder="10 अंकी मोबाईल नंबर">
+                <label class="block text-sm font-bold text-gray-700 mb-2">पूर्ण पत्ता *</label>
+                <textarea id="custAddress" class="custom-input" rows="3" placeholder="तुमचा संपूर्ण पत्ता"></textarea>
+                <button onclick="saveProfile()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-bold mt-2 active:scale-95">Save Profile</button>
+            </div>
+            <div id="profileDisplay" class="hidden bg-white p-8 rounded-3xl premium-shadow text-center border-t-4 border-green-600">
+                <div class="text-6xl mb-4">👤</div>
+                <h3 class="text-xl font-bold text-gray-800" id="displayName"></h3>
+                <p class="text-gray-500 font-medium mb-6" id="displayPhone"></p>
+                <button onclick="editProfile()" class="text-sm text-green-600 border-2 border-green-600 px-6 py-2 rounded-full font-bold">Edit Profile</button>
+            </div>
+        </div>
+
+        <div id="view-admin" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100 active:scale-90">←</button>
+                <h2 class="text-xl font-bold text-gray-800">⚙️ Admin Panel</h2>
+            </div>
+            <div class="bg-white p-6 rounded-3xl premium-shadow mb-6 border-t-4 border-red-500">
+                <h3 class="font-bold text-gray-800 mb-4 text-lg">नवीन प्रोडक्ट जोडा</h3>
+                <div class="grid grid-cols-2 gap-3 mb-2">
+                    <input type="text" id="prodName" placeholder="Name (English)" class="custom-input col-span-1 mb-0">
+                    <input type="text" id="prodMarathi" placeholder="नाव (मराठी)" class="custom-input col-span-1 mb-0">
+                    <select id="prodCategory" class="custom-input col-span-2 mb-0">
+                        <option value="leafy">पालेभाज्या (Leafy)</option>
+                        <option value="regular">रेग्युलर भाज्या (Regular)</option>
+                        <option value="fruits">फळे (Fruits)</option>
+                        <option value="seasonal">हंगामी फळे (Seasonal)</option>
+                    </select>
+                    <input type="text" id="prodUnit" placeholder="Unit (उदा. 500 g)" class="custom-input col-span-1 mb-0">
+                    <input type="number" id="prodMRP" placeholder="MRP (₹)" class="custom-input col-span-1 mb-0">
+                    <input type="number" id="prodFinalPrice" placeholder="Final Price (₹)" class="custom-input col-span-1 mb-0">
+                    <input type="number" id="prodDiscount" placeholder="Save % (उदा. 10)" class="custom-input col-span-1 mb-0">
+                    <input type="url" id="prodImage" placeholder="Image URL (Real Photo Link)" class="custom-input col-span-2 mb-0">
+                </div>
+                <button onclick="addProduct()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold mt-4 active:scale-95">Save Product</button>
+            </div>
+            <h3 class="font-bold text-lg mb-3 text-gray-800">Current Products</h3>
+            <div id="adminProductList" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div onclick="navigateTo('view-home')" id="nav-home" class="nav-item active">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            Home
+        </div>
+        <div onclick="navigateTo('view-basket')" id="nav-basket" class="nav-item relative">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            Basket
+            <span id="cartBadge" class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full absolute top-0 right-2 hidden">0</span>
+        </div>
+        <div onclick="navigateTo('view-profile')" id="nav-profile" class="nav-item">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            Profile
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script>
+        // तुमचा Firebase कोड आधीच इथे टाकलेला आहे
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlRrFaovXjVso2AK_w04jMFa_YHYSo2AK",
+            authDomain: "mh24-basket.firebaseapp.com",
+            projectId: "mh24-basket",
+            storageBucket: "mh24-basket.firebasestorage.app",
+            messagingSenderId: "124229811215",
+            appId: "1:124229811215:web:deebbd7886cb9180a6377a"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const defaultProducts = [
+            { name: 'Onion', marathi: 'कांदा', category: 'regular', unit: '500 g', mrp: 10, finalPrice: 6, discount: 40, image: 'https://images.unsplash.com/photo-1508747703725-719777637510?w=400&q=80' },
+            { name: 'Potato', marathi: 'बटाटा', category: 'regular', unit: '250 g', mrp: 4, finalPrice: 2, discount: 50, image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80' },
+            { name: 'Cucumber', marathi: 'काकडी', category: 'regular', unit: '500 g', mrp: 8, finalPrice: 4, discount: 50, image: 'https://images.unsplash.com/photo-1604977042946-1eecc30f269e?w=400&q=80' },
+            { name: 'Methi', marathi: 'मेथी', category: 'leafy', unit: '1 जुडी', mrp: 20, finalPrice: 15, discount: 25, image: 'https://images.unsplash.com/photo-1599321955725-47bb2a0c7a6f?w=400&q=80' },
+            { name: 'Mango', marathi: 'आंबा', category: 'seasonal', unit: '1 kg', mrp: 150, finalPrice: 120, discount: 20, image: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&q=80' }
+        ];
+
+        let products = []; 
+        let userProfile = JSON.parse(localStorage.getItem('mh24_user')) || null;
+        let cart = JSON.parse(localStorage.getItem('mh24_cart')) || [];
+        const DELIVERY_FEE = 99;
+
+        function navigateTo(viewId) {
+            ['view-home', 'view-category', 'view-basket', 'view-profile', 'view-admin', 'view-success'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(viewId === 'view-home') document.getElementById('nav-home').classList.add('active');
+            if(viewId === 'view-basket') document.getElementById('nav-basket').classList.add('active');
+            if(viewId === 'view-profile') document.getElementById('nav-profile').classList.add('active');
+            if(viewId === 'view-basket') renderBasket();
+            if(viewId === 'view-profile') renderProfile();
+            if(viewId === 'view-admin') renderAdmin();
+            updateCartBadge();
+        }
+
+        function requestAdminAccess() {
+            const correctPassword = "mh24admin"; 
+            const enteredPassword = prompt("कृपया Admin पासवर्ड टाका:");
+            if (enteredPassword === correctPassword) { navigateTo('view-admin'); } 
+            else if (enteredPassword !== null) { alert("चुकीचा पासवर्ड!"); }
+        }
+
+        function openCategory(catId, catName) {
+            document.getElementById('categoryTitle').innerText = catName;
+            const grid = document.getElementById('categoryProductGrid');
+            grid.innerHTML = '';
+            const filtered = products.filter(p => p.category === catId);
+            if(filtered.length === 0) { grid.innerHTML = `<p class="col-span-2 text-center text-gray-500 py-10 font-semibold">या कॅटेगरीत सध्या प्रोडक्ट्स नाहीत.</p>`; }
+            filtered.forEach(p => {
+                let saveBadge = p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">Save ${p.discount}%</span>` : '';
+                const card = `
+                    <div class="bg-white p-3 rounded-2xl premium-shadow text-center relative border border-gray-50">
+                        ${saveBadge}
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-24 object-cover rounded-xl mb-3">
+                        <p class="font-bold text-gray-800 text-sm">${p.name}</p>
+                        <p class="text-xs text-gray-500 mb-1">${p.marathi}</p>
+                        <p class="text-[10px] font-bold text-gray-400 mb-2 bg-gray-100 inline-block px-2 py-0.5 rounded-full">${p.unit}</p>
+                        <div class="mb-3"><span class="text-gray-400 line-through text-xs">₹${p.mrp}</span><span class="text-green-700 font-bold text-lg ml-1">₹${p.finalPrice}</span></div>
+                        <button onclick="addToCart('${p.id}')" class="w-full bg-green-600 text-white text-xs font-bold py-2.5 rounded-xl active:scale-95">Add to Basket +</button>
+                    </div>`;
+                grid.innerHTML += card;
+            });
+            navigateTo('view-category');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if(existing) { existing.qty += 1; } else { cart.push({ ...product, qty: 1 }); }
+            localStorage.setItem('mh24_cart', JSON.stringify(cart));
+            updateCartBadge();
+            alert("प्रोडक्ट बास्केटमध्ये जोडले गेले! 🛒");
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById('cartBadge');
+            if(totalItems > 0) { badge.innerText = totalItems; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
+        }
+
+        function formatUnit(baseUnit, qty) {
+            if (baseUnit.includes('g')) {
+                let weight = parseFloat(baseUnit) * qty;
+                if (weight >= 1000) return (weight / 1000) + ' kg';
+                return weight + ' g';
+            }
+            return qty + ' x ' + baseUnit;
+        }
+
+        function updateQty(id, change) {
+            const item = cart.find(i => i.id === id);
+            if(item) {
+                item.qty += change;
+                if(item.qty <= 0) { cart = cart.filter(i => i.id !== id); }
+                localStorage.setItem('mh24_cart', JSON.stringify(cart));
+                renderBasket();
+                updateCartBadge();
+            }
+        }
+
+        function removeItem(id) {
+            cart = cart.filter(i => i.id !== id);
+            localStorage.setItem('mh24_cart', JSON.stringify(cart));
+            renderBasket();
+            updateCartBadge();
+        }
+
+        function renderBasket() {
+            const container = document.getElementById('basketItems');
+            const summary = document.getElementById('basketSummary');
+            container.innerHTML = '';
+            if(cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 bg-white rounded-3xl premium-shadow"><p class="text-gray-500 font-semibold">तुमची बास्केट रिकामी आहे.</p></div>`;
+                summary.classList.add('hidden'); return;
+            }
+            let totalSavings = 0; let totalItems = 0;
+            cart.forEach(item => {
+                const itemSavings = (item.mrp - item.finalPrice) * item.qty;
+                const itemTotal = item.finalPrice * item.qty;
+                totalSavings += itemSavings; totalItems += item.qty;
+                const div = `
+                    <div class="bg-white p-4 rounded-3xl premium-shadow border border-gray-100 relative">
+                        <div class="flex gap-4">
+                            <img src="${item.image}" class="w-20 h-20 rounded-2xl object-cover shadow-sm">
+                            <div class="flex-1 flex flex-col justify-center">
+                                <h4 class="font-bold text-gray-800 text-base leading-tight">${item.marathi}</h4>
+                                <p class="text-xs text-gray-500 font-medium mb-3">${item.name}</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center bg-[#e8f5e9] rounded-full px-1 py-1 gap-1">
+                                        <button onclick="updateQty('${item.id}', -1)" class="w-8 h-8 flex items-center justify-center text-green-700 font-bold text-lg">−</button>
+                                        <span class="text-sm font-bold text-gray-700 px-2 min-w-[50px] text-center">${formatUnit(item.unit, item.qty)}</span>
+                                        <button onclick="updateQty('${item.id}', 1)" class="w-8 h-8 flex items-center justify-center text-green-700 font-bold text-lg">+</button>
+                                    </div>
+                                    <span class="font-bold text-green-700 text-lg">₹${itemTotal}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="removeItem('${item.id}')" class="absolute top-4 right-4 text-gray-300 p-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                    </div>`;
+                container.innerHTML += div;
+            });
+            document.getElementById('totalItemsCount').innerText = totalItems;
+            document.getElementById('totalSavings').innerText = `₹${totalSavings}`;
+            summary.classList.remove('hidden');
+        }
+
+        function sendWhatsAppOrder() {
+            if(!userProfile || !userProfile.name || !userProfile.phone || !userProfile.address) {
+                alert("कृपया आधी तुमची प्रोफाइल सेव्ह करा!"); navigateTo('view-profile'); return;
+            }
+            let message = `*MH24 Basket - New Order* 🛒%0A%0A*Customer Details:*%0A`;
+            message += `Name: ${userProfile.name}%0APhone: ${userProfile.phone}%0AAddress: ${userProfile.address}%0A%0A*Order Details:*%0A`;
+            let total = 0; let totalSavings = 0;
+            cart.forEach(item => {
+                const itemTotal = item.finalPrice * item.qty;
+                const itemSavings = (item.mrp - item.finalPrice) * item.qty;
+                total += itemTotal; totalSavings += itemSavings;
+                message += `- ${item.marathi} (${item.name}) [${formatUnit(item.unit, item.qty)}] = ₹${itemTotal}%0A`;
+            });
+            message += `%0A*Total Minimum Estimated Saving: ₹${totalSavings}*%0A*Weekly Delivery Fee: ₹${DELIVERY_FEE}*%0A*Final Amount to Pay: ₹${total + DELIVERY_FEE}*%0A%0Aकृपया ही ऑर्डर कन्फर्म करा.`;
+            window.open(`https://wa.me/919503816596?text=${message}`, '_blank');
+            document.getElementById('successTotalSavings').innerText = totalSavings;
+            cart = []; localStorage.setItem('mh24_cart', JSON.stringify(cart)); updateCartBadge(); navigateTo('view-success');
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const address = document.getElementById('custAddress').value;
+            if(!name || !phone || !address) return alert("कृपया नाव, मोबाईल नंबर आणि पूर्ण पत्ता भरा!");
+            userProfile = { name, phone, address };
+            localStorage.setItem('mh24_user', JSON.stringify(userProfile));
+            renderProfile(); alert("प्रोफाइल सेव्ह झाली! ✅");
+        }
+
+        function editProfile() {
+            document.getElementById('profileForm').classList.remove('hidden');
+            document.getElementById('profileDisplay').classList.add('hidden');
+        }
+
+        function renderProfile() {
+            if(userProfile) {
+                document.getElementById('profileForm').classList.add('hidden');
+                document.getElementById('profileDisplay').classList.remove('hidden');
+                document.getElementById('displayName').innerText = userProfile.name;
+                document.getElementById('displayPhone').innerText = "+91 " + userProfile.phone;
+            } else {
+                document.getElementById('profileForm').classList.remove('hidden');
+                document.getElementById('profileDisplay').classList.add('hidden');
+            }
+        }
+
+        async function loadProductsFromFirebase() {
+            try {
+                const querySnapshot = await db.collection("products").get();
+                products = [];
+                querySnapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                if(products.length === 0) {
+                    for(let p of defaultProducts) { await db.collection("products").add(p); }
+                    loadProductsFromFirebase(); return;
+                }
+                if(!document.getElementById('view-admin').classList.contains('hidden')) renderAdmin();
+            } catch (error) { console.error("Error loading products: ", error); }
+        }
+
+        async function addProduct() {
+            const name = document.getElementById('prodName').value;
+            const marathi = document.getElementById('prodMarathi').value;
+            const category = document.getElementById('prodCategory').value;
+            const unit = document.getElementById('prodUnit').value;
+            const mrp = parseFloat(document.getElementById('prodMRP').value);
+            const finalPrice = parseFloat(document.getElementById('prodFinalPrice').value);
+            const discount = parseFloat(document.getElementById('prodDiscount').value) || 0;
+            const image = document.getElementById('prodImage').value || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80';
+            if(!name || !marathi || !mrp || !finalPrice || !unit) return alert("कृपया सर्व माहिती भरा!");
+            try {
+                await db.collection("products").add({ name, marathi, category, unit, mrp, finalPrice, discount, image });
+                document.getElementById('prodName').value = ''; document.getElementById('prodMarathi').value = '';
+                document.getElementById('prodUnit').value = ''; document.getElementById('prodMRP').value = '';
+                document.getElementById('prodFinalPrice').value = ''; document.getElementById('prodDiscount').value = '';
+                document.getElementById('prodImage').value = '';
+                alert("प्रोडक्ट क्लाउडवर यशस्वीरित्या जोडले! ✅");
+                loadProductsFromFirebase(); 
+            } catch (error) { alert("एरर आला!"); }
+        }
+
+        async function deleteProduct(id) {
+            if(confirm("हा प्रोडक्ट डिलीट करायचा?")) {
+                try {
+                    await db.collection("products").doc(id).delete();
+                    alert("प्रोडक्ट डिलीट झाले!");
+                    loadProductsFromFirebase(); 
+                } catch (error) { alert("डिलीट करताना एरर आला!"); }
+            }
+        }
+
+        function renderAdmin() {
+            const list = document.getElementById('adminProductList');
+            list.innerHTML = '';
+            products.forEach(p => {
+                const row = `
+                    <div class="bg-white p-4 rounded-2xl premium-shadow flex justify-between items-center border border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-12 h-12 rounded-xl object-cover">
+                            <div>
+                                <p class="font-bold text-sm text-gray-800">${p.name} <span class="text-xs text-gray-500">(${p.marathi})</span></p>
+                                <p class="text-[10px] text-gray-500 font-medium">MRP: ₹${p.mrp} | Final: ₹${p.finalPrice}</p>
+                            </div>
+                        </div>
+                        <button onclick="deleteProduct('${p.id}')" class="text-red-500 bg-red-50 p-2 rounded-full"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                    </div>`;
+                list.innerHTML += row;
+            });
+        }
+
+        updateCartBadge();
+        renderProfile();
+        loadProductsFromFirebase(); 
+    </script>
+</body>
+</html>
+  
