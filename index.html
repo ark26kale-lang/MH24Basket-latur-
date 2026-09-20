@@ -56,30 +56,36 @@
             <div class="rounded-3xl shadow-md mb-6 overflow-hidden">
     <img src="banner.jpg" alt="MH24 Basket Banner" class="w-full h-auto object-cover">
             </div>
-
-            <h3 class="text-md font-bold text-gray-800 mb-4">कॅटेगरी निवडा (Select Category)</h3>
-            <div class="grid grid-cols-2 gap-4">
-                <div onclick="openCategory('leafy', 'पालेभाज्या')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
-                    <div class="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">🥬</span></div>
-                    <p class="font-bold text-gray-800 text-sm">पालेभाज्या</p>
-                </div>
-                <div onclick="openCategory('regular', 'रेग्युलर भाज्या')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
-                    <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">🍅</span></div>
-                    <p class="font-bold text-gray-800 text-sm">रेग्युलर भाज्या</p>
-                </div>
-                <div onclick="openCategory('fruits', 'फळे')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
-                    <div class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">🍎</span></div>
-                    <p class="font-bold text-gray-800 text-sm">फळे</p>
-                </div>
-                <div onclick="openCategory('other', 'इतर')" class="bg-white p-5 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all">
-                    <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-2xl">📦</span></div>
-                    <p class="font-bold text-gray-800 text-sm">इतर</p>
-                </div>
-            </div>
-            <div class="mt-12 text-center">
-                <button onclick="requestAdminAccess()" class="text-[10px] text-gray-400 font-medium border border-gray-200 px-4 py-2 rounded-full">⚙️ Admin Panel</button>
-            </div>
-        </div>
+<div class="grid grid-cols-2 gap-4">
+    <!-- पालेभाज्या -->
+    <div onclick="openCategory('leafy', 'पालेभाज्या')" class="bg-white p-4 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all border border-green-100">
+        <img src="leafy.jpg" class="w-20 h-20 mx-auto mb-3 object-contain mix-blend-multiply">
+        <p class="font-bold text-gray-800 text-sm">पालेभाज्या</p>
+        <p class="text-[10px] text-green-600 font-bold mt-1">• In Stock</p>
+    </div>
+    
+    <!-- रेग्युलर भाज्या -->
+    <div onclick="openCategory('regular', 'रेग्युलर भाज्या')" class="bg-white p-4 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all border border-red-100">
+        <img src="regular.jpg" class="w-20 h-20 mx-auto mb-3 object-contain mix-blend-multiply">
+        <p class="font-bold text-gray-800 text-sm">रेग्युलर भाज्या</p>
+        <p class="text-[10px] text-red-600 font-bold mt-1">• In Stock</p>
+    </div>
+    
+    <!-- फळे -->
+    <div onclick="openCategory('fruits', 'फळे')" class="bg-white p-4 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all border border-orange-100">
+        <img src="fruits.jpg" class="w-20 h-20 mx-auto mb-3 object-contain mix-blend-multiply">
+        <p class="font-bold text-gray-800 text-sm">फळे</p>
+        <p class="text-[10px] text-orange-600 font-bold mt-1">• In Stock</p>
+    </div>
+    
+    <!-- इतर -->
+    <div onclick="openCategory('other', 'इतर')" class="bg-white p-4 rounded-3xl premium-shadow text-center cursor-pointer active:scale-95 transition-all border border-gray-100">
+        <img src="other.jpg" class="w-20 h-20 mx-auto mb-3 object-contain mix-blend-multiply">
+        <p class="font-bold text-gray-800 text-sm">इतर</p>
+        <p class="text-[10px] text-gray-600 font-bold mt-1">• In Stock</p>
+    </div>
+</div>
+            
 
         <!-- 2. CATEGORY PAGE -->
         <div id="view-category" class="hidden fade-in">
