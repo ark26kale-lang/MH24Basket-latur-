@@ -54,7 +54,10 @@
             <div class="rounded-3xl shadow-md mb-6 overflow-hidden">
                 <img src="banner.jpg" alt="MH24 Basket Banner" class="w-full h-auto object-cover">
             </div>
-
+<!-- Offer Poster (फक्त फोटोचे नाव बदलले तर फोटो बदलेल) -->
+<div class="rounded-3xl shadow-md mb-6 overflow-hidden">
+    <img src="offer.jpg" alt="Today's Offer" class="w-full h-auto object-cover">
+</div>
             <h3 class="text-xl font-bold text-green-900 mb-4">कॅटेगरी निवडा (Select Category)</h3>
             <div class="grid grid-cols-2 gap-4">
                 <!-- Leafy Vegetables -->
@@ -295,14 +298,14 @@
         const db = firebase.firestore();
 
         const defaultProducts = [
-            { name: 'Onion', marathi: 'कांदा', category: 'regular', unit: '500 g', mrp: 10, finalPrice: 6, discount: 40, image: 'https://images.unsplash.com/photo-1508747703725-719777637510?w=400&q=80' },
-            { name: 'Potato', marathi: 'बटाटा', category: 'regular', unit: '250 g', mrp: 4, finalPrice: 2, discount: 50, image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80' },
-            { name: 'Methi', marathi: 'मेथी', category: 'leafy', unit: '1 जुडी', mrp: 20, finalPrice: 15, discount: 25, image: 'https://images.unsplash.com/photo-1599321955725-47bb2a0c7a6f?w=400&q=80' }
+            { name: 'Onion', marathi: 'कांदा', category: 'regular', unit: '500 g', mrp: 00, finalPrice: 6, discount: 40, image: 'https://images.unsplash.com/photo-1508747703725-719777637510?w=400&q=80' },
+            { name: 'Potato', marathi: 'बटाटा', category: 'regular', unit: '250 g', mrp: 00, finalPrice: 2, discount: 50, image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&q=80' },
+            { name: 'Methi', marathi: 'मेथी', category: 'leafy', unit: '1 जुडी', mrp: 00, finalPrice: 15, discount: 25, image: 'https://images.unsplash.com/photo-1599321955725-47bb2a0c7a6f?w=400&q=80' }
         ];
 
         const defaultServices = [
-            { name: 'Car Cleaning', marathi: 'गाडी क्लीनिंग', charges: '₹300 पासून', image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=400&q=80', details: 'घरपोच गाडी धुणे आणि सफाई.' },
-            { name: 'Gardening', marathi: 'गार्डनिंग', charges: '₹500 पासून', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80', details: 'झाडांची छाटणी, खत आणि देखभाल.' }
+            { name: 'Car Cleaning', marathi: 'गाडी क्लीनिंग', charges: '₹00 पासून', image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=400&q=80', details: 'घरपोच गाडी धुणे आणि सफाई.' },
+            { name: 'Gardening', marathi: 'गार्डनिंग', charges: '₹00 पासून', image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80', details: 'झाडांची छाटणी, खत आणि देखभाल.' }
         ];
 
         let products = []; 
