@@ -291,8 +291,8 @@
                     <span class="font-bold text-gray-800" id="myTotalOrders">0</span>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-xs font-semibold text-gray-600">एकूण खर्च (Lifetime)</span>
-                    <span class="font-bold text-green-700" id="myTotalSpent">₹0</span>
+    <span class="text-xs font-semibold text-gray-600">एकूण बचत (Lifetime Saving)</span>
+    <span class="font-bold text-green-700" id="myTotalSaving">₹0</span>
                 </div>
             </div>
             
@@ -474,122 +474,166 @@
         }
 
         // ================= MY BILLS (Customer) =================
-        function openMyBills() {
-            if(!userProfile || !userProfile.phone) {
-                alert("कृपया आधी तुमची प्रोफाइल सेव्ह करा!");
-                navigateTo('view-profile');
-                return;
-            }
-            navigateTo('view-my-bills');
+        async function loadCustomerBills() {
+    const list = document.getElementById('customerBillsList');
+    list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">लोड होत आहे...</p>';
+    
+    try {
+        const snap = await db.collection("orders").get();
+        list.innerHTML = '';
+        
+        if(snap.empty) {
+            list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">अजून कोणतीही ऑर्डर नाही.</p>';
+            document.getElementById('adminCustomerCount').innerText = '0';
+            document.getElementById('adminGrandPending').innerText = '₹0';
+            return;
         }
+        
+        const customersMap = {};
+        let grandPending = 0;
+        
+        snap.forEach((doc) => {
+            const o = doc.data();
+            const phone = o.customerPhone;
+            if(!phone) return;
+            
+            if(!customersMap[phone]) {
+                customersMap[phone] = {
+                    name: o.customerName || 'Unknown',
+                    phone: phone,
+                    society: o.society || 'इतर (No Society)',
+                    flat: o.flat || '-',
+                    pendingAmount: 0,
+                    totalAmount: 0,
+                    orderCount: 0,
+                    orders: []
+                };
+            }
+            customersMap[phone].totalAmount += (o.finalAmount || 0);
+            customersMap[phone].orderCount += 1;
+            if(!o.paid) customersMap[phone].pendingAmount += (o.finalAmount || 0);
+            if(o.society) customersMap[phone].society = o.society;
+            if(o.customerName) customersMap[phone].name = o.customerName;
+            if(o.flat) customersMap[phone].flat = o.flat;
+            
+            customersMap[phone].orders.push({
+                id: doc.id,
+                finalAmount: o.finalAmount || 0,
+                paid: o.paid === true,
+                createdAt: o.createdAt
+            });
+        });
+        
+        const customersArr = Object.values(customersMap);
+        customersArr.sort((a, b) => (a.society || '').localeCompare(b.society || '', 'mr'));
+        
+        customersArr.forEach(c => { grandPending += c.pendingAmount; });
+        
+        let currentSociety = '';
+        
+        customersArr.forEach(c => {
+            if(c.society !== currentSociety) {
+                currentSociety = c.society;
+                const header = document.createElement('div');
+                header.className = 'mt-6 mb-2 first:mt-0';
+                header.innerHTML = `
+                    <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-2xl shadow-md flex items-center justify-between">
+                        <h3 class="font-bold text-sm">🏘️ ${c.society}</h3>
+                        <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">Society</span>
+                    </div>`;
+                list.appendChild(header);
+            }
+            
+            const isFullyPaid = c.pendingAmount === 0;
+            const cardBg = isFullyPaid ? 'border-green-500' : 'border-red-500';
+            const phoneSafe = c.phone.replace(/'/g, '');
+            
+            const clearBtn = !isFullyPaid 
+                ? `<button onclick="clearCustomerPending('${phoneSafe}', '${c.name}')" class="w-full mt-2 bg-gradient-to-r from-red-500 to-red-600 text-white py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2">✓ Pending Clear करा (₹${c.pendingAmount})</button>`
+                : `<div class="w-full mt-2 bg-green-50 text-green-700 py-2.5 rounded-xl font-bold text-sm text-center">✅ सर्व Paid आहे</div>`;
+            
+            // Orders list HTML with delete buttons
+            let ordersHTML = '';
+            c.orders.sort((a, b) => {
+                const da = a.createdAt ? a.createdAt.seconds : 0;
+                const dbb = b.createdAt ? b.createdAt.seconds : 0;
+                return dbb - da;
+            });
+            c.orders.forEach(o => {
+                const paidColor = o.paid ? 'text-green-700' : 'text-red-600';
+                const paidLabel = o.paid ? '✓ PAID' : '⏳ PENDING';
+                const paidBg = o.paid ? 'bg-green-50' : 'bg-red-50';
+                ordersHTML += `
+                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg mb-1">
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-700">#${o.id.slice(-6).toUpperCase()}</p>
+                            <p class="text-[10px] ${paidColor} font-bold">${paidLabel}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-gray-800 text-sm">₹${o.finalAmount}</span>
+                            <button onclick="deleteOrder('${o.id}', '${c.name}')" class="text-red-500 bg-red-100 p-1.5 rounded-full">🗑️</button>
+                        </div>
+                    </div>`;
+            });
+            
+            const card = document.createElement('div');
+            card.className = `bg-white p-4 rounded-2xl premium-shadow border-l-4 ${cardBg} mt-3`;
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-gray-800 text-base">👤 ${c.name}</h4>
+                        <p class="text-xs text-gray-500 mt-1">📞 ${c.phone}</p>
+                        <p class="text-xs text-gray-500 mt-0.5">🏠 Flat: ${c.flat}</p>
+                        <p class="text-[10px] text-gray-400 mt-1">📦 एकूण ऑर्डर्स: ${c.orderCount}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] text-gray-500">Pending</p>
+                        <p class="font-bold ${isFullyPaid ? 'text-green-700' : 'text-red-600'} text-2xl">₹${c.pendingAmount}</p>
+                    </div>
+                </div>
+                ${clearBtn}
+                
+                <button onclick="toggleOrdersList('orders_${phoneSafe}')" class="w-full mt-2 bg-blue-50 text-blue-700 py-2 rounded-xl font-bold text-xs">📋 ऑर्डर्स पहा / डिलीट करा</button>
+                <div id="orders_${phoneSafe}" class="hidden mt-2">
+                    ${ordersHTML || '<p class="text-xs text-gray-400 text-center py-2">ऑर्डर नाहीत.</p>'}
+                </div>
+                
+                <div class="flex gap-2 mt-2">
+                    <a href="https://wa.me/91${c.phone}" target="_blank" class="flex-1 text-center bg-green-100 text-green-700 py-2 rounded-lg text-xs font-bold">💬 WhatsApp</a>
+                    <a href="tel:${c.phone}" class="flex-1 text-center bg-blue-100 text-blue-700 py-2 rounded-lg text-xs font-bold">📞 Call</a>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+        
+        document.getElementById('adminCustomerCount').innerText = customersArr.length;
+        document.getElementById('adminGrandPending').innerText = '₹' + grandPending;
+        
+    } catch (error) {
+        console.error("Error: ", error);
+        list.innerHTML = '<p class="text-center text-red-500 py-10 font-semibold">बिले लोड करताना अडचण आली.</p>';
+    }
+}
 
-        async function loadMyBills() {
-            const list = document.getElementById('myBillsList');
-            list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">लोड होत आहे...</p>';
-            
-            if(!userProfile || !userProfile.phone) {
-                list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">कृपया आधी प्रोफाइल सेव्ह करा.</p>';
-                return;
-            }
-            
-            try {
-                const snap = await db.collection("orders").get();
-                let myOrders = [];
-                snap.forEach((doc) => {
-                    const o = doc.data();
-                    if(o.customerPhone === userProfile.phone) {
-                        myOrders.push({ id: doc.id, ...o });
-                    }
-                });
-                
-                list.innerHTML = '';
-                
-                const pendingBox = document.getElementById('pendingBox');
-                const pendingEl = document.getElementById('myPendingAmount');
-                const pendingMsg = document.getElementById('pendingMsg');
-                
-                if(myOrders.length === 0) {
-                    list.innerHTML = '<div class="text-center py-10 bg-white rounded-3xl premium-shadow"><p class="text-gray-500 font-semibold">अजून कोणतीही ऑर्डर नाही.</p></div>';
-                    document.getElementById('myTotalOrders').innerText = '0';
-                    document.getElementById('myTotalSpent').innerText = '₹0';
-                    pendingEl.innerText = '₹0';
-                    pendingMsg.innerText = 'कोणतेही थकीत नाही ✅';
-                    pendingBox.className = 'p-6 rounded-3xl mb-4 shadow-lg bg-gradient-to-r from-green-500 to-green-600 text-white';
-                    return;
-                }
-                
-                myOrders.sort((a, b) => {
-                    const da = a.createdAt ? a.createdAt.seconds : 0;
-                    const dbb = b.createdAt ? b.createdAt.seconds : 0;
-                    return dbb - da;
-                });
-                
-                let totalSpent = 0;
-                let totalPending = 0;
-                
-                myOrders.forEach(o => {
-                    totalSpent += (o.finalAmount || 0);
-                    if(!o.paid) totalPending += (o.finalAmount || 0);
-                });
-                
-                if(totalPending > 0) {
-                    pendingBox.className = 'p-6 rounded-3xl mb-4 shadow-lg bg-gradient-to-r from-red-500 to-red-600 text-white';
-                    pendingEl.innerText = '₹' + totalPending;
-                    pendingMsg.innerText = '⚠️ कृपया ही रक्कम लवकरात लवकर भरा.';
-                } else {
-                    pendingBox.className = 'p-6 rounded-3xl mb-4 shadow-lg bg-gradient-to-r from-green-500 to-green-600 text-white';
-                    pendingEl.innerText = '₹0';
-                    pendingMsg.innerText = 'कोणतेही थकीत नाही ✅ धन्यवाद!';
-                }
-                
-                myOrders.forEach(o => {
-                    let dateStr = '-';
-                    if(o.createdAt) {
-                        const d = new Date(o.createdAt.seconds * 1000);
-                        dateStr = d.toLocaleDateString('mr-IN') + ' | ' + d.toLocaleTimeString('mr-IN', {hour: '2-digit', minute: '2-digit'});
-                    }
-                    
-                    let itemsHTML = '';
-                    (o.items || []).forEach(it => {
-                        itemsHTML += `<div class="flex justify-between text-xs py-1 border-b border-dashed border-gray-100"><span>${it.marathi} <span class="text-gray-400">(${it.qty} × ${it.unit})</span></span><span class="font-semibold">₹${it.total}</span></div>`;
-                    });
-                    
-                    const isPaid = o.paid === true;
-                    const statusBadge = isPaid 
-                        ? `<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full">✓ PAID</span>`
-                        : `<span class="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-1 rounded-full">⏳ PENDING</span>`;
-                    
-                    const borderColor = isPaid ? 'border-green-400' : 'border-red-400';
-                    
-                    const card = `
-                        <div class="bg-white p-4 rounded-2xl premium-shadow border-l-4 ${borderColor}">
-                            <div class="flex justify-between items-start mb-3">
-                                <div>
-                                    <p class="font-bold text-gray-800 text-sm">🧾 Order #${o.id.slice(-6).toUpperCase()}</p>
-                                    <p class="text-[10px] text-gray-500 mt-1">🕒 ${dateStr}</p>
-                                </div>
-                                <div class="text-right">
-                                    ${statusBadge}
-                                    <p class="font-bold text-green-700 text-xl mt-1">₹${o.finalAmount || 0}</p>
-                                </div>
-                            </div>
-                            <div class="bg-gray-50 p-3 rounded-xl mb-2">${itemsHTML}</div>
-                            <div class="flex justify-between text-[10px] text-gray-500">
-                                <span>💰 Saved: ₹${o.totalSavings || 0}</span>
-                                <span>🚚 Delivery: ₹${o.deliveryFee || 99}</span>
-                            </div>
-                        </div>`;
-                    list.innerHTML += card;
-                });
-                
-                document.getElementById('myTotalOrders').innerText = myOrders.length;
-                document.getElementById('myTotalSpent').innerText = '₹' + totalSpent;
-                
-            } catch (error) {
-                console.error("Error: ", error);
-                list.innerHTML = '<p class="text-center text-red-500 py-10 font-semibold">बिले लोड करताना अडचण आली.</p>';
-            }
-        }
+// ऑर्डर्स लिस्ट उघड/बंद करणे
+function toggleOrdersList(id) {
+    const el = document.getElementById(id);
+    if(el) el.classList.toggle('hidden');
+}
+
+// ऑर्डर डिलीट करणे
+async function deleteOrder(orderId, customerName) {
+    if(!confirm(`${customerName} यांची ही ऑर्डर डिलीट करायची?\n\nयानंतर ग्राहकाच्या "माझी बिले" मधूनही निघून जाईल.`)) return;
+    
+    try {
+        await db.collection("orders").doc(orderId).delete();
+        alert("✅ ऑर्डर डिलीट झाली!");
+        loadCustomerBills();
+    } catch (error) {
+        console.error("Error: ", error);
+        alert("डिलीट करताना एरर: " + error.message);
+    }
+}
 
         // ================= ADMIN - CUSTOMER BILLS =================
         async function loadCustomerBills() {
