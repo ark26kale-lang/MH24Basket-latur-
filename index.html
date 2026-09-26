@@ -118,10 +118,7 @@
                 <p class="text-green-100 text-[10px] font-medium leading-relaxed">MH24 Basket • Latur's Own Since 2024 • 100% Fresh Guarantee • Cash on Delivery Available</p>
             </div>
 
-            <div class="mt-8 text-center">
-                <button onclick="requestAdminAccess()" class="text-[10px] text-gray-400 font-medium border border-gray-200 px-4 py-2 rounded-full">⚙️ Admin Panel</button>
-            </div>
-        </div>
+            
 
         <!-- 2. SEARCH PAGE -->
         <div id="view-search" class="hidden fade-in">
@@ -1295,6 +1292,7 @@ function checkSecretAdmin() {
     }
 }
         updateCartBadge();
+        checkSecretAdmin();
         renderProfile();
         loadProductsFromFirebase(); 
         loadServicesFromFirebase();
