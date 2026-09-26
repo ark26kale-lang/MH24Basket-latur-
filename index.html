@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MH24 Basket & Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Poppins', 'Mukta', sans-serif; background-color: #f8fafc; padding-bottom: 80px; -webkit-tap-highlight-color: transparent; }
+        .hidden { display: none !important; }
+        .premium-shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0,0,0,0.02); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; padding: 12px 0 20px 0; z-index: 50; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #94a3b8; cursor: pointer; font-weight: 600; }
+        .nav-item.active { color: #15803d; }
+        .nav-item.active svg { stroke: #15803d; }
+        .custom-input { width: 100%; padding: 14px 16px; border: 1.5px solid #e2e8f0; border-radius: 14px; background-color: #ffffff; margin-bottom: 16px; font-size: 14px; color: #1e293b; }
+        .custom-input:focus { outline: none; border-color: #15803d; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #15803d; color: white; padding: 10px 20px; border-radius: 30px; font-size: 14px; font-weight: bold; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 100; }
+        .toast.show { opacity: 1; visibility: visible; bottom: 100px; }
+        .carousel-container { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .carousel-container::-webkit-scrollbar { display: none; }
+        .carousel-slide { scroll-snap-align: center; flex-shrink: 0; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="toastMsg" class="toast">प्रोडक्ट बास्केटमध्ये जोडले! 🛒</div>
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center max-w-lg">
+            <div class="flex items-center gap-3">
+                <img src="logo.jpg" alt="MH24 Logo" class="w-10 h-10 object-contain rounded-full shadow-sm">
+                <div class="flex flex-col">
+                    <h1 class="text-xl font-bold text-gray-800 tracking-tight">MH24 Basket</h1>
+                    <p class="text-[10px] text-green-700 font-bold uppercase tracking-widest">Fresh • Premium • Latur</p>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-700 border border-green-100 cursor-pointer mr-2" onclick="navigateTo('view-search')">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-700 border border-green-100 cursor-pointer" onclick="navigateTo('view-basket')">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 max-w-lg mt-6">
+
+        <!-- 1. HOME PAGE -->
+        <div id="view-home" class="fade-in">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 leading-tight">ताजी भाजी आणि फळे<br><span class="text-green-600">घरपोच मिळवा!</span></h2>
+                <p class="text-gray-500 text-sm mt-1">आपल्या लातूरकरांसाठी Fresh & Premium Vegetables रोज आपल्या दारात !</p>
+            </div>
+            
+            <div class="rounded-3xl shadow-md mb-6 overflow-hidden">
+                <img src="banner.jpg" alt="MH24 Banner" class="w-full h-auto object-cover">
+            </div>
+
+            <div class="mb-6">
+                <div id="posterCarousel" class="carousel-container flex rounded-3xl shadow-md" onscroll="updateCarouselDots()">
+                    <div class="carousel-slide" onclick="openOtherCategories()">
+                        <img src="offer1.jpg" alt="Offer 1" class="w-full h-auto object-cover cursor-pointer">
+                    </div>
+                    <div class="carousel-slide" onclick="navigateTo('view-services')">
+                        <img src="offer2.jpg" alt="Offer 2" class="w-full h-auto object-cover cursor-pointer">
+                    </div>
+                    <div class="carousel-slide" onclick="jumpToPoster3Category()">
+                        <img src="offer3.jpg" alt="Offer 3" class="w-full h-auto object-cover cursor-pointer">
+                    </div>
+                    <div class="carousel-slide" onclick="openMyBills()">
+                        <img src="offer4.jpg" alt="My Bills" class="w-full h-auto object-cover cursor-pointer">
+                    </div>
+                </div>
+                <div class="flex justify-center gap-2 mt-3">
+                    <span id="dot0" class="w-2 h-2 rounded-full bg-green-600 transition-all"></span>
+                    <span id="dot1" class="w-2 h-2 rounded-full bg-gray-300 transition-all"></span>
+                    <span id="dot2" class="w-2 h-2 rounded-full bg-gray-300 transition-all"></span>
+                    <span id="dot3" class="w-2 h-2 rounded-full bg-gray-300 transition-all"></span>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-green-900 mb-4">कॅटेगरी निवडा (Select Category)</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div onclick="openCategory('leafy', 'पालेभाज्या')" class="bg-[#f0fdf4] p-4 rounded-3xl shadow-sm text-center cursor-pointer active:scale-95 border-2 border-[#dcfce7] relative overflow-hidden">
+                    <img src="leafy.jpg" class="w-24 h-24 mx-auto mb-2 object-contain mix-blend-multiply">
+                    <p class="font-bold text-[#166534] text-lg">पाले भाज्या</p>
+                    <p class="text-[#16a34a] text-[10px] font-bold mt-1">• In Stock • Fresh Today</p>
+                </div>
+                <div onclick="openCategory('regular', 'रेग्युलर भाज्या')" class="bg-[#fff7ed] p-4 rounded-3xl shadow-sm text-center cursor-pointer active:scale-95 border-2 border-[#ffedd5] relative overflow-hidden">
+                    <img src="regular.jpg" class="w-24 h-24 mx-auto mb-2 object-contain mix-blend-multiply">
+                    <p class="font-bold text-[#9a3412] text-lg">रेग्युलर भाज्या</p>
+                    <p class="text-[#ea580c] text-[10px] font-bold mt-1">• In Stock • Fresh Today</p>
+                </div>
+                <div onclick="openCategory('fruits', 'फळे')" class="bg-[#fdf2f8] p-4 rounded-3xl shadow-sm text-center cursor-pointer active:scale-95 border-2 border-[#fce7f3] relative overflow-hidden">
+                    <img src="fruits.jpg" class="w-24 h-24 mx-auto mb-2 object-contain mix-blend-multiply">
+                    <p class="font-bold text-[#9d174d] text-lg">फळे</p>
+                    <p class="text-[#db2777] text-[10px] font-bold mt-1">• In Stock • Fresh Today</p>
+                </div>
+                <div onclick="openOtherCategories()" class="bg-[#fefce8] p-4 rounded-3xl shadow-sm text-center cursor-pointer active:scale-95 border-2 border-[#fef08a] relative overflow-hidden">
+                    <img src="other.jpg" class="w-24 h-24 mx-auto mb-2 object-contain mix-blend-multiply">
+                    <p class="font-bold text-[#854d0e] text-lg">इतर</p>
+                    <p class="text-[#ca8a04] text-[10px] font-bold mt-1">• In Stock • Fresh Today</p>
+                </div>
+            </div>
+            
+            <div class="bg-[#1b5e20] rounded-3xl p-5 mt-6 text-center shadow-lg">
+                <div class="flex justify-center items-center gap-2 mb-2">
+                    <span class="text-white text-xl">🛡️</span>
+                    <h3 class="text-white font-bold text-xs tracking-wide uppercase">Serving Latur • MH-24 • Trusted by Locals</h3>
+                    <span class="text-white text-xl">🛡️</span>
+                </div>
+                <p class="text-green-100 text-[10px] font-medium leading-relaxed">MH24 Basket • Latur's Own Since 2024 • 100% Fresh Guarantee • Cash on Delivery Available</p>
+            </div>
+        </div>
+
+        <!-- 2. SEARCH PAGE -->
+        <div id="view-search" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">भाजी शोधा (Search)</h2>
+            </div>
+            <input type="text" id="searchInput" oninput="searchProducts()" placeholder="उदा. कांदा, Tomato..." class="custom-input mb-4">
+            <div id="searchResults" class="grid grid-cols-2 gap-4">
+                <p class="col-span-2 text-center text-gray-500 py-10 font-semibold">काहीतरी टाइप करा...</p>
+            </div>
+        </div>
+
+        <!-- 3. OTHER CATEGORIES PAGE -->
+        <div id="view-other-categories" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">इतर कॅटेगरी</h2>
+            </div>
+            <div id="otherCategoriesGrid" class="grid grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- 4. CATEGORY PAGE -->
+        <div id="view-category" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 id="categoryTitle" class="text-xl font-bold text-gray-800"></h2>
+            </div>
+            <div id="categoryProductGrid" class="grid grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- 5. SERVICES PAGE -->
+        <div id="view-services" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">सेवा / काम (Services)</h2>
+            </div>
+            <div id="adminServiceBtn" class="mb-4 hidden">
+                <button onclick="toggleAddServiceForm()" class="w-full bg-blue-100 text-blue-700 py-2 rounded-xl font-bold text-sm">+ नवीन सेवा जोडा</button>
+            </div>
+            <div id="addServiceForm" class="bg-white p-5 rounded-3xl premium-shadow mb-6 hidden border-t-4 border-blue-500">
+                <h3 class="font-bold text-gray-800 mb-3">नवीन सेवा जोडा</h3>
+                <input type="text" id="servName" placeholder="Service Name (English)" class="custom-input">
+                <input type="text" id="servMarathi" placeholder="सेवेचे नाव (मराठी)" class="custom-input">
+                <input type="text" id="servCharges" placeholder="Charges (उदा. ₹500 पासून)" class="custom-input">
+                <input type="url" id="servImage" placeholder="Poster / Image URL" class="custom-input">
+                <textarea id="servDetails" placeholder="सेवेची माहिती" class="custom-input" rows="2"></textarea>
+                <button onclick="addService()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold mt-2">Save Service</button>
+            </div>
+            <div id="servicesGrid" class="grid grid-cols-1 gap-4"></div>
+        </div>
+
+        <!-- 6. SERVICE BOOKING FORM -->
+        <div id="view-service-booking" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-services')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">सेवा बुक करा</h2>
+            </div>
+            <div class="bg-white p-6 rounded-3xl premium-shadow border-t-4 border-green-600">
+                <div class="text-center mb-6">
+                    <img id="bookServiceImg" src="" class="w-24 h-24 rounded-2xl object-cover mx-auto mb-2">
+                    <h3 id="bookServiceTitle" class="text-xl font-bold text-gray-800"></h3>
+                    <p id="bookServicePrice" class="text-green-700 font-bold"></p>
+                </div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">तुमचे नाव *</label>
+                <input type="text" id="bookName" class="custom-input">
+                <label class="block text-sm font-bold text-gray-700 mb-2">मोबाईल नंबर *</label>
+                <input type="tel" id="bookPhone" class="custom-input">
+                <label class="block text-sm font-bold text-gray-700 mb-2">पत्ता *</label>
+                <textarea id="bookAddress" class="custom-input" rows="2"></textarea>
+                <label class="block text-sm font-bold text-gray-700 mb-2">अतिरिक्त माहिती</label>
+                <textarea id="bookNotes" class="custom-input" rows="2"></textarea>
+                <button onclick="submitServiceBooking()" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold text-lg mt-2">WhatsApp वर बुकिंग पाठवा</button>
+            </div>
+        </div>
+
+        <!-- 7. MY BASKET PAGE -->
+        <div id="view-basket" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">My Basket</h2>
+                <img src="logo.jpg" class="w-10 h-10 object-contain rounded-full ml-auto shadow-sm">
+            </div>
+            <div id="basketItems" class="space-y-4"></div>
+            <div id="basketSummary" class="mt-6 hidden">
+                <div class="bg-[#e8f5e9] p-6 rounded-3xl mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm font-semibold text-gray-700">Total Items</span>
+                        <span class="font-bold text-gray-800" id="totalItemsCount">0</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm font-semibold text-gray-700">Total Minimum Estimated Saving</span>
+                        <span class="font-bold text-green-700" id="totalSavings">₹0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-semibold text-gray-700">Weekly Service / Delivery Fee</span>
+                        <span class="font-bold text-gray-800">₹99 only</span>
+                    </div>
+                </div>
+                <button onclick="sendWhatsAppOrder()" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold text-lg">WhatsApp वर ऑर्डर पाठवा</button>
+            </div>
+        </div>
+
+        <!-- 8. SUCCESS PAGE -->
+        <div id="view-success" class="hidden text-center pt-8 fade-in">
+            <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-5xl text-green-600">✓</span></div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">ऑर्डर पाठवली!</h2>
+            <p class="text-gray-600 font-medium mb-8">Order Sent to WhatsApp</p>
+            <button onclick="navigateTo('view-home')" class="w-full bg-white border-2 border-green-600 text-green-700 py-4 rounded-2xl font-bold text-lg">होम वर परत जा</button>
+        </div>
+
+        <!-- 9. PROFILE PAGE -->
+        <div id="view-profile" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">ग्राहक माहिती</h2>
+                <img src="logo.jpg" class="w-10 h-10 object-contain rounded-full ml-auto shadow-sm">
+            </div>
+            <div id="profileForm" class="bg-white p-6 rounded-3xl premium-shadow">
+                <label class="block text-sm font-bold text-gray-700 mb-2">पूर्ण नाव *</label>
+                <input type="text" id="custName" class="custom-input">
+                <label class="block text-sm font-bold text-gray-700 mb-2">मोबाईल नंबर *</label>
+                <input type="tel" id="custPhone" class="custom-input">
+                <label class="block text-sm font-bold text-gray-700 mb-2">सोसायटी (Society)</label>
+                <input type="text" id="custSociety" class="custom-input">
+                <label class="block text-sm font-bold text-gray-700 mb-2">फ्लॅट / घर नंबर (Flat)</label>
+                <input type="text" id="custFlat" class="custom-input">
+                <label class="block text-sm font-bold text-gray-700 mb-2">पूर्ण पत्ता *</label>
+                <textarea id="custAddress" class="custom-input" rows="2"></textarea>
+                <label class="block text-sm font-bold text-gray-700 mb-2">सूचना</label>
+                <textarea id="custNotes" class="custom-input" rows="2"></textarea>
+                <button onclick="saveProfile()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-bold mt-2">Save Profile</button>
+                <button onclick="openWeeklyPlan()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold mt-3">📅 आठवड्याची योजना</button>
+                <button onclick="openMyBills()" class="w-full bg-orange-500 text-white py-4 rounded-2xl font-bold mt-3">🧾 माझी बिले (My Bills)</button>
+            </div>
+            <div id="profileDisplay" class="hidden bg-white p-8 rounded-3xl premium-shadow text-center border-t-4 border-green-600">
+                <div class="text-6xl mb-4">👤</div>
+                <h3 class="text-xl font-bold text-gray-800" id="displayName"></h3>
+                <p class="text-gray-500 font-medium mb-6" id="displayPhone"></p>
+                <button onclick="editProfile()" class="text-sm text-green-600 border-2 border-green-600 px-6 py-2 rounded-full font-bold">Edit Profile</button>
+            </div>
+        </div>
+
+        <!-- 10. WEEKLY PLAN PAGE -->
+        <div id="view-weekly-plan" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-profile')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">📅 आठवड्याची योजना</h2>
+            </div>
+            <div id="weeklyPlanForm" class="space-y-3"></div>
+            <button onclick="saveWeeklyPlan()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-bold text-lg mt-6">योजना सेव्ह करा</button>
+            <button onclick="clearWeeklyPlan()" class="w-full bg-red-100 text-red-600 py-3 rounded-2xl font-bold text-sm mt-3">योजना साफ करा</button>
+        </div>
+
+        <!-- 11. MY BILLS PAGE (Customer) -->
+        <div id="view-my-bills" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">🧾 माझी बिले</h2>
+            </div>
+            
+            <div id="pendingBox" class="p-6 rounded-3xl mb-4 shadow-lg bg-gradient-to-r from-green-500 to-green-600 text-white">
+                <p class="text-xs font-bold uppercase tracking-wider mb-1 opacity-90">थकीत रक्कम (Pending)</p>
+                <p class="text-4xl font-bold" id="myPendingAmount">₹0</p>
+                <p class="text-xs mt-2 opacity-80" id="pendingMsg">कोणतेही थकीत नाही ✅</p>
+            </div>
+            
+            <div class="bg-white p-4 rounded-3xl premium-shadow mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-semibold text-gray-600">एकूण ऑर्डर्स</span>
+                    <span class="font-bold text-gray-800" id="myTotalOrders">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold text-gray-600">एकूण खर्च (Lifetime)</span>
+                    <span class="font-bold text-green-700" id="myTotalSpent">₹0</span>
+                </div>
+            </div>
+            
+            <div id="myBillsList" class="space-y-4"></div>
+        </div>
+
+        <!-- 12. ADMIN PANEL -->
+        <div id="view-admin" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-home')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">⚙️ Admin Panel</h2>
+            </div>
+
+            <div onclick="navigateTo('view-admin-bills'); loadCustomerBills();" class="bg-gradient-to-r from-green-600 to-emerald-600 p-5 rounded-3xl shadow-lg mb-6 cursor-pointer flex justify-between items-center">
+                <div>
+                    <h3 class="text-white font-bold text-lg">🧾 सर्व ग्राहकांचे बिल पहा</h3>
+                    <p class="text-green-100 text-xs">Pending Clear करा (Society-wise)</p>
+                </div>
+                <div class="text-white text-2xl">📋</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl premium-shadow mb-6 border-t-4 border-orange-500">
+                <h3 class="font-bold text-gray-800 mb-4 text-lg">🎯 Poster 3 ची कॅटेगरी</h3>
+                <select id="poster3CategorySelect" class="custom-input">
+                    <option value="">-- कॅटेगरी निवडा --</option>
+                </select>
+                <button onclick="savePoster3Category()" class="w-full bg-orange-500 text-white py-3 rounded-xl font-bold mt-2">Save Poster 3 Setting</button>
+            </div>
+            
+            <div class="bg-white p-6 rounded-3xl premium-shadow mb-6 border-t-4 border-purple-500">
+                <h3 class="font-bold text-gray-800 mb-4 text-lg">नवीन कॅटेगरी जोडा</h3>
+                <input type="text" id="catName" placeholder="Category Name (English)" class="custom-input">
+                <input type="text" id="catMarathi" placeholder="कॅटेगरीचे नाव (मराठी)" class="custom-input">
+                <input type="url" id="catImage" placeholder="Category Image URL" class="custom-input">
+                <button onclick="addCategory()" class="w-full bg-purple-600 text-white py-3 rounded-xl font-bold mt-2">Save Category</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl premium-shadow mb-6">
+                <h3 class="font-bold text-gray-800 mb-3 text-lg">सध्याच्या कॅटेगरी</h3>
+                <div id="adminCategoryList" class="space-y-3"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl premium-shadow mb-6 border-t-4 border-red-500">
+                <h3 class="font-bold text-gray-800 mb-4 text-lg">नवीन भाजी जोडा</h3>
+                <div class="grid grid-cols-2 gap-3 mb-2">
+                    <input type="text" id="prodName" placeholder="Name (English)" class="custom-input col-span-1 mb-0">
+                    <input type="text" id="prodMarathi" placeholder="नाव (मराठी)" class="custom-input col-span-1 mb-0">
+                    <select id="prodCategory" class="custom-input col-span-2 mb-0"></select>
+                    <input type="text" id="prodUnit" placeholder="Unit" class="custom-input col-span-1 mb-0">
+                    <input type="number" id="prodMRP" placeholder="MRP (₹)" class="custom-input col-span-1 mb-0">
+                    <input type="number" id="prodFinalPrice" placeholder="Final Price (₹)" class="custom-input col-span-1 mb-0">
+                    <input type="number" id="prodDiscount" placeholder="Save %" class="custom-input col-span-1 mb-0">
+                    <input type="url" id="prodImage" placeholder="Image URL" class="custom-input col-span-2 mb-0">
+                </div>
+                <button onclick="addProduct()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold mt-4">Save Product</button>
+            </div>
+            <h3 class="font-bold text-lg mb-3 text-gray-800">Current Products</h3>
+            <div id="adminProductList" class="space-y-3"></div>
+        </div>
+
+        <!-- 13. ADMIN - CUSTOMER BILLS PAGE -->
+        <div id="view-admin-bills" class="hidden fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('view-admin')" class="bg-white p-2 rounded-full premium-shadow border border-gray-100">←</button>
+                <h2 class="text-xl font-bold text-gray-800">🧾 ग्राहकांचे बिल</h2>
+            </div>
+            
+            <div class="bg-gradient-to-r from-green-600 to-emerald-700 p-5 rounded-3xl mb-6 shadow-lg text-white">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-semibold">एकूण ग्राहक</span>
+                    <span class="font-bold text-2xl" id="adminCustomerCount">0</span>
+                </div>
+                <div class="pt-3 border-t border-green-500 flex justify-between items-center">
+                    <span class="text-sm font-semibold">एकूण थकीत (Pending)</span>
+                    <span class="font-bold text-2xl" id="adminGrandPending">₹0</span>
+                </div>
+            </div>
+            
+            <div id="customerBillsList" class="space-y-4"></div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <div onclick="navigateTo('view-home')" id="nav-home" class="nav-item active">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            Home
+        </div>
+        <div onclick="navigateTo('view-services')" id="nav-services" class="nav-item">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            Services
+        </div>
+        <div onclick="navigateTo('view-basket')" id="nav-basket" class="nav-item relative">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            Basket
+            <span id="cartBadge" class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full absolute top-0 right-2 hidden">0</span>
+        </div>
+        <div onclick="navigateTo('view-profile')" id="nav-profile" class="nav-item">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            Profile
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAlRrFaovXjVso2AK_w04jMFa_YHYSo2AK",
+            authDomain: "mh24-basket.firebaseapp.com",
+            projectId: "mh24-basket",
+            storageBucket: "mh24-basket.firebasestorage.app",
+            messagingSenderId: "124229811215",
+            appId: "1:124229811215:web:deebbd7886cb9180a6377a"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const defaultCategories = [
+            { id: 'leafy', name: 'Leafy', marathi: 'पालेभाज्या' },
+            { id: 'regular', name: 'Regular', marathi: 'रेग्युलर भाज्या' },
+            { id: 'fruits', name: 'Fruits', marathi: 'फळे' },
+            { id: 'other', name: 'Other', marathi: 'इतर' }
+        ];
+
+        let products = []; 
+        let services = [];
+        let customCategories = [];
+        let userProfile = JSON.parse(localStorage.getItem('mh24_user')) || null;
+        let cart = JSON.parse(localStorage.getItem('mh24_cart')) || [];
+        let weeklyPlan = JSON.parse(localStorage.getItem('mh24_weekly_plan')) || {};
+        let poster3CategoryId = null;
+        let currentService = null;
+        const DELIVERY_FEE = 99;
+        let isAdmin = false;
+
+        function navigateTo(viewId) {
+            ['view-home', 'view-search', 'view-other-categories', 'view-category', 'view-services', 'view-service-booking', 'view-basket', 'view-profile', 'view-weekly-plan', 'view-my-bills', 'view-admin', 'view-admin-bills', 'view-success'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(viewId === 'view-home') document.getElementById('nav-home').classList.add('active');
+            if(viewId === 'view-services' || viewId === 'view-service-booking') document.getElementById('nav-services').classList.add('active');
+            if(viewId === 'view-basket') document.getElementById('nav-basket').classList.add('active');
+            if(viewId === 'view-profile' || viewId === 'view-weekly-plan' || viewId === 'view-my-bills') document.getElementById('nav-profile').classList.add('active');
+
+            if(viewId === 'view-basket') renderBasket();
+            if(viewId === 'view-profile') renderProfile();
+            if(viewId === 'view-admin') renderAdmin();
+            if(viewId === 'view-services') renderServices();
+            if(viewId === 'view-weekly-plan') renderWeeklyPlanForm();
+            if(viewId === 'view-my-bills') loadMyBills();
+            
+            updateCartBadge();
+        }
+
+        function updateCarouselDots() {
+            const carousel = document.getElementById('posterCarousel');
+            if(!carousel) return;
+            const activeIndex = Math.round(carousel.scrollLeft / carousel.clientWidth);
+            for(let i = 0; i < 4; i++) {
+                const dot = document.getElementById('dot' + i);
+                if(dot) {
+                    dot.className = i === activeIndex ? 'w-2 h-2 rounded-full bg-green-600 transition-all' : 'w-2 h-2 rounded-full bg-gray-300 transition-all';
+                }
+            }
+        }
+
+        function jumpToPoster3Category() {
+            if(!poster3CategoryId) { alert("Admin ने Poster 3 ची कॅटेगरी निवडलेली नाही."); return; }
+            let catName = poster3CategoryId;
+            const custom = customCategories.find(c => c.id === poster3CategoryId);
+            if(custom) catName = custom.marathi;
+            const def = defaultCategories.find(c => c.id === poster3CategoryId);
+            if(def) catName = def.marathi;
+            openCategory(poster3CategoryId, catName);
+        }
+
+        // ================= MY BILLS (Customer) =================
+        function openMyBills() {
+            if(!userProfile || !userProfile.phone) {
+                alert("कृपया आधी तुमची प्रोफाइल सेव्ह करा!");
+                navigateTo('view-profile');
+                return;
+            }
+            navigateTo('view-my-bills');
+        }
+
+        async function loadMyBills() {
+            const list = document.getElementById('myBillsList');
+            list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">लोड होत आहे...</p>';
+            
+            if(!userProfile || !userProfile.phone) {
+                list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">कृपया आधी प्रोफाइल सेव्ह करा.</p>';
+                return;
+            }
+            
+            try {
+                const snap = await db.collection("orders").get();
+                let myOrders = [];
+                snap.forEach((doc) => {
+                    const o = doc.data();
+                    if(o.customerPhone === userProfile.phone) {
+                        myOrders.push({ id: doc.id, ...o });
+                    }
+                });
+                
+                list.innerHTML = '';
+                
+                const pendingBox = document.getElementById('pendingBox');
+                const pendingEl = document.getElementById('myPendingAmount');
+                const pendingMsg = document.getElementById('pendingMsg');
+                
+                if(myOrders.length === 0) {
+                    list.innerHTML = '<div class="text-center py-10 bg-white rounded-3xl premium-shadow"><p class="text-gray-500 font-semibold">अजून कोणतीही ऑर्डर नाही.</p></div>';
+                    document.getElementById('myTotalOrders').innerText = '0';
+                    document.getElementById('myTotalSpent').innerText = '₹0';
+                    pendingEl.innerText = '₹0';
+                    pendingMsg.innerText = 'कोणतेही थकीत नाही ✅';
+                    pendingBox.className = 'p-6 rounded-3xl mb-4 shadow-lg bg-gradient-to-r from-green-500 to-green-600 text-white';
+                    return;
+                }
+                
+                myOrders.sort((a, b) => {
+                    const da = a.createdAt ? a.createdAt.seconds : 0;
+                    const dbb = b.createdAt ? b.createdAt.seconds : 0;
+                    return dbb - da;
+                });
+                
+                let totalSpent = 0;
+                let totalPending = 0;
+                
+                myOrders.forEach(o => {
+                    totalSpent += (o.finalAmount || 0);
+                    if(!o.paid) totalPending += (o.finalAmount || 0);
+                });
+                
+                if(totalPending > 0) {
+                    pendingBox.className = 'p-6 rounded-3xl mb-4 shadow-lg bg-gradient-to-r from-red-500 to-red-600 text-white';
+                    pendingEl.innerText = '₹' + totalPending;
+                    pendingMsg.innerText = '⚠️ कृपया ही रक्कम लवकरात लवकर भरा.';
+                } else {
+                    pendingBox.className = 'p-6 rounded-3xl mb-4 shadow-lg bg-gradient-to-r from-green-500 to-green-600 text-white';
+                    pendingEl.innerText = '₹0';
+                    pendingMsg.innerText = 'कोणतेही थकीत नाही ✅ धन्यवाद!';
+                }
+                
+                myOrders.forEach(o => {
+                    let dateStr = '-';
+                    if(o.createdAt) {
+                        const d = new Date(o.createdAt.seconds * 1000);
+                        dateStr = d.toLocaleDateString('mr-IN') + ' | ' + d.toLocaleTimeString('mr-IN', {hour: '2-digit', minute: '2-digit'});
+                    }
+                    
+                    let itemsHTML = '';
+                    (o.items || []).forEach(it => {
+                        itemsHTML += `<div class="flex justify-between text-xs py-1 border-b border-dashed border-gray-100"><span>${it.marathi} <span class="text-gray-400">(${it.qty} × ${it.unit})</span></span><span class="font-semibold">₹${it.total}</span></div>`;
+                    });
+                    
+                    const isPaid = o.paid === true;
+                    const statusBadge = isPaid 
+                        ? `<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full">✓ PAID</span>`
+                        : `<span class="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-1 rounded-full">⏳ PENDING</span>`;
+                    
+                    const borderColor = isPaid ? 'border-green-400' : 'border-red-400';
+                    
+                    const card = `
+                        <div class="bg-white p-4 rounded-2xl premium-shadow border-l-4 ${borderColor}">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <p class="font-bold text-gray-800 text-sm">🧾 Order #${o.id.slice(-6).toUpperCase()}</p>
+                                    <p class="text-[10px] text-gray-500 mt-1">🕒 ${dateStr}</p>
+                                </div>
+                                <div class="text-right">
+                                    ${statusBadge}
+                                    <p class="font-bold text-green-700 text-xl mt-1">₹${o.finalAmount || 0}</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-xl mb-2">${itemsHTML}</div>
+                            <div class="flex justify-between text-[10px] text-gray-500">
+                                <span>💰 Saved: ₹${o.totalSavings || 0}</span>
+                                <span>🚚 Delivery: ₹${o.deliveryFee || 99}</span>
+                            </div>
+                        </div>`;
+                    list.innerHTML += card;
+                });
+                
+                document.getElementById('myTotalOrders').innerText = myOrders.length;
+                document.getElementById('myTotalSpent').innerText = '₹' + totalSpent;
+                
+            } catch (error) {
+                console.error("Error: ", error);
+                list.innerHTML = '<p class="text-center text-red-500 py-10 font-semibold">बिले लोड करताना अडचण आली.</p>';
+            }
+        }
+
+        // ================= ADMIN - CUSTOMER BILLS =================
+        async function loadCustomerBills() {
+            const list = document.getElementById('customerBillsList');
+            list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">लोड होत आहे...</p>';
+            
+            try {
+                const snap = await db.collection("orders").get();
+                list.innerHTML = '';
+                
+                if(snap.empty) {
+                    list.innerHTML = '<p class="text-center text-gray-500 py-10 font-semibold">अजून कोणतीही ऑर्डर नाही.</p>';
+                    document.getElementById('adminCustomerCount').innerText = '0';
+                    document.getElementById('adminGrandPending').innerText = '₹0';
+                    return;
+                }
+                
+                const customersMap = {};
+                let grandPending = 0;
+                
+                snap.forEach((doc) => {
+                    const o = doc.data();
+                    const phone = o.customerPhone;
+                    if(!phone) return;
+                    
+                    if(!customersMap[phone]) {
+                        customersMap[phone] = {
+                            name: o.customerName || 'Unknown',
+                            phone: phone,
+                            society: o.society || 'इतर (No Society)',
+                            flat: o.flat || '-',
+                            pendingAmount: 0,
+                            totalAmount: 0,
+                            orderCount: 0
+                        };
+                    }
+                    customersMap[phone].totalAmount += (o.finalAmount || 0);
+                    customersMap[phone].orderCount += 1;
+                    if(!o.paid) customersMap[phone].pendingAmount += (o.finalAmount || 0);
+                    if(o.society) customersMap[phone].society = o.society;
+                    if(o.customerName) customersMap[phone].name = o.customerName;
+                    if(o.flat) customersMap[phone].flat = o.flat;
+                });
+                
+                const customersArr = Object.values(customersMap);
+                customersArr.sort((a, b) => (a.society || '').localeCompare(b.society || '', 'mr'));
+                
+                customersArr.forEach(c => { grandPending += c.pendingAmount; });
+                
+                let currentSociety = '';
+                
+                customersArr.forEach(c => {
+                    if(c.society !== currentSociety) {
+                        currentSociety = c.society;
+                        const header = document.createElement('div');
+                        header.className = 'mt-6 mb-2 first:mt-0';
+                        header.innerHTML = `
+                            <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-2xl shadow-md flex items-center justify-between">
+                                <h3 class="font-bold text-sm">🏘️ ${c.society}</h3>
+                                <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">Society</span>
+                            </div>`;
+                        list.appendChild(header);
+                    }
+                    
+                    const isFullyPaid = c.pendingAmount === 0;
+                    const cardBg = isFullyPaid ? 'border-green-500' : 'border-red-500';
+                    
+                    const clearBtn = !isFullyPaid 
+                        ? `<button onclick="clearCustomerPending('${c.phone}', '${c.name}')" class="w-full mt-2 bg-gradient-to-r from-red-500 to-red-600 text-white py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2">✓ Pending Clear करा (₹${c.pendingAmount})</button>`
+                        : `<div class="w-full mt-2 bg-green-50 text-green-700 py-2.5 rounded-xl font-bold text-sm text-center">✅ सर्व Paid आहे</div>`;
+                    
+                    const card = document.createElement('div');
+                    card.className = `bg-white p-4 rounded-2xl premium-shadow border-l-4 ${cardBg} mt-3`;
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-gray-800 text-base">👤 ${c.name}</h4>
+                                <p class="text-xs text-gray-500 mt-1">📞 ${c.phone}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">🏠 Flat: ${c.flat}</p>
+                                <p class="text-[10px] text-gray-400 mt-1">📦 एकूण ऑर्डर्स: ${c.orderCount}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] text-gray-500">Pending</p>
+                                <p class="font-bold ${isFullyPaid ? 'text-green-700' : 'text-red-600'} text-2xl">₹${c.pendingAmount}</p>
+                            </div>
+                        </div>
+                        ${clearBtn}
+                        <div class="flex gap-2 mt-2">
+                            <a href="https://wa.me/91${c.phone}" target="_blank" class="flex-1 text-center bg-green-100 text-green-700 py-2 rounded-lg text-xs font-bold">💬 WhatsApp</a>
+                            <a href="tel:${c.phone}" class="flex-1 text-center bg-blue-100 text-blue-700 py-2 rounded-lg text-xs font-bold">📞 Call</a>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                });
+                
+                document.getElementById('adminCustomerCount').innerText = customersArr.length;
+                document.getElementById('adminGrandPending').innerText = '₹' + grandPending;
+                
+            } catch (error) {
+                console.error("Error: ", error);
+                list.innerHTML = '<p class="text-center text-red-500 py-10 font-semibold">बिले लोड करताना अडचण आली.</p>';
+            }
+        }
+
+        async function clearCustomerPending(phone, name) {
+            if(!confirm(`${name} यांचे सर्व Pending बिल Paid म्हणून मार्क करायचे आहे का?`)) return;
+            
+            try {
+                const snap = await db.collection("orders").where("customerPhone", "==", phone).get();
+                const batch = db.batch();
+                let count = 0;
+                
+                snap.forEach((doc) => {
+                    const o = doc.data();
+                    if(!o.paid) {
+                        batch.update(doc.ref, { paid: true, paidAt: new Date() });
+                        count++;
+                    }
+                });
+                
+                if(count === 0) {
+                    alert("हा ग्राहक आधीच Paid आहे!");
+                    return;
+                }
+                
+                await batch.commit();
+                alert(`✅ ${name} यांचे ${count} बिल Paid म्हणून मार्क झाले!`);
+                loadCustomerBills();
+                
+            } catch (error) {
+                console.error("Error: ", error);
+                alert("Pending clear करताना एरर आला: " + error.message);
+            }
+        }
+
+        // ================= SEARCH =================
+        function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const results = document.getElementById('searchResults');
+            if(query.length === 0) { results.innerHTML = `<p class="col-span-2 text-center text-gray-500 py-10 font-semibold">काहीतरी टाइप करा...</p>`; return; }
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.marathi.includes(query));
+            if(filtered.length === 0) { results.innerHTML = `<p class="col-span-2 text-center text-gray-500 py-10 font-semibold">सापडले नाही.</p>`; return; }
+            results.innerHTML = '';
+            filtered.forEach(p => {
+                let saveBadge = p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">Save ${p.discount}%</span>` : '';
+                const card = `
+                    <div class="bg-white p-3 rounded-2xl premium-shadow text-center relative border border-gray-50">
+                        ${saveBadge}
+                        <img src="${p.image}" class="w-full h-24 object-cover rounded-xl mb-3">
+                        <p class="font-bold text-gray-800 text-sm">${p.name}</p>
+                        <p class="text-xs text-gray-500 mb-1">${p.marathi}</p>
+                        <p class="text-[10px] font-bold text-gray-400 mb-2 bg-gray-100 inline-block px-2 py-0.5 rounded-full">${p.unit}</p>
+                        <div class="mb-3"><span class="text-gray-400 line-through text-xs">₹${p.mrp}</span><span class="text-green-700 font-bold text-lg ml-1">₹${p.finalPrice}</span></div>
+                        <button onclick="addToCart('${p.id}')" class="w-full bg-green-600 text-white text-xs font-bold py-2.5 rounded-xl">Add to Basket +</button>
+                    </div>`;
+                results.innerHTML += card;
+            });
+        }
+
+        // ================= CATEGORY =================
+        function openCategory(catId, catName) {
+            document.getElementById('categoryTitle').innerText = catName;
+            const grid = document.getElementById('categoryProductGrid');
+            grid.innerHTML = '';
+            const filtered = products.filter(p => p.category === catId);
+            if(filtered.length === 0) { grid.innerHTML = `<p class="col-span-2 text-center text-gray-500 py-10 font-semibold">या कॅटेगरीत सध्या प्रोडक्ट्स नाहीत.</p>`; }
+            filtered.forEach(p => {
+                let saveBadge = p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">Save ${p.discount}%</span>` : '';
+                const card = `
+                    <div class="bg-white p-3 rounded-2xl premium-shadow text-center relative border border-gray-50">
+                        ${saveBadge}
+                        <img src="${p.image}" class="w-full h-24 object-cover rounded-xl mb-3">
+                        <p class="font-bold text-gray-800 text-sm">${p.name}</p>
+                        <p class="text-xs text-gray-500 mb-1">${p.marathi}</p>
+                        <p class="text-[10px] font-bold text-gray-400 mb-2 bg-gray-100 inline-block px-2 py-0.5 rounded-full">${p.unit}</p>
+                        <div class="mb-3"><span class="text-gray-400 line-through text-xs">₹${p.mrp}</span><span class="text-green-700 font-bold text-lg ml-1">₹${p.finalPrice}</span></div>
+                        <button onclick="addToCart('${p.id}')" class="w-full bg-green-600 text-white text-xs font-bold py-2.5 rounded-xl">Add to Basket +</button>
+                    </div>`;
+                grid.innerHTML += card;
+            });
+            navigateTo('view-category');
+        }
+
+        function openOtherCategories() {
+            const grid = document.getElementById('otherCategoriesGrid');
+            grid.innerHTML = '';
+            if(customCategories.length === 0) {
+                grid.innerHTML = `<p class="col-span-2 text-center text-gray-500 py-10 font-semibold">सध्या इतर कॅटेगरीमध्ये काहीही नाही.</p>`;
+            } else {
+                customCategories.forEach(c => {
+                    const card = `
+                        <div onclick="openCategory('${c.id}', '${c.marathi}')" class="bg-white p-4 rounded-3xl shadow-sm text-center cursor-pointer border border-gray-100">
+                            <img src="${c.image}" class="w-24 h-24 mx-auto mb-2 object-contain mix-blend-multiply">
+                            <p class="font-bold text-gray-800 text-lg">${c.marathi}</p>
+                            <p class="text-[10px] text-green-600 font-bold mt-1">• In Stock • Fresh Today</p>
+                        </div>`;
+                    grid.innerHTML += card;
+                });
+            }
+            navigateTo('view-other-categories');
+        }
+
+        // ================= WEEKLY PLAN =================
+        const WEEK_DAYS = [
+            { key: 'mon', label: 'सोमवार (Monday)' },
+            { key: 'tue', label: 'मंगळवार (Tuesday)' },
+            { key: 'wed', label: 'बुधवार (Wednesday)' },
+            { key: 'thu', label: 'गुरुवार (Thursday)' },
+            { key: 'fri', label: 'शुक्रवार (Friday)' },
+            { key: 'sat', label: 'शनिवार (Saturday)' }
+        ];
+
+        function renderWeeklyPlanForm() {
+            const container = document.getElementById('weeklyPlanForm');
+            container.innerHTML = '';
+            WEEK_DAYS.forEach(day => {
+                const dayValue = weeklyPlan[day.key] || '';
+                const div = `
+                    <div class="bg-white p-4 rounded-2xl premium-shadow border border-gray-100">
+                        <label class="block text-sm font-bold text-gray-800 mb-2">${day.label}</label>
+                        <input type="text" id="plan-${day.key}" value="${dayValue}" placeholder="उदा. कांदा, बटाटा" class="custom-input mb-0 text-sm">
+                    </div>`;
+                container.innerHTML += div;
+            });
+        }
+
+        function openWeeklyPlan() {
+            renderWeeklyPlanForm();
+            navigateTo('view-weekly-plan');
+        }
+
+        function saveWeeklyPlan() {
+            weeklyPlan = {};
+            WEEK_DAYS.forEach(day => {
+                const val = document.getElementById(`plan-${day.key}`).value;
+                if(val) weeklyPlan[day.key] = val;
+            });
+            localStorage.setItem('mh24_weekly_plan', JSON.stringify(weeklyPlan));
+            
+            if(userProfile && userProfile.phone) {
+                db.collection("weeklyPlans").doc(userProfile.phone).set({
+                    ...weeklyPlan, name: userProfile.name, phone: userProfile.phone, updatedAt: new Date()
+                }).then(() => { alert("आठवड्याची योजना सेव्ह झाली! ✅"); })
+                  .catch(err => { alert("स्थानिक सेव्ह झाली."); });
+            } else {
+                alert("कृपया आधी प्रोफाइल सेव्ह करा!");
+            }
+        }
+
+        function clearWeeklyPlan() {
+            if(confirm("आठवड्याची योजना साफ करायची?")) {
+                weeklyPlan = {};
+                localStorage.removeItem('mh24_weekly_plan');
+                renderWeeklyPlanForm();
+                alert("योजना साफ झाली!");
+            }
+        }
+
+        // ================= SERVICES =================
+        function toggleAddServiceForm() {
+            document.getElementById('addServiceForm').classList.toggle('hidden');
+        }
+
+        async function addService() {
+            const name = document.getElementById('servName').value;
+            const marathi = document.getElementById('servMarathi').value;
+            const charges = document.getElementById('servCharges').value;
+            const image = document.getElementById('servImage').value || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80';
+            const details = document.getElementById('servDetails').value;
+            if(!name || !marathi || !charges) return alert("कृपया सर्व भरा!");
+            try {
+                await db.collection("services").add({ name, marathi, charges, image, details });
+                document.getElementById('servName').value = ''; document.getElementById('servMarathi').value = '';
+                document.getElementById('servCharges').value = ''; document.getElementById('servImage').value = '';
+                document.getElementById('servDetails').value = '';
+                alert("सेवा जोडली! ✅");
+                toggleAddServiceForm();
+                loadServicesFromFirebase();
+            } catch (error) { alert("एरर!"); }
+        }
+
+        async function deleteService(id) {
+            if(confirm("ही सेवा डिलीट करायची?")) {
+                try {
+                    await db.collection("services").doc(id).delete();
+                    alert("सेवा डिलीट झाली!");
+                    loadServicesFromFirebase(); 
+                } catch (error) { alert("एरर!"); }
+            }
+        }
+
+        function renderServices() {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = '';
+            if(services.length === 0) {
+                grid.innerHTML = `<p class="text-center text-gray-500 py-10 font-semibold">सध्या कोणत्याही सेवा उपलब्ध नाहीत.</p>`;
+                return;
+            }
+            services.forEach(s => {
+                let deleteBtn = isAdmin ? `<button onclick="deleteService('${s.id}')" class="absolute top-3 right-3 bg-red-100 text-red-600 p-2 rounded-full">🗑️</button>` : '';
+                const card = `
+                    <div class="bg-white rounded-3xl premium-shadow overflow-hidden relative border border-gray-100 mb-4">
+                        ${deleteBtn}
+                        <img src="${s.image}" class="w-full h-32 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg text-gray-800">${s.marathi} <span class="text-sm text-gray-500 font-normal">(${s.name})</span></h3>
+                            <p class="text-green-700 font-bold text-md mt-1">${s.charges}</p>
+                            <p class="text-xs text-gray-500 mt-1">${s.details || ''}</p>
+                            <button onclick="openServiceBooking('${s.id}')" class="w-full mt-3 bg-blue-600 text-white py-2.5 rounded-xl font-bold text-sm">बुक करा (Book Now)</button>
+                        </div>
+                    </div>`;
+                grid.innerHTML += card;
+            });
+        }
+
+        function openServiceBooking(id) {
+            currentService = services.find(s => s.id === id);
+            if(!currentService) return;
+            document.getElementById('bookServiceImg').src = currentService.image;
+            document.getElementById('bookServiceTitle').innerText = currentService.marathi;
+            document.getElementById('bookServicePrice').innerText = currentService.charges;
+            if(userProfile) {
+                document.getElementById('bookName').value = userProfile.name || '';
+                document.getElementById('bookPhone').value = userProfile.phone || '';
+                document.getElementById('bookAddress').value = userProfile.address || '';
+            }
+            navigateTo('view-service-booking');
+        }
+
+        function submitServiceBooking() {
+            const name = document.getElementById('bookName').value;
+            const phone = document.getElementById('bookPhone').value;
+            const address = document.getElementById('bookAddress').value;
+            const notes = document.getElementById('bookNotes').value;
+            if(!name || !phone || !address) return alert("कृपया सर्व भरा!");
+            let message = `*MH24 Basket - Service Booking* 🛠️%0A%0A*Service:* ${currentService.marathi}%0A*Charges:* ${currentService.charges}%0A%0A*Customer:*%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0A`;
+            if(notes) message += `Notes: ${notes}%0A`;
+            message += `%0Aकृपया कन्फर्म करा.`;
+            window.open(`https://wa.me/919503816596?text=${message}`, '_blank');
+            document.getElementById('bookNotes').value = '';
+            alert("बुकिंग WhatsApp वर पाठवली!");
+            navigateTo('view-services');
+        }
+
+        // ================= CART =================
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if(existing) { existing.qty += 1; } else { cart.push({ ...product, qty: 1 }); }
+            localStorage.setItem('mh24_cart', JSON.stringify(cart));
+            updateCartBadge();
+            const toast = document.getElementById('toastMsg');
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 1500);
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById('cartBadge');
+            if(totalItems > 0) { badge.innerText = totalItems; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
+        }
+
+        function formatUnit(baseUnit, qty) {
+            if (baseUnit.includes('g')) {
+                let weight = parseFloat(baseUnit) * qty;
+                if (weight >= 1000) return (weight / 1000) + ' kg';
+                return weight + ' g';
+            }
+            return qty + ' x ' + baseUnit;
+        }
+
+        function updateQty(id, change) {
+            const item = cart.find(i => i.id === id);
+            if(item) {
+                item.qty += change;
+                if(item.qty <= 0) { cart = cart.filter(i => i.id !== id); }
+                localStorage.setItem('mh24_cart', JSON.stringify(cart));
+                renderBasket();
+                updateCartBadge();
+            }
+        }
+
+        function removeItem(id) {
+            cart = cart.filter(i => i.id !== id);
+            localStorage.setItem('mh24_cart', JSON.stringify(cart));
+            renderBasket();
+            updateCartBadge();
+        }
+
+        function renderBasket() {
+            const container = document.getElementById('basketItems');
+            const summary = document.getElementById('basketSummary');
+            container.innerHTML = '';
+            if(cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 bg-white rounded-3xl premium-shadow"><p class="text-gray-500 font-semibold">तुमची बास्केट रिकामी आहे.</p></div>`;
+                summary.classList.add('hidden'); return;
+            }
+            let totalSavings = 0; let totalItems = 0;
+            cart.forEach(item => {
+                const itemSavings = (item.mrp - item.finalPrice) * item.qty;
+                const itemTotal = item.finalPrice * item.qty;
+                totalSavings += itemSavings; totalItems += item.qty;
+                const div = `
+                    <div class="bg-white p-4 rounded-3xl premium-shadow border border-gray-100 relative">
+                        <div class="flex gap-4">
+                            <img src="${item.image}" class="w-20 h-20 rounded-2xl object-cover shadow-sm">
+                            <div class="flex-1 flex flex-col justify-center">
+                                <h4 class="font-bold text-gray-800 text-base leading-tight">${item.marathi}</h4>
+                                <p class="text-xs text-gray-500 font-medium mb-3">${item.name}</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center bg-[#e8f5e9] rounded-full px-1 py-1 gap-1">
+                                        <button onclick="updateQty('${item.id}', -1)" class="w-8 h-8 flex items-center justify-center text-green-700 font-bold text-lg">−</button>
+                                        <span class="text-sm font-bold text-gray-700 px-2 min-w-[50px] text-center">${formatUnit(item.unit, item.qty)}</span>
+                                        <button onclick="updateQty('${item.id}', 1)" class="w-8 h-8 flex items-center justify-center text-green-700 font-bold text-lg">+</button>
+                                    </div>
+                                    <span class="font-bold text-green-700 text-lg">₹${itemTotal}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="removeItem('${item.id}')" class="absolute top-4 right-4 text-gray-300 p-1">🗑️</button>
+                    </div>`;
+                container.innerHTML += div;
+            });
+            document.getElementById('totalItemsCount').innerText = totalItems;
+            document.getElementById('totalSavings').innerText = `₹${totalSavings}`;
+            summary.classList.remove('hidden');
+        }
+
+        async function sendWhatsAppOrder() {
+            if(!userProfile || !userProfile.name || !userProfile.phone || !userProfile.address) {
+                alert("कृपया आधी प्रोफाइल सेव्ह करा!"); navigateTo('view-profile'); return;
+            }
+            
+            let message = `*MH24 Basket - New Order* 🛒%0A%0A*Customer Details:*%0A`;
+            message += `Name: ${userProfile.name}%0APhone: ${userProfile.phone}%0AAddress: ${userProfile.address}%0A`;
+            message += `Society: ${userProfile.society || '-'}%0AFlat: ${userProfile.flat || '-'}%0Aसूचना: ${userProfile.notes || '-'}%0A%0A*Order Details:*%0A`;
+            
+            let total = 0; let totalSavings = 0;
+            const orderItems = [];
+            cart.forEach(item => {
+                const itemTotal = item.finalPrice * item.qty;
+                const itemSavings = (item.mrp - item.finalPrice) * item.qty;
+                total += itemTotal; totalSavings += itemSavings;
+                message += `- ${item.marathi} (${item.name}) [${formatUnit(item.unit, item.qty)}] = ₹${itemTotal}%0A`;
+                orderItems.push({ marathi: item.marathi, name: item.name, unit: item.unit, qty: item.qty, finalPrice: item.finalPrice, total: itemTotal });
+            });
+            
+            message += `%0A*Total Saving: ₹${totalSavings}*%0A*Delivery Fee: ₹${DELIVERY_FEE}*%0A*Final Amount to Pay: ₹${total}*%0A%0Aकृपया ऑर्डर कन्फर्म करा.`;
+
+            try {
+                await db.collection("orders").add({
+                    customerName: userProfile.name,
+                    customerPhone: userProfile.phone,
+                    address: userProfile.address,
+                    society: userProfile.society || '',
+                    flat: userProfile.flat || '',
+                    notes: userProfile.notes || '',
+                    items: orderItems,
+                    totalSavings: totalSavings,
+                    finalAmount: total,
+                    deliveryFee: DELIVERY_FEE,
+                    paid: false,
+                    paidAt: null,
+                    createdAt: new Date()
+                });
+            } catch (error) { console.error("Order save error: ", error); }
+
+            window.open(`https://wa.me/919503816596?text=${message}`, '_blank');
+            cart = []; localStorage.setItem('mh24_cart', JSON.stringify(cart)); updateCartBadge(); navigateTo('view-success');
+        }
+
+        // ================= PROFILE =================
+        function saveProfile() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const society = document.getElementById('custSociety').value;
+            const flat = document.getElementById('custFlat').value;
+            const address = document.getElementById('custAddress').value;
+            const notes = document.getElementById('custNotes').value;
+            if(!name || !phone || !address) return alert("कृपया सर्व भरा!");
+            userProfile = { name, phone, society, flat, address, notes };
+            localStorage.setItem('mh24_user', JSON.stringify(userProfile));
+            renderProfile(); alert("प्रोफाइल सेव्ह झाली! ✅");
+        }
+
+        function editProfile() {
+            document.getElementById('profileForm').classList.remove('hidden');
+            document.getElementById('profileDisplay').classList.add('hidden');
+        }
+
+        function renderProfile() {
+            if(userProfile) {
+                document.getElementById('profileForm').classList.add('hidden');
+                document.getElementById('profileDisplay').classList.remove('hidden');
+                document.getElementById('displayName').innerText = userProfile.name;
+                document.getElementById('displayPhone').innerText = "+91 " + userProfile.phone;
+            } else {
+                document.getElementById('profileForm').classList.remove('hidden');
+                document.getElementById('profileDisplay').classList.add('hidden');
+            }
+        }
+
+        // ================= ADMIN =================
+        async function addCategory() {
+            const name = document.getElementById('catName').value;
+            const marathi = document.getElementById('catMarathi').value;
+            const image = document.getElementById('catImage').value || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80';
+            if(!name || !marathi) return alert("कृपया नाव भरा!");
+            try {
+                await db.collection("categories").add({ name, marathi, image });
+                document.getElementById('catName').value = ''; document.getElementById('catMarathi').value = '';
+                document.getElementById('catImage').value = '';
+                alert("कॅटेगरी जोडली! ✅");
+                loadCategoriesFromFirebase();
+            } catch (error) { alert("एरर!"); }
+        }
+
+        async function deleteCategory(id) {
+            if(confirm("ही कॅटेगरी डिलीट करायची?")) {
+                try {
+                    await db.collection("categories").doc(id).delete();
+                    alert("कॅटेगरी डिलीट झाली!");
+                    loadCategoriesFromFirebase(); 
+                } catch (error) { alert("एरर!"); }
+            }
+        }
+
+        function renderAdminCategories() {
+            const list = document.getElementById('adminCategoryList');
+            list.innerHTML = '';
+            if(customCategories.length === 0) {
+                list.innerHTML = `<p class="text-sm text-gray-500">सध्या नवीन कॅटेगरी नाहीत.</p>`;
+                return;
+            }
+            customCategories.forEach(c => {
+                const row = `
+                    <div class="bg-gray-50 p-3 rounded-xl flex justify-between items-center border">
+                        <div class="flex items-center gap-3">
+                            <img src="${c.image}" class="w-10 h-10 rounded-lg object-cover">
+                            <p class="font-bold text-sm text-gray-800">${c.marathi} <span class="text-xs text-gray-500">(${c.name})</span></p>
+                        </div>
+                        <button onclick="deleteCategory('${c.id}')" class="text-red-500 bg-red-100 p-2 rounded-full">🗑️</button>
+                    </div>`;
+                list.innerHTML += row;
+            });
+        }
+
+        function updateProductDropdown() {
+            const select = document.getElementById('prodCategory');
+            select.innerHTML = '';
+            defaultCategories.forEach(c => { select.innerHTML += `<option value="${c.id}">${c.marathi} (${c.name})</option>`; });
+            customCategories.forEach(c => { select.innerHTML += `<option value="${c.id}">${c.marathi} (${c.name})</option>`; });
+        }
+
+        function updatePoster3Dropdown() {
+            const sel = document.getElementById('poster3CategorySelect');
+            if(!sel) return;
+            sel.innerHTML = '<option value="">-- कॅटेगरी निवडा --</option>';
+            defaultCategories.forEach(c => { sel.innerHTML += `<option value="${c.id}" ${poster3CategoryId === c.id ? 'selected' : ''}>${c.marathi} (${c.name})</option>`; });
+            customCategories.forEach(c => { sel.innerHTML += `<option value="${c.id}" ${poster3CategoryId === c.id ? 'selected' : ''}>${c.marathi} (${c.name})</option>`; });
+        }
+
+        async function savePoster3Category() {
+            const val = document.getElementById('poster3CategorySelect').value;
+            if(!val) return alert("कॅटेगरी निवडा!");
+            try {
+                await db.collection("settings").doc("posterConfig").set({ poster3Category: val }, { merge: true });
+                poster3CategoryId = val;
+                alert("Poster 3 सेटिंग सेव्ह झाली! ✅");
+            } catch (error) { alert("एरर!"); }
+        }
+
+        async function loadPoster3Config() {
+            try {
+                const doc = await db.collection("settings").doc("posterConfig").get();
+                if(doc.exists && doc.data().poster3Category) {
+                    poster3CategoryId = doc.data().poster3Category;
+                }
+                updatePoster3Dropdown();
+            } catch (error) { console.error(error); }
+        }
+
+        async function addProduct() {
+            const name = document.getElementById('prodName').value;
+            const marathi = document.getElementById('prodMarathi').value;
+            const category = document.getElementById('prodCategory').value;
+            const unit = document.getElementById('prodUnit').value;
+            const mrp = parseFloat(document.getElementById('prodMRP').value);
+            const finalPrice = parseFloat(document.getElementById('prodFinalPrice').value);
+            const discount = parseFloat(document.getElementById('prodDiscount').value) || 0;
+            const image = document.getElementById('prodImage').value || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80';
+            if(!name || !marathi || !mrp || !finalPrice || !unit) return alert("कृपया सर्व भरा!");
+            try {
+                await db.collection("products").add({ name, marathi, category, unit, mrp, finalPrice, discount, image });
+                document.getElementById('prodName').value = ''; document.getElementById('prodMarathi').value = '';
+                document.getElementById('prodUnit').value = ''; document.getElementById('prodMRP').value = '';
+                document.getElementById('prodFinalPrice').value = ''; document.getElementById('prodDiscount').value = '';
+                document.getElementById('prodImage').value = '';
+                alert("प्रोडक्ट जोडले! ✅");
+                loadProductsFromFirebase(); 
+            } catch (error) { alert("एरर!"); }
+        }
+
+        async function deleteProduct(id) {
+            if(confirm("प्रोडक्ट डिलीट करायचा?")) {
+                try {
+                    await db.collection("products").doc(id).delete();
+                    alert("डिलीट झाले!");
+                    loadProductsFromFirebase(); 
+                } catch (error) { alert("एरर!"); }
+            }
+        }
+
+        function renderAdmin() {
+            updatePoster3Dropdown();
+            const list = document.getElementById('adminProductList');
+            list.innerHTML = '';
+            products.forEach(p => {
+                const row = `
+                    <div class="bg-white p-4 rounded-2xl premium-shadow flex justify-between items-center border border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-12 h-12 rounded-xl object-cover">
+                            <div>
+                                <p class="font-bold text-sm text-gray-800">${p.name} <span class="text-xs text-gray-500">(${p.marathi})</span></p>
+                                <p class="text-[10px] text-gray-500 font-medium">MRP: ₹${p.mrp} | Final: ₹${p.finalPrice}</p>
+                            </div>
+                        </div>
+                        <button onclick="deleteProduct('${p.id}')" class="text-red-500 bg-red-50 p-2 rounded-full">🗑️</button>
+                    </div>`;
+                list.innerHTML += row;
+            });
+        }
+
+        // ================= FIREBASE LOADING =================
+        async function loadProductsFromFirebase() {
+            try {
+                const snap = await db.collection("products").get();
+                products = [];
+                snap.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
+                if(!document.getElementById('view-admin').classList.contains('hidden')) renderAdmin();
+            } catch (error) { console.error(error); }
+        }
+
+        async function loadServicesFromFirebase() {
+            try {
+                const snap = await db.collection("services").get();
+                services = [];
+                snap.forEach((doc) => { services.push({ id: doc.id, ...doc.data() }); });
+                if(!document.getElementById('view-services').classList.contains('hidden')) renderServices();
+            } catch (error) { console.error(error); }
+        }
+
+        async function loadCategoriesFromFirebase() {
+            try {
+                const snap = await db.collection("categories").get();
+                customCategories = [];
+                snap.forEach((doc) => { customCategories.push({ id: doc.id, ...doc.data() }); });
+                renderAdminCategories();
+                updateProductDropdown();
+                updatePoster3Dropdown();
+            } catch (error) { console.error(error); }
+        }
+
+        // ================= SECRET ADMIN ACCESS (#admin) =================
+        function checkSecretAdmin() {
+            // URL मध्ये #admin, #Admin, #ADMIN — काहीही चालेल
+            if(window.location.hash.toLowerCase().indexOf('admin') > -1) {
+                // पेज नीट load होण्यासाठी 800ms थांबा
+                setTimeout(function() {
+                    const pass = prompt("🔐 Admin पासवर्ड टाका:");
+                    
+                    if(pass === "admin2open") {
+                        isAdmin = true;
+                        const btn = document.getElementById('adminServiceBtn');
+                        if(btn) btn.classList.remove('hidden');
+                        
+                        // थेट Admin Panel उघडा
+                        navigateTo('view-admin');
+                        
+                        // Products render
+                        setTimeout(function() { renderAdmin(); }, 500);
+                        
+                        // URL मधून #admin काढून टाका
+                        setTimeout(function() {
+                            try { history.replaceState(null, null, window.location.pathname); } catch(e) {}
+                        }, 300);
+                        
+                    } else if(pass !== null) {
+                        alert("चुकीचा पासवर्ड!");
+                        try { history.replaceState(null, null, window.location.pathname); } catch(e) {}
+                    }
+                }, 800);
+            }
+        }
+
+        // ================= INIT =================
+        updateCartBadge();
+        checkSecretAdmin();
+        renderProfile();
+        loadProductsFromFirebase(); 
+        loadServicesFromFirebase();
+        loadCategoriesFromFirebase();
+        loadPoster3Config();
+
+    </script>
+</body>
+</html>
