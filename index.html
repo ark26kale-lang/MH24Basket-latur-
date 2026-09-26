@@ -1273,12 +1273,10 @@
                 updatePoster3Dropdown();
             } catch (error) { console.error(error); }
         }
-
-        // ================= INIT =================
-        // ================= SECRET ADMIN ACCESS =================
+// ================= SECRET ADMIN ACCESS =================
 // URL मध्ये #admin असेल तर लगेच Admin Panel उघडेल
 function checkSecretAdmin() {
-    if(window.location.hash === '#admin') {
+    if(window.location.hash === '#Admin') {
         const pass = prompt("🔐 Admin पासवर्ड टाका:");
         if(pass === "admin2open") {
             isAdmin = true;
@@ -1291,6 +1289,8 @@ function checkSecretAdmin() {
         }
     }
 }
+        // ================= INIT =================
+        
         updateCartBadge();
         checkSecretAdmin();
         renderProfile();
