@@ -86,11 +86,13 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 <div class="hero-banner mb-4"><img src="banner.jpg" class="w-full h-auto object-cover block"></div>
 <div class="mb-5">
-<div id="posterCarousel" class="carousel-container flex rounded-3xl overflow-hidden premium-shadow" onscroll="updateCarouselDots()">
+<div class="rounded-3xl overflow-hidden premium-shadow mb-0">
+<div id="posterCarousel" class="carousel-container flex" onscroll="updateCarouselDots()" style="overflow-x:auto !important">
 <div class="carousel-slide" onclick="handlePosterTap(1)"><img src="offer1.jpg" class="w-full h-auto cursor-pointer block"></div>
 <div class="carousel-slide" onclick="handlePosterTap(2)"><img src="offer2.jpg" class="w-full h-auto cursor-pointer block"></div>
 <div class="carousel-slide" onclick="handlePosterTap(3)"><img src="offer3.jpg" class="w-full h-auto cursor-pointer block"></div>
 <div class="carousel-slide" onclick="handlePosterTap(4)"><img src="offer4.jpg" class="w-full h-auto cursor-pointer block"></div>
+</div>
 </div>
 <div class="flex justify-center gap-1.5 mt-3">
 <span id="dot0" class="w-6 h-1.5 rounded-full bg-green-600"></span>
