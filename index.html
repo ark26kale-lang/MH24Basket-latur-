@@ -529,6 +529,10 @@ WhatsApp वर विचारा
 </div>
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-red-500">
 <h3 class="premium-title text-gray-800 mb-4 text-lg">ADD Product</h3>
+<div id="editingBanner" class="hidden bg-yellow-100 border-2 border-yellow-400 rounded-2xl p-3 mb-4 flex justify-between items-center">
+<div><p class="text-[11px] font-extrabold text-yellow-800">✏️ EDITING MODE</p><p class="text-[13px] font-bold text-yellow-900 mt-0.5" id="editingProductName"></p></div>
+<button type="button" onclick="cancelEdit()" class="bg-white text-yellow-800 border border-yellow-400 px-3 py-1.5 rounded-full text-[11px] font-bold">✕ Cancel</button>
+</div>
 <label class="form-label">Name (English)</label>
 <input type="text" id="prodName" placeholder="उदा. Onion" class="custom-input">
 <label class="form-label">नाव (मराठी)</label>
@@ -588,7 +592,7 @@ WhatsApp वर विचारा
 <input type="checkbox" id="prodIsBestDeal" class="w-5 h-5 accent-green-600">
 <label for="prodIsBestDeal" class="text-sm font-bold text-yellow-800">🔥 Best Deals मध्ये दाखवा</label>
 </div>
-<button onclick="addProduct()" class="btn-primary">Save Product</button>
+<button onclick="addProduct()" id="prodSaveBtn" class="btn-primary">Save Product</button>
 </div>
 </div>
 
@@ -1206,6 +1210,50 @@ loadCategoriesFromFirebase();
 async function deleteCategory(id){if(confirm("डिलीट?")){try{await db.collection("categories").doc(id).delete();alert("डिलीट!");loadCategoriesFromFirebase();}catch(e){alert("एरर!");}}}
 function updateProductDropdown(){const s=document.getElementById('prodCategory');s.innerHTML='';defaultCategories.forEach(c=>s.innerHTML+=`<option value="${c.id}">${c.marathi} (${c.name})</option>`);customCategories.forEach(c=>s.innerHTML+=`<option value="${c.id}">${c.marathi} (${c.name})</option>`);}
 
+let editingProductId=null;
+
+function editProduct(id){
+const p=products.find(x=>x.id===id);
+if(!p){alert("प्रोडक्ट सापडले नाही!");return;}
+editingProductId=id;
+document.getElementById('prodName').value=p.name||'';
+document.getElementById('prodMarathi').value=p.marathi||'';
+document.getElementById('prodCategory').value=p.category||'other';
+document.getElementById('prodDescription').value=p.description||'';
+document.getElementById('prodRating').value=p.rating||4.5;
+document.getElementById('prodImage').value=p.image||'';
+document.getElementById('prodIsBestDeal').checked=p.isBestDeal===true;
+if(p.hasVariants&&p.variants&&p.variants.length>0){
+setProductMode('variants');
+document.getElementById('variantRows').innerHTML='';
+p.variants.forEach(v=>{addVariantRow(v.weight,v.mrp,v.price);});
+}else{
+setProductMode('quantity');
+document.getElementById('prodUnitType').value=p.unitType||'weight';
+document.getElementById('prodMinQty').value=p.minQuantity||250;
+document.getElementById('prodStepQty').value=p.stepQuantity||250;
+document.getElementById('prodMRP').value=p.mrpForMin||p.mrp||0;
+document.getElementById('prodFinalPrice').value=p.priceForMin||p.finalPrice||0;
+document.getElementById('prodCostPrice').value=p.costPriceForMin||p.costPrice||0;
+}
+document.getElementById('editingBanner').classList.remove('hidden');
+document.getElementById('editingProductName').innerText='📦 '+p.marathi+' ('+p.name+')';
+document.getElementById('prodSaveBtn').innerText='💾 Update Product';
+navigateTo('view-admin');
+setTimeout(()=>{window.scrollTo({top:0,behavior:'smooth'});},300);
+}
+
+function cancelEdit(){
+editingProductId=null;
+document.getElementById('editingBanner').classList.add('hidden');
+document.getElementById('prodSaveBtn').innerText='Save Product';
+['prodName','prodMarathi','prodDescription','prodImage','prodCostPrice'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+document.getElementById('prodRating').value='4.5';
+document.getElementById('prodIsBestDeal').checked=false;
+document.getElementById('variantRows').innerHTML='';
+setProductMode('quantity');
+autoFillUnitDefaults();
+}
 async function addProduct(){
 const n=document.getElementById('prodName').value;
 const m=document.getElementById('prodMarathi').value;
@@ -1237,13 +1285,22 @@ productData.pricePerBaseUnit=priceForMin/minQty;productData.mrpPerBaseUnit=mrpFo
 productData.discount=discount;
 }
 try{
+if(editingProductId){
+await db.collection("products").doc(editingProductId).set(productData);
+alert("✅ प्रोडक्ट अपडेट झाले!");
+editingProductId=null;
+document.getElementById('editingBanner').classList.add('hidden');
+document.getElementById('prodSaveBtn').innerText='Save Product';
+}else{
 await db.collection("products").add(productData);
+alert("प्रोडक्ट जोडले! ✅");
+}
 document.getElementById('prodName').value='';document.getElementById('prodMarathi').value='';
 document.getElementById('prodDescription').value='';document.getElementById('prodRating').value='4.5';
 document.getElementById('prodImage').value='';document.getElementById('prodIsBestDeal').checked=false;
 document.getElementById('prodCostPrice').value='';document.getElementById('variantRows').innerHTML='';
-if(currentProductMode==='quantity')autoFillUnitDefaults();
-alert("प्रोडक्ट जोडले! ✅");
+setProductMode('quantity');
+autoFillUnitDefaults();
 loadProductsFromFirebase();
 }catch(e){alert("एरर: "+e.message);}
 }
@@ -1268,7 +1325,8 @@ const typeLabel=p.hasVariants?`${p.variants?.length||0} variants`:`${formatQuant
 const dealBadge=p.isBestDeal?`<span class="bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full ml-1">🔥</span>`:'';
 const bt=getCategoryBillingType(p.category);
 const billBadge=bt==='pending'?`<span class="bg-amber-100 text-amber-800 text-[9px] font-extrabold px-2 py-0.5 rounded-full">🕐 PENDING</span>`:`<span class="bg-emerald-100 text-emerald-800 text-[9px] font-extrabold px-2 py-0.5 rounded-full">💵 CASH</span>`;
-html+=`<div class="bg-white p-3 rounded-2xl premium-shadow border border-gray-100"><div class="flex justify-between items-center"><div class="flex items-center gap-3"><img src="${p.image}" class="w-11 h-11 rounded-xl object-cover"><div class="min-w-0"><p class="font-bold text-[13px] text-gray-900 truncate">${p.name} ${dealBadge}</p><p class="text-[10px] text-gray-500 truncate">${p.marathi} ${billBadge}</p><p class="text-[10px] text-gray-500">${typeLabel}</p></div></div><div class="flex gap-1 shrink-0"><button onclick="toggleBestDeal('${p.id}',${p.isBestDeal===true})" class="text-orange-500 bg-orange-50 p-2 rounded-full text-[12px]">🔥</button><button onclick="deleteProduct('${p.id}')" class="text-red-500 bg-red-50 p-2 rounded-full text-[12px]">🗑️</button></div></div></div>`;
+html+=`<div class="bg-white p-3 rounded-2xl premium-shadow border border-gray-100"><div class="flex justify-between items-center"><div class="flex items-center gap-3"><img src="${p.image}" class="w-11 h-11 rounded-xl object-cover"><div class="min-w-0"><p class="font-bold text-[13px] text-gray-900 truncate">${p.name} ${dealBadge}</p><p class="text-[10px] text-gray-500 truncate">${p.marathi} ${billBadge}</p><p class="text-[10px] text-gray-500">${typeLabel}</p></div></div>
+<div class="flex gap-1 shrink-0"><button onclick="editProduct('${p.id}')" class="text-blue-600 bg-blue-50 p-2 rounded-full text-[12px]">✏️</button><button onclick="toggleBestDeal('${p.id}',${p.isBestDeal===true})" class="text-orange-500 bg-orange-50 p-2 rounded-full text-[12px]">🔥</button><button onclick="deleteProduct('${p.id}')" class="text-red-500 bg-red-50 p-2 rounded-full text-[12px]">🗑️</button></div></div></div>`;
 });
 html+=`</div></div>`;
 });
