@@ -734,7 +734,7 @@ const firebaseConfig={apiKey:"AIzaSyAlRrFaovXjVso2AK_w04jMFa_YHYSo2AK",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 db.settings({ignoreUndefinedProperties:true});
-db.enablePersistence().catch(function(){});
+
 
 // ==================== CACHE LAYER ====================
 const CACHE_TTL=5*60*1000;
