@@ -735,7 +735,6 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 db.settings({ignoreUndefinedProperties:true});
 
-
 // ==================== CACHE LAYER ====================
 const CACHE_TTL=5*60*1000;
 const CACHE={get:function(k){try{const r=localStorage.getItem('mh24_c_'+k);if(!r)return null;const obj=JSON.parse(r);if(Date.now()-obj.ts>CACHE_TTL)return null;return obj.data;}catch(e){return null;}},set:function(k,d){try{localStorage.setItem('mh24_c_'+k,JSON.stringify({data:d,ts:Date.now()}));}catch(e){}},clear:function(k){try{localStorage.removeItem('mh24_c_'+k);}catch(e){}}};
