@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>MH24 Delivery</title>
+<meta name="theme-color" content="#ea580c">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;padding-bottom:20px;color:#0f172a;margin:0;overflow-x:hidden}
+*{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+.hidden{display:none!important}
+.premium-shadow{box-shadow:0 4px 24px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.04)}
+.custom-input{width:100%;padding:14px 16px;border:1.5px solid #e5e7eb;border-radius:16px;background:#fff;margin-bottom:14px;font-size:14px;color:#0f172a;font-family:inherit}
+.custom-input:focus{outline:none;border-color:#ea580c;box-shadow:0 0 0 4px rgba(234,88,12,.08)}
+.filter-btn{background:#f1f5f9;color:#64748b;border:2px solid transparent;cursor:pointer;transition:all .2s;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
+.filter-btn.active{background:#ea580c;color:#fff;border-color:#ea580c}
+.cash-warning{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+.cash-amount{font-size:22px;font-weight:800;color:#92400e}
+.btn-call{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;padding:10px;border-radius:12px;font-weight:700;font-size:12px;text-align:center;display:block;text-decoration:none;border:none;cursor:pointer}
+.btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:10px;border-radius:12px;font-weight:700;font-size:12px;text-align:center;display:block;text-decoration:none;border:none;cursor:pointer}
+.btn-map{background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;padding:10px;border-radius:12px;font-weight:700;font-size:12px;text-align:center;display:block;text-decoration:none;border:none;cursor:pointer}
+.btn-deliver{background:linear-gradient(135deg,#15803d,#166534);color:#fff;padding:14px;border-radius:14px;font-weight:800;font-size:14px;text-align:center;width:100%;border:none;cursor:pointer;margin-top:10px}
+.btn-deliver.done{background:#d1fae5;color:#065f46;cursor:not-allowed}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s}
+.modal-backdrop.show{opacity:1;visibility:visible}
+.modal-sheet{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:520px;padding:24px;transform:translateY(100%);transition:transform .3s;max-height:90vh;overflow-y:auto}
+.modal-backdrop.show .modal-sheet{transform:translateY(0)}
+.notif-banner{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-200px);background:linear-gradient(135deg,#15803d,#22c55e);color:#fff;padding:16px 24px;border-radius:20px;font-weight:700;font-size:14px;box-shadow:0 12px 40px rgba(21,128,61,.5);z-index:300;transition:transform .4s;max-width:90%;text-align:center}
+.notif-banner.show{transform:translateX(-50%) translateY(0)}
+.society-header{background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff;padding:12px 18px;border-radius:16px;font-weight:800;font-size:14px;margin:16px 0 12px;box-shadow:0 4px 12px rgba(234,88,12,.3)}
+</style>
+</head>
+<body>
+
+<div id="notifBanner" class="notif-banner"></div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="min-h-screen flex items-center justify-center px-5">
+<div class="w-full max-w-sm">
+<div class="text-center mb-8">
+<div class="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"><span class="text-5xl">🚴</span></div>
+<h1 class="text-[26px] font-extrabold text-gray-900">MH24 Delivery</h1>
+<p class="text-[12px] text-orange-600 font-bold uppercase tracking-widest mt-1">डिलिव्हरी पार्टनर</p>
+</div>
+<div class="bg-white p-6 rounded-3xl premium-shadow">
+<h3 class="font-extrabold text-[16px] text-gray-900 mb-4">🔐 लॉगिन करा</h3>
+<label class="text-[11px] font-bold text-gray-600 uppercase mb-2 block">Password</label>
+<input type="password" id="loginPassword" class="custom-input" placeholder="Password टाका">
+<label class="text-[11px] font-bold text-gray-600 uppercase mb-2 block">तुमचं नाव</label>
+<input type="text" id="loginName" class="custom-input" placeholder="उदा. राहुल">
+<button id="loginBtn" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-2xl font-extrabold text-[15px] shadow-md">🚴 लॉगिन</button>
+<p id="loginError" class="text-red-500 text-[12px] font-bold text-center mt-3 hidden">❌ चुकीचा password!</p>
+</div>
+<p class="text-center text-[10px] text-gray-400 mt-5">MH24 Basket • Delivery Partner App</p>
+</div>
+</div>
+
+<!-- MAIN SCREEN -->
+<div id="mainScreen" class="hidden">
+<header class="bg-gradient-to-r from-orange-500 to-red-600 sticky top-0 z-40 shadow-md">
+<div class="px-4 py-3 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center"><span class="text-xl">🚴</span></div>
+<div>
+<h1 class="text-white font-extrabold text-[17px]">MH24 Delivery</h1>
+<p class="text-orange-100 text-[10px] font-bold" id="headerDate">---</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button id="refreshBtn" class="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">↻</button>
+<button id="logoutBtn" class="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-white text-sm">🚪</button>
+</div>
+</div>
+</header>
+
+<div class="px-4 pt-4 max-w-lg mx-auto">
+
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Total</p>
+<p class="text-2xl font-extrabold mt-0.5" id="statTotal">0</p>
+</div>
+<div class="bg-gradient-to-br from-green-600 to-green-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">✅ Delivered</p>
+<p class="text-2xl font-extrabold mt-0.5" id="statDelivered">0</p>
+</div>
+<div class="bg-gradient-to-br from-amber-500 to-amber-600 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">⏳ Pending</p>
+<p class="text-2xl font-extrabold mt-0.5" id="statPending">0</p>
+</div>
+</div>
+
+<div class="bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-2xl shadow mb-4 text-white flex justify-between items-center">
+<div>
+<p class="text-[10px] font-bold uppercase opacity-90">💵 Total Cash Collection</p>
+<p class="text-2xl font-extrabold mt-0.5">₹<span id="statCash">0</span></p>
+</div>
+<div class="text-3xl">💰</div>
+</div>
+
+<div class="flex gap-2 mb-4 overflow-x-auto pb-1" style="scrollbar-width:none">
+<button data-filter="all" class="filter-btn active">All</button>
+<button data-filter="pending" class="filter-btn">⏳ Pending</button>
+<button data-filter="delivered" class="filter-btn">✅ Delivered</button>
+<button data-filter="cash" class="filter-btn">💵 Cash</button>
+</div>
+
+<div id="ordersList"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
+
+</div>
+</div>
+
+<!-- CASH CONFIRM MODAL -->
+<div id="cashModal" class="modal-backdrop">
+<div class="modal-sheet">
+<div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-4"></div>
+<div class="text-center mb-4">
+<div class="w-20 h-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-4xl">💰</span></div>
+<h3 class="text-[22px] font-extrabold text-gray-900">Cash मिळाला का?</h3>
+<p class="text-[13px] text-gray-500 mt-1" id="cashModalName"></p>
+</div>
+<div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 mb-5 text-center">
+<p class="text-[12px] text-amber-800 font-bold">एकूण Cash Collect करायचा</p>
+<p class="text-4xl font-extrabold text-amber-700 mt-1">₹<span id="cashModalAmount">0</span></p>
+</div>
+<div class="flex gap-3">
+<button id="cashNoBtn" class="flex-1 bg-gray-100 text-gray-700 py-4 rounded-2xl font-bold">❌ नाही</button>
+<button id="cashYesBtn" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-4 rounded-2xl font-bold">✅ हो, मिळाला</button>
+</div>
+</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+<script>// ==================== FIREBASE ====================
+var firebaseConfig={
+  apiKey: "AIzaSyAlRrFaovXjVso2AK_w04jMFa_YHYSo2AK",
+  authDomain: "mh24-basket.firebaseapp.com",
+  projectId: "mh24-basket",
+  storageBucket: "mh24-basket.firebasestorage.app",
+  messagingSenderId: "124229811215",
+  appId: "1:124229811215:web:deebbd7886cb9180a6377a"
+};
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+db.settings({ ignoreUndefinedProperties: true });
+
+// ==================== CONSTANTS ====================
+var DELIVERY_PASSWORD = "D1234five";
+var currentBoy = null;
+var allOrders = [];
+var currentFilter = "all";
+var pendingDeliverOrder = null;
+
+// ==================== HELPERS ====================
+function showNotif(msg, duration){
+  duration = duration || 3500;
+  var b = document.getElementById("notifBanner");
+  b.textContent = msg;
+  b.classList.add("show");
+  setTimeout(function(){ b.classList.remove("show"); }, duration);
+}
+
+function formatQuantity(qty, unitType){
+  qty = Number(qty) || 0;
+  unitType = (unitType || "weight").toLowerCase();
+  if (unitType === "weight" || unitType === "g" || unitType === "kg"){
+    if (qty >= 1000){
+      var kg = qty / 1000;
+      return ((kg % 1 === 0) ? kg.toString() : kg.toFixed(2).replace(/\.?0+$/, "")) + " kg";
+    }
+    return qty + " g";
+  }
+  if (unitType === "volume" || unitType === "ml" || unitType === "l"){
+    if (qty >= 1000){
+      var L = qty / 1000;
+      return ((L % 1 === 0) ? L.toString() : L.toFixed(2).replace(/\.?0+$/, "")) + " L";
+    }
+    return qty + " ml";
+  }
+  if (unitType === "piece") return qty + " नग";
+  if (unitType === "dozen") return qty + " डझन";
+  if (unitType === "bunch") return qty + " पिंडी";
+  if (unitType === "packet") return qty + (qty > 1 ? " packets" : " packet");
+  return qty + " " + (unitType || "");
+}
+
+// ==================== LOGIN ====================
+function checkLogin(){
+  var saved = sessionStorage.getItem("mh24_delivery_boy");
+  if (saved){
+    try {
+      currentBoy = JSON.parse(saved);
+      showMainScreen();
+      return;
+    } catch(e){}
+  }
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("mainScreen").classList.add("hidden");
+}
+
+function doLogin(){
+  var pass = document.getElementById("loginPassword").value.trim();
+  var name = document.getElementById("loginName").value.trim();
+  var errEl = document.getElementById("loginError");
+  if (!pass) { errEl.textContent = "❌ Password टाका!"; errEl.classList.remove("hidden"); return; }
+  if (!name) { errEl.textContent = "❌ तुमचं नाव टाका!"; errEl.classList.remove("hidden"); return; }
+  if (pass !== DELIVERY_PASSWORD){
+    errEl.textContent = "❌ चुकीचा password!";
+    errEl.classList.remove("hidden");
+    return;
+  }
+  currentBoy = { name: name, loginTime: new Date().toISOString() };
+  sessionStorage.setItem("mh24_delivery_boy", JSON.stringify(currentBoy));
+  errEl.classList.add("hidden");
+  showMainScreen();
+  showNotif("✅ स्वागत " + name + "!");
+}
+
+function logout(){
+  if (!confirm("Logout करायचं?")) return;
+  sessionStorage.removeItem("mh24_delivery_boy");
+  currentBoy = null;
+  document.getElementById("loginPassword").value = "";
+  document.getElementById("loginName").value = "";
+  checkLogin();
+}
+
+function showMainScreen(){
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("mainScreen").classList.remove("hidden");
+  var d = new Date();
+  var dayNames = ["रविवार","सोमवार","मंगळवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
+  document.getElementById("headerDate").textContent = dayNames[d.getDay()] + " • " + d.toLocaleDateString("mr-IN");
+  loadOrders();
+}
+
+// ==================== LOAD ORDERS ====================
+async function loadOrders(){
+  var container = document.getElementById("ordersList");
+  container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>लोड होत आहे...</p>";
+  try {
+    var todayStart = new Date();
+    todayStart.setHours(0,0,0,0);
+    var snap = await db.collection("orders").orderBy("createdAt", "desc").limit(100).get();
+    allOrders = [];
+    snap.forEach(function(doc){
+      var o = doc.data();
+      if (!o.createdAt || !o.createdAt.seconds) return;
+      var created = new Date(o.createdAt.seconds * 1000);
+      // आजचे + उद्याचे orders दाखवा
+      var ageHours = (new Date() - created) / (1000 * 60 * 60);
+      if (ageHours > 48) return;
+      if (o.status === "cancelled") return;
+      allOrders.push(Object.assign({ id: doc.id }, o, { _created: created }));
+    });
+    renderOrders();
+  } catch(e){
+    console.error(e);
+    container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली: " + e.message + "</p>";
+  }
+}
+
+// ==================== RENDER ORDERS ====================
+function renderOrders(){
+  var container = document.getElementById("ordersList");
+  var filtered = allOrders.slice();
+  if (currentFilter === "pending") filtered = filtered.filter(function(o){ return o.status !== "delivered"; });
+  else if (currentFilter === "delivered") filtered = filtered.filter(function(o){ return o.status === "delivered"; });
+  else if (currentFilter === "cash") filtered = filtered.filter(function(o){ return (o.cashAmount || 0) > 0 && o.status !== "delivered"; });
+  
+  // Stats
+  var totalCount = allOrders.length;
+  var deliveredCount = allOrders.filter(function(o){ return o.status === "delivered"; }).length;
+  var pendingCount = totalCount - deliveredCount;
+  var totalCash = 0;
+  allOrders.forEach(function(o){
+    if (o.status !== "delivered" && (o.cashAmount || 0) > 0) totalCash += o.cashAmount || 0;
+  });
+  document.getElementById("statTotal").textContent = totalCount;
+  document.getElementById("statDelivered").textContent = deliveredCount;
+  document.getElementById("statPending").textContent = pendingCount;
+  document.getElementById("statCash").textContent = totalCash;
+
+  if (filtered.length === 0){
+    container.innerHTML = "<div class='text-center py-10 bg-white rounded-3xl premium-shadow'><p class='text-gray-500 font-semibold text-sm'>कोणतेही orders नाहीत.</p></div>";
+    return;
+  }
+
+  // Sort by society
+  filtered.sort(function(a,b){
+    var s = (a.society || "").localeCompare(b.society || "");
+    if (s !== 0) return s;
+    return (a._created < b._created) ? 1 : -1;
+  });
+
+  var html = "";
+  var lastSociety = "";
+  for (var i = 0; i < filtered.length; i++){
+    var o = filtered[i];
+    var soc = o.society || "इतर (No Society)";
+    if (soc !== lastSociety){
+      var count = 0;
+      for (var x = 0; x < filtered.length; x++) if ((filtered[x].society || "इतर (No Society)") === soc) count++;
+      html += "<div class='society-header'>🏘️ " + soc + " <span style='float:right;background:rgba(255,255,255,.25);padding:2px 10px;border-radius:20px;font-size:12px'>" + count + "</span></div>";
+      lastSociety = soc;
+    }
+    html += buildOrderCard(o);
+  }
+  container.innerHTML = html;
+}
+
+function buildOrderCard(o){
+  var isDelivered = o.status === "delivered";
+  var isCash = (o.cashAmount || 0) > 0;
+  var isPending = (o.pendingAmount || 0) > 0;
+  var items = [];
+  var pendingItems = o.pendingItems || [];
+  var cashItems = o.cashItems || [];
+  for (var i = 0; i < pendingItems.length; i++){
+    items.push({ label: "🕐 " + pendingItems[i].marathi, qty: pendingItems[i].displayUnit || pendingItems[i].unit, price: pendingItems[i].total });
+  }
+  for (var j = 0; j < cashItems.length; j++){
+    items.push({ label: "💵 " + cashItems[j].marathi, qty: cashItems[j].displayUnit || cashItems[j].unit, price: cashItems[j].total });
+  }
+  var itemsHTML = "";
+  for (var k = 0; k < items.length; k++){
+    itemsHTML += "<div class='flex justify-between text-[12px] py-1 border-b border-gray-100 last:border-0'><span class='text-gray-700'>" + items[k].label + " <span class='text-gray-400'>(" + items[k].qty + ")</span></span><span class='font-bold text-gray-800'>₹" + items[k].price + "</span></div>";
+  }
+
+  var totalAmount = (o.pendingAmount || 0) + (o.cashAmount || 0);
+  var timeStr = o._created.toLocaleTimeString("mr-IN", { hour: "2-digit", minute: "2-digit" });
+  var phone = o.customerPhone || "";
+  var address = o.address || "";
+  var mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
+  var waUrl = "https://wa.me/91" + phone.replace(/[^0-9]/g, "") + "?text=" + encodeURIComponent("नमस्कार " + o.customerName + ", MH24 Basket वरून आलो आहोत.");
+
+  var statusBadge = "";
+  if (isDelivered) statusBadge = "<span class='bg-green-100 text-green-700 text-[10px] font-extrabold px-2 py-1 rounded-full'>✅ Delivered</span>";
+  else if (isCash) statusBadge = "<span class='bg-amber-100 text-amber-700 text-[10px] font-extrabold px-2 py-1 rounded-full'>💵 Cash Bill</span>";
+  else statusBadge = "<span class='bg-blue-100 text-blue-700 text-[10px] font-extrabold px-2 py-1 rounded-full'>🕐 Pending</span>";
+
+  var cashBox = "";
+  if (isCash && !isDelivered){
+    cashBox = "<div class='cash-warning'><div><p class='text-[10px] font-bold text-amber-800'>💵 CASH COLLECT करायचा</p><p class='cash-amount'>₹" + o.cashAmount + "</p></div><span class='text-3xl'>💰</span></div>";
+  }
+
+  var deliverBtn = "";
+  if (isDelivered){
+    deliverBtn = "<button class='btn-deliver done' disabled>✅ Delivered (" + (o.deliveredAt ? new Date(o.deliveredAt.seconds * 1000).toLocaleTimeString("mr-IN", {hour:"2-digit",minute:"2-digit"}) : "") + ")</button>";
+  } else {
+    deliverBtn = "<button class='btn-deliver' data-deliver='" + o.id + "' data-cash='" + (o.cashAmount || 0) + "' data-name='" + o.customerName + "'>✅ Delivered Mark करा</button>";
+  }
+
+  return "<div class='bg-white p-4 rounded-2xl premium-shadow mb-3 border-l-4 " + (isDelivered ? "border-green-500" : (isCash ? "border-amber-500" : "border-blue-500")) + "'>" +
+    "<div class='flex justify-between items-start mb-2'><div class='flex-1 min-w-0'><p class='font-extrabold text-[15px] text-gray-900 truncate'>👤 " + o.customerName + "</p><p class='text-[11px] text-gray-500 mt-0.5'>📞 " + phone + " • 🏠 Flat " + (o.flat || "-") + "</p><p class='text-[10px] text-gray-400 mt-0.5'>🕐 " + timeStr + "</p></div><div>" + statusBadge + "</div></div>" +
+    "<div class='bg-gray-50 p-3 rounded-xl mb-2'>" + (itemsHTML || "<p class='text-[11px] text-gray-400 text-center py-1'>Items नाहीत</p>") + "<div class='flex justify-between text-[13px] pt-2 mt-1 border-t-2 border-gray-200'><span class='font-bold text-gray-800'>Total</span><span class='font-extrabold text-gray-900'>₹" + totalAmount + "</span></div></div>" +
+    cashBox +
+    "<div class='grid grid-cols-3 gap-2 mb-2'><a href='tel:" + phone + "' class='btn-call'>📞 Call</a><a href='" + waUrl + "' target='_blank' class='btn-wa'>💬 WA</a><a href='" + mapUrl + "' target='_blank' class='btn-map'>🗺️ Map</a></div>" +
+    deliverBtn +
+    "</div>";
+}
+
+// ==================== DELIVER ACTION ====================
+function markDelivered(orderId){
+  var o = null;
+  for (var i = 0; i < allOrders.length; i++) if (allOrders[i].id === orderId){ o = allOrders[i]; break; }
+  if (!o) return;
+  var isCash = (o.cashAmount || 0) > 0;
+  if (isCash){
+    pendingDeliverOrder = o;
+    document.getElementById("cashModalName").textContent = o.customerName + " • " + o.phone;
+    document.getElementById("cashModalAmount").textContent = o.cashAmount || 0;
+    document.getElementById("cashModal").classList.add("show");
+  } else {
+    confirmDelivered(orderId, false);
+  }
+}
+
+function closeCashModal(){
+  document.getElementById("cashModal").classList.remove("show");
+  pendingDeliverOrder = null;
+}
+
+function confirmCashReceived(){
+  if (!pendingDeliverOrder) return;
+  var id = pendingDeliverOrder.id;
+  closeCashModal();
+  confirmDelivered(id, true);
+}
+
+async function confirmDelivered(orderId, cashCollected){
+  try {
+    var updates = {
+      status: "delivered",
+      deliveredAt: new Date(),
+      deliveredBy: currentBoy ? currentBoy.name : "Unknown"
+    };
+    if (cashCollected){
+      updates.cashCollected = true;
+      updates.cashCollectedAt = new Date();
+      updates.cashCollectedBy = currentBoy ? currentBoy.name : "Unknown";
+    }
+    await db.collection("orders").doc(orderId).update(updates);
+    showNotif("✅ Delivered!");
+    loadOrders();
+  } catch(e){
+    alert("एरर: " + e.message);
+  }
+}
+
+// ==================== EVENT LISTENERS ====================
+document.addEventListener("click", function(e){
+  var t = e.target;
+  var deliverBtn = t.closest("[data-deliver]");
+  if (deliverBtn){
+    var id = deliverBtn.getAttribute("data-deliver");
+    var cash = parseInt(deliverBtn.getAttribute("data-cash")) || 0;
+    if (cash > 0){
+      var o = null;
+      for (var i = 0; i < allOrders.length; i++) if (allOrders[i].id === id){ o = allOrders[i]; break; }
+      if (o){
+        pendingDeliverOrder = o;
+        document.getElementById("cashModalName").textContent = o.customerName + " • " + o.customerPhone;
+        document.getElementById("cashModalAmount").textContent = o.cashAmount || 0;
+        document.getElementById("cashModal").classList.add("show");
+      }
+    } else {
+      confirmDelivered(id, false);
+    }
+    return;
+  }
+  var fBtn = t.closest("[data-filter]");
+  if (fBtn){
+    currentFilter = fBtn.getAttribute("data-filter");
+    var allF = document.querySelectorAll("[data-filter]");
+    for (var fi = 0; fi < allF.length; fi++) allF[fi].classList.remove("active");
+    fBtn.classList.add("active");
+    renderOrders();
+    return;
+  }
+});
+
+// ==================== BIND EVENTS ====================
+document.getElementById("loginBtn").addEventListener("click", doLogin);
+document.getElementById("loginPassword").addEventListener("keypress", function(e){ if (e.key === "Enter") doLogin(); });
+document.getElementById("loginName").addEventListener("keypress", function(e){ if (e.key === "Enter") doLogin(); });
+document.getElementById("refreshBtn").addEventListener("click", function(){ loadOrders(); showNotif("🔄 Refresh झालं!"); });
+document.getElementById("logoutBtn").addEventListener("click", logout);
+document.getElementById("cashYesBtn").addEventListener("click", confirmCashReceived);
+document.getElementById("cashNoBtn").addEventListener("click", function(){
+  closeCashModal();
+  showNotif("💵 Cash नाही मिळाला. Order pending आहे.", 3000);
+});
+document.getElementById("cashModal").addEventListener("click", function(e){
+  if (e.target === this) closeCashModal();
+});
+
+// ==================== STARTUP ====================
+checkLogin();
+</script>
+</body>
+</html>
