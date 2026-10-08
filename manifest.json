@@ -1,0 +1,25 @@
+{
+  "name": "MH24 Basket - Fresh Vegetables",
+  "short_name": "MH24 Basket",
+  "description": "ताजी भाजी आणि फळे घरपोच - लातूर",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#15803d",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
