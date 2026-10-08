@@ -1850,6 +1850,12 @@ async function saveProfile(){
   } catch(e){ console.error("Customer save error:", e); }
   showToast("प्रोफाइल सेव्ह! ✅", "success");
 }
+if (urlReferralCode) {
+  urlReferralCode = null;
+  try { history.replaceState(null, null, window.location.pathname); } catch(e){}
+  var entryBox = document.getElementById("refCodeEntry");
+  if (entryBox) entryBox.classList.add("hidden");
+}
 
 function editProfile(){
   document.getElementById("profileForm").classList.remove("hidden");
