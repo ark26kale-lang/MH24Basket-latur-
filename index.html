@@ -1778,7 +1778,13 @@ async function confirmAndSend(){
         showNotifyBanner("🎁 आठवडा मोफत मिळाला!");
       } else {
         showToast("ऑर्डर पाठवली! ✅", "success");
-      }
+      }// Clean referral URL after save
+if (urlReferralCode) {
+  urlReferralCode = null;
+  try { history.replaceState(null, null, window.location.pathname); } catch(e){}
+  var entryBox = document.getElementById("refCodeEntry");
+  if (entryBox) entryBox.classList.add("hidden");
+}
       navigateTo("view-success");
     }, 500);
   } catch(e){
