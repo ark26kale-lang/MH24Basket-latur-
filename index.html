@@ -3178,22 +3178,34 @@ function bindAllEvents(){
 
 // ==================== REFERRAL FUNCTIONS ====================
 async function loadReferEarnPage(){
-if (!userProfile || !userProfile.phone){ alert("आधी प्रोफाइल सेव्ह करा!"); navigateTo("view-profile"); return; }
-// ✅ Code लगेच generate करा
-var myCode = generateReferralCode(userProfile.name, userProfile.phone);
-document.getElementById("myRefCode").textContent = myCode;
-// Firestore मधून data fetch
+if (!userProfile || !userProfile.phone){
+alert("आधी प्रोफाइल सेव्ह करा!");
+navigateTo("view-profile");
+return;
+}
+// Code generate - अगदी सोपा
+var nmPart = "CUS";
+if (userProfile.name){
+var nm = userProfile.name.toString().replace(/[^A-Za-z]/g, "").toUpperCase();
+if (nm.length >= 3) nmPart = nm.substring(0, 3);
+}
+var phPart = "000";
+if (userProfile.phone){
+var ph = userProfile.phone.toString();
+if (ph.length >= 3) phPart = ph.slice(-3);
+}
+var myCode = nmPart + phPart;
+// लगेच Display करा
+var codeEl = document.getElementById("myRefCode");
+if (codeEl) codeEl.textContent = myCode;
+// Firestore background मध्ये
 try {
 var myDoc = await db.collection("customers").doc(userProfile.phone).get();
 var myData = {};
 if (myDoc.exists){
 myData = myDoc.data();
-if (myData.referralCode){
-myCode = myData.referralCode;
-document.getElementById("myRefCode").textContent = myCode;
-} else {
-await db.collection("customers").doc(userProfile.phone).update({ referralCode: myCode });
-}
+if (myData.referralCode) codeEl.textContent = myData.referralCode;
+else await db.collection("customers").doc(userProfile.phone).update({ referralCode: myCode });
 } else {
 await db.collection("customers").doc(userProfile.phone).set({
 name: userProfile.name, phone: userProfile.phone,
@@ -3233,8 +3245,8 @@ html += "<div class='bg-gray-50 p-3 rounded-2xl border border-gray-100 mb-2'><p 
 }
 container.innerHTML = html;
 } catch(e) {
-console.error(e);
-// Code आधीच display झाला आहे - काही नको
+console.log("Referral error:", e);
+}
 }
 
 function shareReferralCode(){
