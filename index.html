@@ -47,8 +47,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 .divider{height:1px;background:linear-gradient(90deg,transparent,#e2e8f0,transparent);margin:14px 0}
 .variant-btn{padding:10px 16px;border:2px solid #e5e7eb;border-radius:14px;background:#fff;font-weight:700;font-size:13px;color:#475569}
 .variant-btn.active{border-color:#15803d;background:#f0fdf4;color:#15803d}
-.mode-toggle{flex:1;padding:10px;border-radius:14px;font-weight:700;font-size:13px;border:2px solid transparent;background:#f1f5f9;color:#64748b}
-.mode-toggle.active{background:#fff;color:#15803d;border-color:#15803d}
 .bill-toggle{flex:1;padding:12px;border-radius:14px;font-weight:700;font-size:13px;border:2px solid transparent;background:#f1f5f9;color:#64748b}
 .bill-toggle.active-pending{background:#fef3c7;color:#92400e;border-color:#f59e0b}
 .bill-toggle.active-cash{background:#d1fae5;color:#065f46;border-color:#10b981}
@@ -56,6 +54,8 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 .modal-backdrop.show{opacity:1;visibility:visible}
 .modal-sheet{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:520px;padding:24px;transform:translateY(100%);transition:transform .3s;max-height:90vh;overflow-y:auto}
 .modal-backdrop.show .modal-sheet{transform:translateY(0)}
+.cust-filter-btn{background:#f1f5f9;color:#64748b;border:2px solid transparent;cursor:pointer;transition:all .2s}
+.cust-filter-btn.active{background:#15803d;color:#fff;border-color:#15803d}
 </style>
 </head>
 <body>
@@ -433,6 +433,10 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div><h3 class="text-white premium-title text-lg">📊 Dashboard</h3><p class="text-blue-100 text-[11px] mt-0.5">Sales • Profit • Report</p></div>
 <div class="text-white text-2xl">📈</div>
 </div>
+<div id="adminCustomersBtn" class="bg-gradient-to-br from-indigo-600 to-purple-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
+<div><h3 class="text-white premium-title text-lg">👥 Customers</h3><p class="text-indigo-100 text-[11px] mt-0.5">सर्व ग्राहक लिस्ट • Block / Unblock</p></div>
+<div class="text-white text-2xl">👥</div>
+</div>
 <div id="adminNotifyBtn" class="bg-gradient-to-br from-purple-600 to-pink-600 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
 <div><h3 class="text-white premium-title text-lg">🔔 Society Notification</h3><p class="text-purple-100 text-[11px] mt-0.5">WhatsApp पाठवा</p></div>
 <div class="text-white text-2xl">📢</div>
@@ -554,6 +558,37 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-4"><h3 class="premium-title text-gray-800 mb-3 text-lg">🏘️ Society-wise विक्री</h3><div id="dashSocietyStats" class="space-y-2"></div></div>
 </div>
 
+<div id="view-admin-customers" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-5">
+<button class="back-btn bg-white w-10 h-10 rounded-full premium-shadow border border-gray-200 flex items-center justify-center">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 class="premium-title text-[22px] text-gray-900">👥 Customers</h2>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Total</p>
+<p class="text-2xl font-extrabold mt-0.5" id="custTotalCount">0</p>
+</div>
+<div class="bg-gradient-to-br from-green-600 to-green-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">✅ Real</p>
+<p class="text-2xl font-extrabold mt-0.5" id="custRealCount">0</p>
+</div>
+<div class="bg-gradient-to-br from-red-600 to-red-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">🚫 Blocked</p>
+<p class="text-2xl font-extrabold mt-0.5" id="custBlockedCount">0</p>
+</div>
+</div>
+<input type="text" id="custSearch" placeholder="🔍 Search name / phone / flat..." class="custom-input mb-3">
+<div class="flex gap-2 mb-4 overflow-x-auto pb-1" style="scrollbar-width:none">
+<button data-cust-filter="all" class="cust-filter-btn active px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">All</button>
+<button data-cust-filter="real" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">✅ Real</button>
+<button data-cust-filter="new" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">🟡 New</button>
+<button data-cust-filter="blocked" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">🚫 Blocked</button>
+</div>
+<div id="customerListContent"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
+</div>
+
 <div id="view-admin-notify" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-5">
 <button class="back-btn bg-white w-10 h-10 rounded-full premium-shadow border border-gray-200 flex items-center justify-center">
@@ -652,6 +687,8 @@ db.settings({ ignoreUndefinedProperties: true });
 var products = [];
 var services = [];
 var customCategories = [];
+var allCustomers = [];
+var currentCustFilter = "all";
 var userProfile = JSON.parse(localStorage.getItem("mh24_user")) || null;
 var cart = JSON.parse(localStorage.getItem("mh24_cart")) || [];
 var weeklyPlan = JSON.parse(localStorage.getItem("mh24_weekly_plan")) || {};
@@ -679,7 +716,7 @@ var viewStack = [];
 var currentView = "view-home";
 var isNavigatingBack = false;
 
-var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-about-us","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
+var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-about-us","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
 
 // ==================== NAVIGATION ====================
 function navigateTo(viewId){
@@ -862,6 +899,15 @@ function normalizeProduct(p){
   p.mrpPerBaseUnit = p.mrpForMin / p.minQuantity;
   p.costPerBaseUnit = p.costPriceForMin / p.minQuantity;
   return p;
+}
+
+// ==================== BLOCK CHECK ====================
+async function isCustomerBlocked(phone){
+  try {
+    var doc = await db.collection("customers").doc(phone).get();
+    if (doc.exists && doc.data().isBlocked === true) return true;
+    return false;
+  } catch(e){ return false; }
 }
 
 // ==================== CART ====================
@@ -1314,13 +1360,18 @@ function removeItemByKey(cartKey){
 }
 
 // ==================== CONFIRM ORDER ====================
-function openConfirmModal(){
+async function openConfirmModal(){
   if (!userProfile || !userProfile.name || !userProfile.phone || !userProfile.address){
     alert("आधी प्रोफाइल सेव्ह करा!");
     navigateTo("view-profile");
     return;
   }
   if (cart.length === 0){ alert("बास्केट रिकामी!"); return; }
+  var blocked = await isCustomerBlocked(userProfile.phone);
+  if (blocked){
+    alert("🚫 तुमचं खातं block केलं आहे.\n\nकृपया WhatsApp वर संपर्क करा:\n9503816596");
+    return;
+  }
   var totals = calcCartTotals();
   var html = "<div class='bg-gray-50 rounded-2xl p-4 space-y-2'>";
   html += "<div class='flex justify-between text-[13px]'><span class='text-gray-600'>एकूण items</span><span class='font-bold'>" + cart.length + "</span></div>";
@@ -1412,6 +1463,31 @@ async function confirmAndSend(){
       createdAt: new Date()
     });
     localStorage.setItem("mh24_last_order_id", orderRef.id);
+    // Customer stats update
+    try {
+      var custRef = db.collection("customers").doc(userProfile.phone);
+      var custDoc = await custRef.get();
+      var amt = pendingTotal + cashTotal;
+      if (custDoc.exists){
+        var cd = custDoc.data();
+        await custRef.update({
+          orderCount: (cd.orderCount || 0) + 1,
+          totalSpent: (cd.totalSpent || 0) + amt,
+          lastOrderAt: new Date(),
+          updatedAt: new Date()
+        });
+      } else {
+        await custRef.set({
+          name: userProfile.name, phone: userProfile.phone,
+          society: userProfile.society || "", flat: userProfile.flat || "",
+          address: userProfile.address || "",
+          isBlocked: false, blockedAt: null, blockedReason: "",
+          orderCount: 1, totalSpent: amt,
+          lastOrderAt: new Date(),
+          createdAt: new Date(), updatedAt: new Date()
+        });
+      }
+    } catch(e){ console.error("Customer update error:", e); }
     window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + m, "_blank");
     setTimeout(function(){
       cart = [];
@@ -1427,7 +1503,7 @@ async function confirmAndSend(){
 }
 
 // ==================== PROFILE ====================
-function saveProfile(){
+async function saveProfile(){
   var name = document.getElementById("custName").value.trim();
   var phone = document.getElementById("custPhone").value.trim();
   var society = document.getElementById("custSociety").value.trim();
@@ -1439,6 +1515,23 @@ function saveProfile(){
   userProfile = { name: name, phone: phone, society: society, flat: flat, address: address, notes: notes };
   localStorage.setItem("mh24_user", JSON.stringify(userProfile));
   renderProfile();
+  try {
+    var custRef = db.collection("customers").doc(phone);
+    var existing = await custRef.get();
+    if (!existing.exists){
+      await custRef.set({
+        name: name, phone: phone, society: society, flat: flat, address: address,
+        isBlocked: false, blockedAt: null, blockedReason: "",
+        orderCount: 0, totalSpent: 0, lastOrderAt: null,
+        createdAt: new Date(), updatedAt: new Date()
+      });
+    } else {
+      await custRef.update({
+        name: name, society: society, flat: flat, address: address,
+        updatedAt: new Date()
+      });
+    }
+  } catch(e){ console.error("Customer save error:", e); }
   showToast("प्रोफाइल सेव्ह! ✅", "success");
 }
 
@@ -1799,6 +1892,150 @@ async function loadDashboardStats(){
   } catch(e){ console.error(e); alert("Dashboard एरर: " + e.message); }
 }
 
+// ==================== ADMIN CUSTOMERS ====================
+async function loadCustomersPage(){
+  var container = document.getElementById("customerListContent");
+  container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>लोड होत आहे...</p>";
+  try {
+    var custSnap = await db.collection("customers").get();
+    var orderSnap = await db.collection("orders").get();
+    var map = {};
+    custSnap.forEach(function(doc){
+      var c = doc.data();
+      map[doc.id] = {
+        phone: doc.id,
+        name: c.name || "Unknown",
+        society: c.society || "इतर",
+        flat: c.flat || "-",
+        address: c.address || "",
+        isBlocked: c.isBlocked === true,
+        orderCount: c.orderCount || 0,
+        totalSpent: c.totalSpent || 0,
+        lastOrderAt: c.lastOrderAt,
+        source: "profile"
+      };
+    });
+    orderSnap.forEach(function(doc){
+      var o = doc.data();
+      var ph = o.customerPhone;
+      if (!ph) return;
+      if (!map[ph]){
+        map[ph] = {
+          phone: ph,
+          name: o.customerName || "Unknown",
+          society: o.society || "इतर",
+          flat: o.flat || "-",
+          address: o.address || "",
+          isBlocked: false,
+          orderCount: 0,
+          totalSpent: 0,
+          lastOrderAt: null,
+          source: "order"
+        };
+      }
+    });
+    orderSnap.forEach(function(doc){
+      var o = doc.data();
+      var ph = o.customerPhone;
+      if (!ph || !map[ph]) return;
+      if (map[ph].source === "order"){
+        map[ph].orderCount++;
+        map[ph].totalSpent += (o.pendingAmount || 0) + (o.cashAmount || 0);
+      }
+    });
+    allCustomers = Object.keys(map).map(function(k){ return map[k]; });
+    allCustomers.sort(function(a,b){
+      var s = (a.society || "").localeCompare(b.society || "");
+      if (s !== 0) return s;
+      return (b.orderCount || 0) - (a.orderCount || 0);
+    });
+    renderCustomersList();
+  } catch(e){
+    console.error(e);
+    container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली: " + e.message + "</p>";
+  }
+}
+
+function renderCustomersList(){
+  var container = document.getElementById("customerListContent");
+  if (!container) return;
+  var q = (document.getElementById("custSearch").value || "").toLowerCase().trim();
+  var list = allCustomers.slice();
+  if (currentCustFilter === "real") list = list.filter(function(c){ return c.orderCount > 0 && !c.isBlocked; });
+  else if (currentCustFilter === "new") list = list.filter(function(c){ return c.orderCount === 0 && !c.isBlocked; });
+  else if (currentCustFilter === "blocked") list = list.filter(function(c){ return c.isBlocked; });
+  if (q){
+    list = list.filter(function(c){
+      return (c.name || "").toLowerCase().indexOf(q) > -1 ||
+             (c.phone || "").indexOf(q) > -1 ||
+             (c.flat || "").toLowerCase().indexOf(q) > -1;
+    });
+  }
+  document.getElementById("custTotalCount").textContent = allCustomers.length;
+  document.getElementById("custRealCount").textContent = allCustomers.filter(function(c){ return c.orderCount > 0 && !c.isBlocked; }).length;
+  document.getElementById("custBlockedCount").textContent = allCustomers.filter(function(c){ return c.isBlocked; }).length;
+  if (list.length === 0){
+    container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>कोणताही customer सापडला नाही.</p>";
+    return;
+  }
+  var html = "";
+  var lastSoc = "";
+  for (var i = 0; i < list.length; i++){
+    var c = list[i];
+    if (c.society !== lastSoc){
+      if (lastSoc !== "") html += "</div>";
+      lastSoc = c.society;
+      var count = 0;
+      for (var x = 0; x < list.length; x++) if (list[x].society === c.society) count++;
+      html += "<div class='mb-3'><div class='bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2.5 rounded-2xl shadow-md mb-3 flex justify-between items-center'><h3 class='font-extrabold text-[13px]'>🏘️ " + c.society + "</h3><span class='text-[10px] bg-white/25 px-2 py-0.5 rounded-full font-bold'>" + count + "</span></div>";
+    }
+    var badge = "";
+    if (c.isBlocked) badge = "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🚫 BLOCKED</span>";
+    else if (c.orderCount > 0) badge = "<span class='bg-green-100 text-green-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>✅ REAL</span>";
+    else badge = "<span class='bg-yellow-100 text-yellow-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🟡 NEW</span>";
+    var srcBadge = c.source === "order" ? "<span class='bg-gray-100 text-gray-600 text-[9px] font-bold px-2 py-0.5 rounded-full ml-1'>Guest</span>" : "";
+    html += "<div class='bg-white p-3 rounded-2xl premium-shadow border border-gray-100 mb-2'><div class='flex items-center gap-3 mb-2'><div class='w-10 h-10 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-lg shrink-0'>👤</div><div class='min-w-0 flex-1'><p class='font-extrabold text-[14px] text-gray-900 truncate'>" + c.name + "</p><p class='text-[11px] text-gray-500 truncate'>📞 " + c.phone + " • 🏠 " + c.flat + "</p><div class='flex gap-1 mt-1 flex-wrap'>" + badge + srcBadge + "</div></div></div>";
+    if (c.orderCount > 0){
+      html += "<div class='grid grid-cols-2 gap-2 mb-2'><div class='bg-green-50 p-2 rounded-xl border border-green-200 text-center'><p class='text-[9px] text-green-700 font-bold'>📦 Orders</p><p class='font-extrabold text-green-800 text-[14px]'>" + c.orderCount + "</p></div><div class='bg-blue-50 p-2 rounded-xl border border-blue-200 text-center'><p class='text-[9px] text-blue-700 font-bold'>💰 Total</p><p class='font-extrabold text-blue-800 text-[14px]'>₹" + c.totalSpent + "</p></div></div>";
+    }
+    html += "<div class='flex gap-2'>";
+    html += "<a href='https://wa.me/91" + c.phone + "' target='_blank' class='flex-1 text-center bg-green-50 text-green-700 py-2 rounded-xl text-[11px] font-bold'>💬 Chat</a>";
+    html += "<a href='tel:" + c.phone + "' class='flex-1 text-center bg-blue-50 text-blue-700 py-2 rounded-xl text-[11px] font-bold'>📞 Call</a>";
+    if (c.isBlocked){
+      html += "<button data-unblock='" + c.phone + "' class='flex-1 bg-emerald-50 text-emerald-700 py-2 rounded-xl text-[11px] font-bold'>✅ Unblock</button>";
+    } else {
+      html += "<button data-block='" + c.phone + "' data-block-name='" + c.name + "' class='flex-1 bg-red-50 text-red-700 py-2 rounded-xl text-[11px] font-bold'>🚫 Block</button>";
+    }
+    html += "</div></div>";
+  }
+  if (lastSoc !== "") html += "</div>";
+  container.innerHTML = html;
+}
+
+async function blockCustomer(phone, name){
+  if (!confirm("🚫 " + name + " यांना block करायचं?\n\nहे customer order देऊ शकणार नाहीत.")) return;
+  try {
+    await db.collection("customers").doc(phone).set({
+      isBlocked: true,
+      blockedAt: new Date(),
+      blockedReason: "Admin blocked"
+    }, { merge: true });
+    showToast("🚫 Blocked!", "warn");
+    loadCustomersPage();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+async function unblockCustomer(phone){
+  if (!confirm("✅ Unblock करायचं?")) return;
+  try {
+    await db.collection("customers").doc(phone).set({
+      isBlocked: false, blockedAt: null, blockedReason: ""
+    }, { merge: true });
+    showToast("✅ Unblocked!", "success");
+    loadCustomersPage();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
 // ==================== ADMIN BILLS ====================
 var adminBillsLastDoc = null;
 var adminBillsCustomersMap = {};
@@ -2035,6 +2272,7 @@ function cancelEdit(){
   document.getElementById("prodImage").value = "";
   document.getElementById("prodRating").value = "4.5";
   document.getElementById("prodIsBestDeal").checked = false;
+  document.getElementById("prodCostPrice").value = "";
   autoFillUnitDefaults();
 }
 
@@ -2047,7 +2285,6 @@ async function addProduct(){
   var img = document.getElementById("prodImage").value || "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80";
   var isBestDeal = document.getElementById("prodIsBestDeal").checked;
   if (!n || !m) return alert("नाव भरा!");
-
   var unitType = document.getElementById("prodUnitType").value;
   var minQty = parseFloat(document.getElementById("prodMinQty").value);
   var stepQty = parseFloat(document.getElementById("prodStepQty").value);
@@ -2360,6 +2597,19 @@ document.addEventListener("click", function(e){
   if (nBtn){ sendNotificationToOne(nBtn.getAttribute("data-notify-one")); return; }
   var pTap = t.closest("[data-poster]");
   if (pTap){ var num = pTap.getAttribute("data-poster"); jumpToTarget(posterConfigs[num] || "other"); return; }
+  var blockBtn = t.closest("[data-block]");
+  if (blockBtn){ blockCustomer(blockBtn.getAttribute("data-block"), blockBtn.getAttribute("data-block-name")); return; }
+  var unblockBtn = t.closest("[data-unblock]");
+  if (unblockBtn){ unblockCustomer(unblockBtn.getAttribute("data-unblock")); return; }
+  var custF = t.closest("[data-cust-filter]");
+  if (custF){
+    currentCustFilter = custF.getAttribute("data-cust-filter");
+    var allF = document.querySelectorAll(".cust-filter-btn");
+    for (var fi = 0; fi < allF.length; fi++) allF[fi].classList.remove("active");
+    custF.classList.add("active");
+    renderCustomersList();
+    return;
+  }
 });
 
 function bindAllEvents(){
@@ -2385,6 +2635,7 @@ function bindAllEvents(){
   document.getElementById("saveServBtn").addEventListener("click", addServiceFromForm);
   document.getElementById("adminBillsBtn").addEventListener("click", function(){ navigateTo("view-admin-bills"); loadCustomerBills(true); });
   document.getElementById("adminDashBtn").addEventListener("click", function(){ navigateTo("view-admin-dashboard"); loadDashboardStats(); });
+  document.getElementById("adminCustomersBtn").addEventListener("click", function(){ navigateTo("view-admin-customers"); loadCustomersPage(); });
   document.getElementById("adminNotifyBtn").addEventListener("click", function(){ navigateTo("view-admin-notify"); loadSocietyList(); });
   document.getElementById("adminProductsBtn").addEventListener("click", function(){ navigateTo("view-admin-products"); renderAdminProductsByCategory(); });
   document.getElementById("adminCatsBtn").addEventListener("click", function(){ navigateTo("view-admin-categories"); renderAdminCategoriesPage(); });
@@ -2399,6 +2650,7 @@ function bindAllEvents(){
   document.getElementById("loadMoreBillsBtn").addEventListener("click", function(){ loadCustomerBills(false); });
   document.getElementById("sendBulkBtn").addEventListener("click", sendBulkNotification);
   document.getElementById("notifySocietySelect").addEventListener("change", loadSocietyCustomers);
+  document.getElementById("custSearch").addEventListener("input", renderCustomersList);
 }
 
 // ==================== STARTUP ====================
@@ -2421,7 +2673,6 @@ if (adminToken){
   if (ab) ab.classList.remove("hidden");
 }
 
-// Carousel dots update
 var carousel = document.getElementById("posterCarousel");
 if (carousel){
   carousel.addEventListener("scroll", function(){
