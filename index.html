@@ -33,10 +33,9 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 .h-scroll>*{flex-shrink:0}
 .btn-primary{background:linear-gradient(135deg,#15803d,#166534);color:#fff;font-weight:700;border-radius:16px;padding:16px;box-shadow:0 4px 16px rgba(21,128,61,.25);border:none;font-size:16px;width:100%}
 .btn-whatsapp{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:700;border-radius:16px;padding:16px;box-shadow:0 4px 16px rgba(37,211,102,.3);border:none;font-size:16px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
-.product-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #f1f5f9;position:relative;box-shadow:0 2px 12px rgba(15,23,42,.04)}
 .product-card-grid2{background:#fff;border-radius:20px;overflow:hidden;border:1px solid #f1f5f9;position:relative;box-shadow:0 2px 12px rgba(15,23,42,.04)}
 .badge-save{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:9px;font-weight:800;padding:3px 6px;border-radius:6px;position:absolute;top:6px;left:6px;box-shadow:0 2px 6px rgba(239,68,68,.35);letter-spacing:.02em;z-index:2}
-.product-tile{background:#fff;border-radius:16px;border:1px solid #f1f5f9;overflow:hidden;cursor:pointer;box-shadow:0 1px 4px rgba(15,23,42,.04);transition:transform .12s ease,box-shadow .12s ease}
+.product-tile{background:#fff;border-radius:16px;border:1px solid #f1f5f9;overflow:hidden;cursor:pointer;box-shadow:0 1px 4px rgba(15,23,42,.04);transition:transform .12s ease}
 .product-tile:active{transform:scale(.96)}
 .product-tile img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f8fafc}
 .product-tile .tile-name{font-size:11px;font-weight:700;color:#0f172a;line-height:1.25;height:28px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
@@ -371,32 +370,21 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-4">
 <h3 class="premium-title text-gray-900 text-[17px] mb-3">🏡 आम्ही कोण आहोत?</h3>
-<p class="text-[13px] text-gray-700 leading-relaxed">MH24 Basket हा <b>लातूरचा स्थानिक व्यवसाय</b> आहे. आमचं ध्येय आहे — लातूरकरांना <b>ताजी भाजी, फळे आणि दैनंदिन वस्तू</b> घरपोच मिळाव्यात आणि लातूरच्या शेतकऱ्यांना <b>योग्य भाव</b> मिळावा.</p>
+<p class="text-[13px] text-gray-700 leading-relaxed">MH24 Basket हा <b>लातूरचा स्थानिक व्यवसाय</b> आहे. आमचं ध्येय आहे — लातूरकरांना <b>ताजी भाजी, फळे आणि दैनंदिन वस्तू</b> घरपोच मिळाव्यात.</p>
 </div>
 <div class="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-3xl p-5 mb-4 shadow-md">
 <div class="flex items-center gap-3 mb-3">
 <div class="w-12 h-12 rounded-2xl bg-green-600 flex items-center justify-center text-white text-2xl shadow-md">💯</div>
-<div><p class="premium-title text-green-900 text-[18px]">0% Margin</p><p class="text-green-700 text-[11px] font-bold">भाजीवर आम्ही एकही रुपया नफा घेत नाही</p></div>
+<div><p class="premium-title text-green-900 text-[18px]">0% Margin</p><p class="text-green-700 text-[11px] font-bold">भाजीवर एकही रुपया नफा नाही</p></div>
 </div>
-<p class="text-[12px] text-green-800 leading-relaxed">जो भाव शेतकऱ्याकडून घेतो, तोच भाव तुम्हाला देतो. मध्यस्थ नाही, छुपा नफा नाही. <b>तुमचा विश्वास हीच आमची कमाई.</b></p>
-</div>
-<div class="bg-white p-5 rounded-3xl premium-shadow mb-4">
-<h3 class="premium-title text-gray-900 text-[17px] mb-3">✨ आमची खासियत</h3>
-<div class="space-y-3">
-<div class="flex items-start gap-3 bg-green-50 p-3 rounded-2xl"><div class="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center text-white text-lg shrink-0">⏰</div><div><p class="font-extrabold text-gray-900 text-[13px]">On-Time Delivery</p><p class="text-[11px] text-gray-600 mt-0.5">रोज सकाळी <b>6:30 - 8:30 AM</b> पर्यंत घरपोच</p></div></div>
-<div class="flex items-start gap-3 bg-emerald-50 p-3 rounded-2xl"><div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white text-lg shrink-0">🌱</div><div><p class="font-extrabold text-gray-900 text-[13px]">100% Fresh Guarantee</p><p class="text-[11px] text-gray-600 mt-0.5">शेतातून थेट तुमच्या दारात</p></div></div>
-<div class="flex items-start gap-3 bg-amber-50 p-3 rounded-2xl"><div class="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center text-white text-lg shrink-0">🏘️</div><div><p class="font-extrabold text-gray-900 text-[13px]">Local Latur Farmers</p><p class="text-[11px] text-gray-600 mt-0.5">लातूरच्या शेतकऱ्यांना support</p></div></div>
-<div class="flex items-start gap-3 bg-blue-50 p-3 rounded-2xl"><div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-lg shrink-0">💬</div><div><p class="font-extrabold text-gray-900 text-[13px]">Direct WhatsApp Support</p><p class="text-[11px] text-gray-600 mt-0.5">1 तासात उत्तर, कधीही विचारा</p></div></div>
-<div class="flex items-start gap-3 bg-purple-50 p-3 rounded-2xl"><div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white text-lg shrink-0">🔄</div><div><p class="font-extrabold text-gray-900 text-[13px]">Easy Cancellation</p><p class="text-[11px] text-gray-600 mt-0.5">कधीही ऑर्डर रद्द करा</p></div></div>
-<div class="flex items-start gap-3 bg-pink-50 p-3 rounded-2xl"><div class="w-10 h-10 rounded-xl bg-pink-600 flex items-center justify-center text-white text-lg shrink-0">📍</div><div><p class="font-extrabold text-gray-900 text-[13px]">Service Area — Only Latur</p><p class="text-[11px] text-gray-600 mt-0.5">फक्त लातूर शहरात सेवा उपलब्ध</p></div></div>
-</div>
+<p class="text-[12px] text-green-800 leading-relaxed">जो भाव शेतकऱ्याकडून घेतो, तोच भाव तुम्हाला देतो. <b>तुमचा विश्वास हीच आमची कमाई.</b></p>
 </div>
 <div class="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 rounded-3xl p-5 mb-4 shadow-md">
 <div class="flex items-center gap-3 mb-3">
 <div class="w-12 h-12 rounded-2xl bg-amber-500 flex items-center justify-center text-white text-2xl shadow-md">💰</div>
 <div><p class="premium-title text-amber-900 text-[18px]">₹99 Weekly Fee</p><p class="text-amber-700 text-[11px] font-bold">आठवड्याला एकदाच</p></div>
 </div>
-<p class="text-[12px] text-amber-900 leading-relaxed"><b>भाजीवर 0% नफा</b> घेतल्यामुळे, सेवा चालू ठेवण्यासाठी हे ₹99 आम्हाला आवश्यक आहे. हे <b>आठवड्याला एकदाच</b> जोडले जाते — कितीही ऑर्डर दिल्या तरी.</p>
+<p class="text-[12px] text-amber-900 leading-relaxed">भाजीवर 0% नफा घेतल्यामुळे, सेवा चालू ठेवण्यासाठी हे ₹99 आम्हाला आवश्यक आहे. हे <b>आठवड्याला एकदाच</b> जोडले जाते.</p>
 </div>
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-4">
 <h3 class="premium-title text-gray-900 text-[17px] mb-3">📞 संपर्क करा</h3>
@@ -442,19 +430,19 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div class="text-white text-2xl">📋</div>
 </div>
 <div id="adminDashBtn" class="bg-gradient-to-br from-blue-600 to-indigo-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
-<div><h3 class="text-white premium-title text-lg">📊 Dashboard</h3><p class="text-blue-100 text-[11px] mt-0.5">Sales • Profit • Weekly Report</p></div>
+<div><h3 class="text-white premium-title text-lg">📊 Dashboard</h3><p class="text-blue-100 text-[11px] mt-0.5">Sales • Profit • Report</p></div>
 <div class="text-white text-2xl">📈</div>
 </div>
 <div id="adminNotifyBtn" class="bg-gradient-to-br from-purple-600 to-pink-600 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
-<div><h3 class="text-white premium-title text-lg">🔔 Society Notification</h3><p class="text-purple-100 text-[11px] mt-0.5">ग्राहकांना WhatsApp पाठवा</p></div>
+<div><h3 class="text-white premium-title text-lg">🔔 Society Notification</h3><p class="text-purple-100 text-[11px] mt-0.5">WhatsApp पाठवा</p></div>
 <div class="text-white text-2xl">📢</div>
 </div>
 <div id="adminProductsBtn" class="bg-gradient-to-br from-cyan-600 to-teal-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
-<div><h3 class="text-white premium-title text-lg">📦 Current Products पहा</h3><p class="text-cyan-100 text-[11px] mt-0.5">Category-wise organized</p></div>
+<div><h3 class="text-white premium-title text-lg">📦 Current Products पहा</h3><p class="text-cyan-100 text-[11px] mt-0.5">Category-wise</p></div>
 <div class="text-white text-2xl">📦</div>
 </div>
 <div id="adminCatsBtn" class="bg-gradient-to-br from-amber-600 to-orange-700 p-5 rounded-3xl shadow-lg mb-5 cursor-pointer flex justify-between items-center">
-<div><h3 class="text-white premium-title text-lg">🏷️ Current Categories पहा</h3><p class="text-amber-100 text-[11px] mt-0.5">सर्व कॅटेगरी व्यवस्थापन</p></div>
+<div><h3 class="text-white premium-title text-lg">🏷️ Current Categories</h3><p class="text-amber-100 text-[11px] mt-0.5">कॅटेगरी व्यवस्थापन</p></div>
 <div class="text-white text-2xl">🏷️</div>
 </div>
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-orange-500">
@@ -483,7 +471,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <input type="text" id="catMarathi" placeholder="नाव (मराठी)" class="custom-input">
 <input type="url" id="catImage" placeholder="Image URL" class="custom-input">
 <div class="bg-gray-100 p-3 rounded-2xl mb-3 border border-gray-300">
-<p class="text-[11px] font-extrabold text-gray-800 mb-2 px-1">💰 या Category चा Billing Type</p>
+<p class="text-[11px] font-extrabold text-gray-800 mb-2 px-1">💰 Billing Type</p>
 <div class="flex gap-2">
 <button type="button" id="catBillPendingBtn" class="bill-toggle active-pending">🕐 Pending</button>
 <button type="button" id="catBillCashBtn" class="bill-toggle">💵 Cash</button>
@@ -492,7 +480,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <button id="saveCatBtn" class="w-full bg-purple-600 text-white py-3 rounded-2xl font-bold">Save Category</button>
 </div>
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-red-500">
-<h3 class="premium-title text-gray-800 mb-4 text-lg">ADD Product</h3>
+<h3 class="premium-title text-gray-800 mb-4 text-lg">➕ ADD Product</h3>
 <div id="editingBanner" class="hidden bg-yellow-100 border-2 border-yellow-400 rounded-2xl p-3 mb-4 flex justify-between items-center">
 <div><p class="text-[11px] font-extrabold text-yellow-800">✏️ EDITING MODE</p><p class="text-[13px] font-bold text-yellow-900 mt-0.5" id="editingProductName"></p></div>
 <button type="button" id="cancelEditBtn" class="bg-white text-yellow-800 border border-yellow-400 px-3 py-1.5 rounded-full text-[11px] font-bold">✕ Cancel</button>
@@ -509,14 +497,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <input type="number" id="prodRating" placeholder="4.5" step="0.1" min="0" max="5" class="custom-input" value="4.5">
 <label class="form-label">Image URL</label>
 <input type="url" id="prodImage" placeholder="https://..." class="custom-input">
-<div class="bg-gray-100 p-2 rounded-2xl mb-3 border border-gray-300">
-<p class="text-[11px] font-extrabold text-gray-800 mb-2 px-1">📦 प्रोडक्टचा प्रकार</p>
-<div class="flex gap-2">
-<button type="button" id="modeQtyBtn" class="mode-toggle active">📏 Quantity</button>
-<button type="button" id="modeVarBtn" class="mode-toggle">🎨 Variants</button>
-</div>
-</div>
-<div id="quantityMode">
 <div class="bg-gray-100 p-4 rounded-2xl mb-3 border border-gray-300">
 <label class="form-label">Unit Type</label>
 <select id="prodUnitType" class="custom-input">
@@ -533,24 +513,12 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 </div>
 <div class="grid grid-cols-2 gap-3">
-<div><label class="form-label">MRP (₹) for Min</label><input type="number" id="prodMRP" placeholder="12" class="custom-input"></div>
-<div><label class="form-label">Price (₹) for Min</label><input type="number" id="prodFinalPrice" placeholder="10" class="custom-input"></div>
+<div><label class="form-label">MRP (₹)</label><input type="number" id="prodMRP" placeholder="12" class="custom-input"></div>
+<div><label class="form-label">Price (₹)</label><input type="number" id="prodFinalPrice" placeholder="10" class="custom-input"></div>
 </div>
 <div class="bg-orange-50 p-3 rounded-2xl mb-3 border border-orange-200">
 <label class="form-label" style="color:#9a3412">💰 Cost Price (₹)</label>
 <input type="number" id="prodCostPrice" placeholder="खरेदी किंमत" class="custom-input mb-0">
-</div>
-</div>
-<div id="variantsMode" class="hidden">
-<div class="bg-purple-50 p-4 rounded-2xl mb-3 border border-purple-200">
-<p class="text-[11px] font-extrabold text-purple-800 mb-2">प्रत्येक size चे वेगळे दर</p>
-<div id="variantRows"></div>
-<button type="button" id="addVarRowBtn" class="w-full bg-white text-purple-700 border-2 border-purple-300 py-2.5 rounded-xl font-bold text-sm mt-1">+ नवीन Variant</button>
-</div>
-<div class="bg-orange-50 p-3 rounded-2xl mb-3 border border-orange-200">
-<label class="form-label" style="color:#9a3412">💰 Cost Price Range (Avg ₹)</label>
-<input type="number" id="prodVariantCost" placeholder="सरासरी खरेदी किंमत" class="custom-input mb-0">
-</div>
 </div>
 <div class="flex items-center gap-3 mb-4 p-3 bg-yellow-50 rounded-2xl border border-yellow-200">
 <input type="checkbox" id="prodIsBestDeal" class="w-5 h-5 accent-green-600">
@@ -569,22 +537,12 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 <div class="grid grid-cols-2 gap-3 mb-4">
 <div class="bg-gradient-to-br from-blue-600 to-blue-700 p-4 rounded-3xl shadow-lg text-white">
-<p class="text-[10px] font-extrabold uppercase tracking-wider opacity-90">एकूण ऑर्डर्स</p>
+<p class="text-[10px] font-extrabold uppercase tracking-wider opacity-90">ऑर्डर्स</p>
 <p class="text-3xl font-extrabold mt-1" id="dashTotalOrders">0</p>
 </div>
 <div class="bg-gradient-to-br from-green-600 to-green-700 p-4 rounded-3xl shadow-lg text-white">
-<p class="text-[10px] font-extrabold uppercase tracking-wider opacity-90">एकूण विक्री</p>
+<p class="text-[10px] font-extrabold uppercase tracking-wider opacity-90">विक्री</p>
 <p class="text-3xl font-extrabold mt-1">₹<span id="dashTotalSales">0</span></p>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-3 mb-4">
-<div class="bg-gradient-to-br from-emerald-600 to-emerald-700 p-4 rounded-3xl shadow-lg text-white">
-<p class="text-[10px] font-extrabold uppercase tracking-wider opacity-90">💵 जमा</p>
-<p class="text-2xl font-extrabold mt-1">₹<span id="dashCollected">0</span></p>
-</div>
-<div class="bg-gradient-to-br from-amber-500 to-amber-600 p-4 rounded-3xl shadow-lg text-white">
-<p class="text-[10px] font-extrabold uppercase tracking-wider opacity-90">🕐 थकीत</p>
-<p class="text-2xl font-extrabold mt-1">₹<span id="dashPending">0</span></p>
 </div>
 </div>
 <div class="bg-gradient-to-br from-orange-600 to-orange-700 p-5 rounded-3xl shadow-lg text-white mb-4">
@@ -676,7 +634,8 @@ Profile
 
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
-<script>// ==================== FIREBASE ====================
+<script>
+// ==================== FIREBASE ====================
 var firebaseConfig={
   apiKey: "AIzaSyAlRrFaovXjVso2AK_w04jMFa_YHYSo2AK",
   authDomain: "mh24-basket.firebaseapp.com",
@@ -704,10 +663,10 @@ var otherBanner = { imageUrl: "", title: "", subtitle: "" };
 var currentProductDetail = null;
 var pdQty = 1;
 var pdVariantIndex = 0;
-var currentProductMode = "quantity";
 var currentCatBillingType = "pending";
 var DELIVERY_FEE = 99;
 var ADMIN_PHONE = "919503816596";
+var editingProductId = null;
 
 var defaultCategories = [
   { id: "leafy", name: "Leafy", marathi: "पालेभाज्या" },
@@ -720,9 +679,9 @@ var viewStack = [];
 var currentView = "view-home";
 var isNavigatingBack = false;
 
-// ==================== VIEWS ====================
 var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-about-us","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
 
+// ==================== NAVIGATION ====================
 function navigateTo(viewId){
   if (viewId === currentView) return;
   if (!isNavigatingBack){
@@ -814,16 +773,14 @@ function formatQuantity(qty, unitType){
   if (unitType === "weight" || unitType === "g" || unitType === "kg"){
     if (qty >= 1000){
       var kg = qty / 1000;
-      var s = (kg % 1 === 0) ? kg.toString() : kg.toFixed(2).replace(/\.?0+$/, "");
-      return s + " kg";
+      return ((kg % 1 === 0) ? kg.toString() : kg.toFixed(2).replace(/\.?0+$/, "")) + " kg";
     }
     return qty + " g";
   }
   if (unitType === "volume" || unitType === "ml" || unitType === "l"){
     if (qty >= 1000){
       var L = qty / 1000;
-      var s2 = (L % 1 === 0) ? L.toString() : L.toFixed(2).replace(/\.?0+$/, "");
-      return s2 + " L";
+      return ((L % 1 === 0) ? L.toString() : L.toFixed(2).replace(/\.?0+$/, "")) + " L";
     }
     return qty + " ml";
   }
@@ -907,7 +864,7 @@ function normalizeProduct(p){
   return p;
 }
 
-// ==================== CART BADGE ====================
+// ==================== CART ====================
 function updateCartBadge(){
   var ti = cart.length;
   var b = document.getElementById("cartBadge");
@@ -919,10 +876,12 @@ function cartItemTotal(item){
   if (item.isVariant) return item.variantPrice * item.qty;
   return Math.round(item.qty * item.pricePerBaseUnit);
 }
+
 function cartItemMRPTotal(item){
   if (item.isVariant) return item.variantMRP * item.qty;
   return Math.round(item.qty * item.mrpPerBaseUnit);
 }
+
 function cartItemQtyDisplay(item){
   if (item.isVariant) return formatQuantity(item.variantBaseQty * item.qty, item.variantUnitType);
   return formatQuantity(item.qty, item.unitType);
@@ -966,15 +925,14 @@ function addToCartById(pid){
   showToast(p.marathi + " जोडले! 🛒", "success");
 }
 
-// ==================== RENDER PRODUCT CARD (SAFE) ====================
+// ==================== PRODUCT TILE ====================
 function buildProductTile(p, wide){
   var tile = document.createElement("div");
   tile.className = wide ? "product-card-grid2 p-3 text-center cursor-pointer" : "product-tile";
   tile.setAttribute("data-pid", p.id);
 
   var imgWrap = document.createElement("div");
-  if (wide) imgWrap.className = "";
-  else imgWrap.className = "relative";
+  if (!wide) imgWrap.className = "relative";
   var img = document.createElement("img");
   img.src = p.image;
   img.setAttribute("loading", "lazy");
@@ -990,7 +948,7 @@ function buildProductTile(p, wide){
   tile.appendChild(imgWrap);
 
   var info = document.createElement("div");
-  if (wide) info.className = ""; else info.className = "p-2";
+  if (!wide) info.className = "p-2";
 
   var nameEl = document.createElement("p");
   nameEl.className = wide ? "font-extrabold text-gray-900 text-[13px]" : "tile-name";
@@ -1047,7 +1005,7 @@ function buildProductTile(p, wide){
   return tile;
 }
 
-// ==================== RENDER OTHER PAGE ====================
+// ==================== OTHER PAGE ====================
 function renderOtherPage(){
   var heroDiv = document.getElementById("innerHeroBanner");
   if (otherBanner.imageUrl){
@@ -1107,6 +1065,10 @@ function renderOtherPage(){
 
 // ==================== OPEN CATEGORY ====================
 function openCategory(catId, catName, gridCols){
+  if (catId === "other"){
+    openOtherCategories();
+    return;
+  }
   var g = document.getElementById("categoryProductGrid");
   g.innerHTML = "";
   var cols = gridCols || 2;
@@ -1123,6 +1085,11 @@ function openCategory(catId, catName, gridCols){
     for (var b = 0; b < f.length; b++) g.appendChild(buildProductTile(f[b], true));
   }
   navigateTo("view-category");
+}
+
+function openOtherCategories(){
+  renderOtherPage();
+  navigateTo("view-other-categories");
 }
 
 // ==================== PRODUCT DETAIL ====================
@@ -1147,8 +1114,8 @@ function openProductDetail(pid){
   document.getElementById("pdRating").innerHTML = starsHTML;
   var billType = getCategoryBillingType(p.category);
   var billEl = document.getElementById("pdBillType");
-  if (billType === "pending") billEl.innerHTML = "<span class='inline-block bg-amber-100 text-amber-800 text-[11px] font-extrabold px-3 py-1.5 rounded-full'>🕐 Pending Bill (रविवारी गोळा)</span>";
-  else billEl.innerHTML = "<span class='inline-block bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-3 py-1.5 rounded-full'>💵 Cash Bill (लगेच द्या)</span>";
+  if (billType === "pending") billEl.innerHTML = "<span class='inline-block bg-amber-100 text-amber-800 text-[11px] font-extrabold px-3 py-1.5 rounded-full'>🕐 Pending Bill</span>";
+  else billEl.innerHTML = "<span class='inline-block bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-3 py-1.5 rounded-full'>💵 Cash Bill</span>";
   if (p.description){
     document.getElementById("pdDescriptionBox").classList.remove("hidden");
     document.getElementById("pdDescription").textContent = p.description;
@@ -1198,13 +1165,12 @@ function updatePDPrice(){
     total = v.price * pdQty;
     mrpTotal = v.mrp * pdQty;
     displayQty = pdQty + " × " + v.weight;
-    document.getElementById("pdQty").textContent = displayQty;
   } else {
     total = Math.round(pdQty * p.pricePerBaseUnit);
     mrpTotal = Math.round(pdQty * p.mrpPerBaseUnit);
     displayQty = formatQuantity(pdQty, p.unitType);
-    document.getElementById("pdQty").textContent = displayQty;
   }
+  document.getElementById("pdQty").textContent = displayQty;
   document.getElementById("pdFinalPrice").textContent = "₹" + total;
   document.getElementById("pdMRP").textContent = "₹" + mrpTotal;
   var saveAmt = mrpTotal - total;
@@ -1276,6 +1242,7 @@ function handleSearchInput(){
   clearTimeout(searchTimer);
   searchTimer = setTimeout(runSearch, 250);
 }
+
 function runSearch(){
   var q = document.getElementById("searchInput").value.toLowerCase().trim();
   var r = document.getElementById("searchResults");
@@ -1314,8 +1281,8 @@ function renderBasket(){
   var totals = calcCartTotals();
   var pendBox = document.getElementById("pendingSummaryBox");
   var cashBox = document.getElementById("cashSummaryBox");
-  pendBox.innerHTML = totals.pendingTotal > 0 ? "<div class='bg-amber-50 p-4 rounded-2xl border border-amber-200'><p class='text-[12px] font-extrabold text-amber-800 mb-2'>🕐 Pending Bill (रविवारी गोळा)</p><div class='flex justify-between text-[12px]'><span class='text-amber-700'>Subtotal</span><span class='font-bold text-amber-800'>₹" + totals.pendingTotal + "</span></div></div>" : "";
-  cashBox.innerHTML = totals.cashTotal > 0 ? "<div class='bg-emerald-50 p-4 rounded-2xl border border-emerald-200'><p class='text-[12px] font-extrabold text-emerald-800 mb-2'>💵 Cash Bill (लगेच द्या)</p><div class='flex justify-between text-[12px]'><span class='text-emerald-700'>Subtotal</span><span class='font-bold text-emerald-800'>₹" + totals.cashTotal + "</span></div></div>" : "";
+  pendBox.innerHTML = totals.pendingTotal > 0 ? "<div class='bg-amber-50 p-4 rounded-2xl border border-amber-200'><p class='text-[12px] font-extrabold text-amber-800 mb-2'>🕐 Pending Bill</p><div class='flex justify-between text-[12px]'><span class='text-amber-700'>Subtotal</span><span class='font-bold text-amber-800'>₹" + totals.pendingTotal + "</span></div></div>" : "";
+  cashBox.innerHTML = totals.cashTotal > 0 ? "<div class='bg-emerald-50 p-4 rounded-2xl border border-emerald-200'><p class='text-[12px] font-extrabold text-emerald-800 mb-2'>💵 Cash Bill</p><div class='flex justify-between text-[12px]'><span class='text-emerald-700'>Subtotal</span><span class='font-bold text-emerald-800'>₹" + totals.cashTotal + "</span></div></div>" : "";
   document.getElementById("basketSubtotal").textContent = "₹" + (totals.pendingTotal + totals.cashTotal);
   document.getElementById("deliveryFeeRow").classList.toggle("hidden", !totals.hasPending);
   document.getElementById("grandTotal").textContent = "₹" + totals.grand;
@@ -1346,7 +1313,7 @@ function removeItemByKey(cartKey){
   showToast("काढले 🗑️", "info");
 }
 
-// ==================== CONFIRM MODAL ====================
+// ==================== CONFIRM ORDER ====================
 function openConfirmModal(){
   if (!userProfile || !userProfile.name || !userProfile.phone || !userProfile.address){
     alert("आधी प्रोफाइल सेव्ह करा!");
@@ -1357,14 +1324,15 @@ function openConfirmModal(){
   var totals = calcCartTotals();
   var html = "<div class='bg-gray-50 rounded-2xl p-4 space-y-2'>";
   html += "<div class='flex justify-between text-[13px]'><span class='text-gray-600'>एकूण items</span><span class='font-bold'>" + cart.length + "</span></div>";
-  if (totals.hasPending) html += "<div class='flex justify-between text-[13px]'><span class='text-amber-700'>🕐 Pending Subtotal</span><span class='font-bold text-amber-800'>₹" + totals.pendingTotal + "</span></div>";
-  if (totals.cashTotal > 0) html += "<div class='flex justify-between text-[13px]'><span class='text-emerald-700'>💵 Cash Subtotal</span><span class='font-bold text-emerald-800'>₹" + totals.cashTotal + "</span></div>";
-  html += "<p class='text-[11px] text-gray-500 mt-2 pt-2 border-t border-gray-200'>ℹ️ ₹99 Weekly Fee आठवड्याला एकदाच जोडली जाईल</p>";
+  if (totals.hasPending) html += "<div class='flex justify-between text-[13px]'><span class='text-amber-700'>🕐 Pending</span><span class='font-bold text-amber-800'>₹" + totals.pendingTotal + "</span></div>";
+  if (totals.cashTotal > 0) html += "<div class='flex justify-between text-[13px]'><span class='text-emerald-700'>💵 Cash</span><span class='font-bold text-emerald-800'>₹" + totals.cashTotal + "</span></div>";
+  html += "<p class='text-[11px] text-gray-500 mt-2 pt-2 border-t border-gray-200'>ℹ️ ₹99 आठवड्याला एकदाच</p>";
   html += "<div class='divider'></div><div class='flex justify-between items-center'><span class='font-bold text-gray-800'>Total</span><span class='font-extrabold text-green-700 text-xl'>₹" + totals.grand + "</span></div></div>";
   html += "<p class='text-[11px] text-gray-500 mt-3 text-center'>📍 " + userProfile.address + "</p>";
   document.getElementById("confirmModalBody").innerHTML = html;
   document.getElementById("confirmModal").classList.add("show");
 }
+
 function closeConfirmModal(){
   document.getElementById("confirmModal").classList.remove("show");
 }
@@ -1376,9 +1344,7 @@ async function confirmAndSend(){
   }
   var m = "*MH24 Basket - New Order* 🛒%0A%0A";
   m += "*Customer:* " + userProfile.name + "%0A*Phone:* " + userProfile.phone + "%0A*Address:* " + userProfile.address + "%0A";
-  m += "*Society:* " + (userProfile.society || "-") + "%0A*Flat:* " + (userProfile.flat || "-") + "%0A";
-  if (userProfile.notes) m += "*सूचना:* " + userProfile.notes + "%0A";
-  m += "%0A";
+  m += "*Society:* " + (userProfile.society || "-") + "%0A*Flat:* " + (userProfile.flat || "-") + "%0A%0A";
   var pendingItems = [];
   var cashItems = [];
   for (var i = 0; i < cart.length; i++){
@@ -1388,7 +1354,7 @@ async function confirmAndSend(){
   var pendingTotal = 0, cashTotal = 0, pendingSaving = 0, cashSaving = 0;
   var oiP = [], oiC = [];
   if (pendingItems.length > 0){
-    m += "🕐 *Pending (रविवारी गोळा करायचे):*%0A";
+    m += "🕐 *Pending:*%0A";
     for (var p1 = 0; p1 < pendingItems.length; p1++){
       var item = pendingItems[p1];
       var it = cartItemTotal(item);
@@ -1402,7 +1368,7 @@ async function confirmAndSend(){
     m += "Pending Subtotal: ₹" + pendingTotal + "%0A%0A";
   }
   if (cashItems.length > 0){
-    m += "💵 *Cash (लगेच द्यायचे):*%0A";
+    m += "💵 *Cash:*%0A";
     for (var p2 = 0; p2 < cashItems.length; p2++){
       var item2 = cashItems[p2];
       var it2 = cartItemTotal(item2);
@@ -1456,7 +1422,7 @@ async function confirmAndSend(){
     }, 500);
   } catch(e){
     console.error(e);
-    alert("ऑर्डर सेव्ह करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.");
+    alert("ऑर्डर सेव्ह करताना अडचण आली.");
   }
 }
 
@@ -1539,44 +1505,39 @@ async function loadMyBills(){
     var totalPending = pendingUnpaid + weeklyFee;
     var html = "";
     if (pendingOrders.length > 0){
-      html += "<div class='bg-gradient-to-br from-amber-500 to-amber-600 p-5 rounded-3xl mb-3 shadow-lg text-white'><p class='text-[10px] font-extrabold uppercase tracking-wider opacity-90'>Pending Bill</p><div class='flex justify-between text-[12px] mt-2 mb-1'><span class='opacity-90'>Pending Items</span><span class='font-bold'>₹" + pendingUnpaid + "</span></div>";
-      if (weeklyFee > 0) html += "<div class='flex justify-between text-[12px] mb-1'><span class='opacity-90'>Weekly Delivery Fee</span><span class='font-bold'>₹" + weeklyFee + "</span></div>";
-      html += "<div class='divider' style='background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);margin:8px 0'></div><div class='flex justify-between items-center'><span class='text-[12px] font-bold'>Total Pending</span><span class='font-extrabold text-2xl'>₹" + totalPending + "</span></div></div>";
-      html += "<div class='bg-white p-4 rounded-3xl premium-shadow mb-5 border border-amber-100'><p class='text-[11px] font-extrabold text-amber-700 mb-2 uppercase tracking-wider'>Pending Orders</p>";
+      html += "<div class='bg-gradient-to-br from-amber-500 to-amber-600 p-5 rounded-3xl mb-3 shadow-lg text-white'><p class='text-[10px] font-extrabold uppercase opacity-90'>Pending Bill</p><div class='flex justify-between text-[12px] mt-2 mb-1'><span>Items</span><span class='font-bold'>₹" + pendingUnpaid + "</span></div>";
+      if (weeklyFee > 0) html += "<div class='flex justify-between text-[12px] mb-1'><span>Weekly Fee</span><span class='font-bold'>₹" + weeklyFee + "</span></div>";
+      html += "<div class='divider'></div><div class='flex justify-between items-center'><span class='text-[12px] font-bold'>Total</span><span class='font-extrabold text-2xl'>₹" + totalPending + "</span></div></div>";
+      html += "<div class='bg-white p-4 rounded-3xl premium-shadow mb-5 border border-amber-100'>";
       for (var pi = 0; pi < pendingOrders.length; pi++){
         var po = pendingOrders[pi];
         var ds2 = "-";
-        if (po.createdAt){ var dd = new Date(po.createdAt.seconds * 1000); ds2 = dd.toLocaleDateString("mr-IN") + " " + dd.toLocaleTimeString("mr-IN", { hour: "2-digit", minute: "2-digit" }); }
-        var badge = po.pendingPaid ? "<span class='bg-emerald-100 text-emerald-700 text-[9px] font-extrabold px-2 py-1 rounded-full'>✓ PAID</span>" : "<span class='bg-amber-100 text-amber-700 text-[9px] font-extrabold px-2 py-1 rounded-full'>⏳ UNPAID</span>";
+        if (po.createdAt){ var dd = new Date(po.createdAt.seconds * 1000); ds2 = dd.toLocaleDateString("mr-IN"); }
         var items = "";
         var pItems = po.pendingItems || [];
-        for (var pj = 0; pj < pItems.length; pj++){
-          items += "<div class='flex justify-between text-[11px] py-0.5'><span>" + pItems[pj].marathi + " (" + (pItems[pj].displayUnit || pItems[pj].unit) + ")</span><span class='font-bold'>₹" + pItems[pj].total + "</span></div>";
-        }
-        html += "<div class='bg-amber-50 rounded-2xl p-3 mb-2'><div class='flex justify-between items-center mb-1'><div><p class='text-[10px] font-extrabold text-gray-700'>#" + po.id.slice(-6).toUpperCase() + "</p><p class='text-[9px] text-gray-500'>" + ds2 + "</p></div>" + badge + "</div>" + items + "<div class='flex justify-between text-[11px] pt-1 mt-1 border-t border-amber-200'><span class='font-bold text-amber-800'>Subtotal</span><span class='font-bold text-amber-800'>₹" + po.pendingAmount + "</span></div></div>";
+        for (var pj = 0; pj < pItems.length; pj++) items += "<div class='flex justify-between text-[11px] py-0.5'><span>" + pItems[pj].marathi + "</span><span>₹" + pItems[pj].total + "</span></div>";
+        html += "<div class='bg-amber-50 rounded-2xl p-3 mb-2'><p class='text-[10px] font-bold'>#" + po.id.slice(-6).toUpperCase() + " — " + ds2 + "</p>" + items + "<div class='flex justify-between text-[11px] pt-1 mt-1 border-t border-amber-200'><span class='font-bold'>Subtotal</span><span class='font-bold'>₹" + po.pendingAmount + "</span></div></div>";
       }
       html += "</div>";
     }
     if (cashOrders.length > 0){
-      html += "<div class='bg-gradient-to-br from-emerald-600 to-emerald-700 p-5 rounded-3xl mb-3 shadow-lg text-white'><p class='text-[10px] font-extrabold uppercase tracking-wider opacity-90'>Cash Bill — जमा</p><div class='flex justify-between items-center mt-2'><span class='text-[12px] font-bold'>Total Cash</span><span class='font-extrabold text-2xl'>₹" + cashTotal + "</span></div></div>";
-      html += "<div class='bg-white p-4 rounded-3xl premium-shadow mb-5 border border-emerald-100'><p class='text-[11px] font-extrabold text-emerald-700 mb-2 uppercase tracking-wider'>Cash Orders</p>";
+      html += "<div class='bg-gradient-to-br from-emerald-600 to-emerald-700 p-5 rounded-3xl mb-3 shadow-lg text-white'><p class='text-[10px] font-extrabold'>Cash Bill</p><div class='flex justify-between items-center mt-2'><span class='text-[12px] font-bold'>Total</span><span class='font-extrabold text-2xl'>₹" + cashTotal + "</span></div></div>";
+      html += "<div class='bg-white p-4 rounded-3xl premium-shadow mb-5 border border-emerald-100'>";
       for (var ci = 0; ci < cashOrders.length; ci++){
         var co = cashOrders[ci];
         var ds3 = "-";
-        if (co.createdAt){ var dd2 = new Date(co.createdAt.seconds * 1000); ds3 = dd2.toLocaleDateString("mr-IN") + " " + dd2.toLocaleTimeString("mr-IN", { hour: "2-digit", minute: "2-digit" }); }
+        if (co.createdAt){ var dd2 = new Date(co.createdAt.seconds * 1000); ds3 = dd2.toLocaleDateString("mr-IN"); }
         var items2 = "";
         var cItems = co.cashItems || [];
-        for (var cj = 0; cj < cItems.length; cj++){
-          items2 += "<div class='flex justify-between text-[11px] py-0.5'><span>" + cItems[cj].marathi + " (" + (cItems[cj].displayUnit || cItems[cj].unit) + ")</span><span class='font-bold'>₹" + cItems[cj].total + "</span></div>";
-        }
-        html += "<div class='bg-emerald-50 rounded-2xl p-3 mb-2'><div class='flex justify-between items-center mb-1'><div><p class='text-[10px] font-extrabold text-gray-700'>#" + co.id.slice(-6).toUpperCase() + "</p><p class='text-[9px] text-gray-500'>" + ds3 + "</p></div><span class='bg-emerald-100 text-emerald-700 text-[9px] font-extrabold px-2 py-1 rounded-full'>✓ PAID</span></div>" + items2 + "<div class='flex justify-between text-[11px] pt-1 mt-1 border-t border-emerald-200'><span class='font-bold text-emerald-800'>Subtotal</span><span class='font-bold text-emerald-800'>₹" + co.cashAmount + "</span></div></div>";
+        for (var cj = 0; cj < cItems.length; cj++) items2 += "<div class='flex justify-between text-[11px] py-0.5'><span>" + cItems[cj].marathi + "</span><span>₹" + cItems[cj].total + "</span></div>";
+        html += "<div class='bg-emerald-50 rounded-2xl p-3 mb-2'><p class='text-[10px] font-bold'>#" + co.id.slice(-6).toUpperCase() + " — " + ds3 + "</p>" + items2 + "<div class='flex justify-between text-[11px] pt-1 mt-1 border-t border-emerald-200'><span class='font-bold'>Subtotal</span><span class='font-bold'>₹" + co.cashAmount + "</span></div></div>";
       }
       html += "</div>";
     }
     var totalSaving = 0;
     for (var si = 0; si < myOrders.length; si++) totalSaving += (myOrders[si].totalSavings || 0);
     totalSaving += deletedSavings;
-    html += "<div class='bg-white p-5 rounded-3xl premium-shadow mb-4'><div class='flex justify-between items-center mb-2.5'><span class='text-[12px] font-bold text-gray-600'>एकूण ऑर्डर्स</span><span class='font-extrabold text-gray-900 text-lg'>" + myOrders.length + "</span></div><div class='divider'></div><div class='flex justify-between items-center'><span class='text-[12px] font-bold text-gray-600'>एकूण बचत</span><span class='font-extrabold text-green-700 text-lg'>₹" + totalSaving + "</span></div></div>";
+    html += "<div class='bg-white p-5 rounded-3xl premium-shadow mb-4'><div class='flex justify-between mb-2'><span class='text-[12px] font-bold text-gray-600'>एकूण ऑर्डर्स</span><span class='font-extrabold text-lg'>" + myOrders.length + "</span></div><div class='divider'></div><div class='flex justify-between'><span class='text-[12px] font-bold text-gray-600'>एकूण बचत</span><span class='font-extrabold text-green-700 text-lg'>₹" + totalSaving + "</span></div></div>";
     container.innerHTML = html;
   } catch(e){
     console.error(e);
@@ -1593,8 +1554,8 @@ function renderServices(){
     var s = services[i];
     var div = document.createElement("div");
     div.className = "bg-white rounded-3xl premium-shadow overflow-hidden relative border border-gray-100 mb-3";
-    var deleteBtn = isAdmin ? "<button data-del-service='" + s.id + "' class='absolute top-3 right-3 bg-red-100 text-red-600 p-2 rounded-full'>🗑️</button>" : "";
-    div.innerHTML = "<img src='" + s.image + "' class='w-full h-32 object-cover' loading='lazy'>" + deleteBtn + "<div class='p-4'><h3 class='font-extrabold text-[15px] text-gray-900'>" + s.marathi + " <span class='text-[12px] text-gray-500 font-medium'>(" + s.name + ")</span></h3><p class='text-green-700 font-extrabold mt-1'>" + s.charges + "</p><p class='text-[11px] text-gray-500 mt-1'>" + (s.details || "") + "</p><button data-book-service='" + s.id + "' class='w-full mt-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-extrabold text-[12px]'>बुक करा</button></div>";
+    var delBtn = isAdmin ? "<button data-del-service='" + s.id + "' class='absolute top-3 right-3 bg-red-100 text-red-600 p-2 rounded-full'>🗑️</button>" : "";
+    div.innerHTML = "<img src='" + s.image + "' class='w-full h-32 object-cover' loading='lazy'>" + delBtn + "<div class='p-4'><h3 class='font-extrabold text-[15px] text-gray-900'>" + s.marathi + " <span class='text-[12px] text-gray-500 font-medium'>(" + s.name + ")</span></h3><p class='text-green-700 font-extrabold mt-1'>" + s.charges + "</p><p class='text-[11px] text-gray-500 mt-1'>" + (s.details || "") + "</p><button data-book-service='" + s.id + "' class='w-full mt-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-extrabold text-[12px]'>बुक करा</button></div>";
     g.appendChild(div);
   }
 }
@@ -1734,12 +1695,10 @@ function populatePosterDropdowns(){
   for (var i = 1; i <= 4; i++){
     var sel = document.getElementById("posterConfig" + i);
     if (!sel) continue;
-    var html = "<optgroup label='Pages'><option value='other'>इतर Page</option><option value='services'>Services Page</option><option value='mybills'>माझी बिले</option></optgroup><optgroup label='Categories'><option value='leafy'>पालेभाज्या</option><option value='regular'>रेग्युलर भाज्या</option><option value='fruits'>फळे</option></optgroup>";
+    var html = "<optgroup label='Pages'><option value='other'>इतर Page</option><option value='services'>Services</option><option value='mybills'>माझी बिले</option></optgroup><optgroup label='Categories'><option value='leafy'>पालेभाज्या</option><option value='regular'>रेग्युलर भाज्या</option><option value='fruits'>फळे</option></optgroup>";
     if (customCategories.length > 0){
       html += "<optgroup label='Custom'>";
-      for (var j = 0; j < customCategories.length; j++){
-        html += "<option value='" + customCategories[j].id + "'>" + customCategories[j].marathi + "</option>";
-      }
+      for (var j = 0; j < customCategories.length; j++) html += "<option value='" + customCategories[j].id + "'>" + customCategories[j].marathi + "</option>";
       html += "</optgroup>";
     }
     sel.innerHTML = html;
@@ -1749,14 +1708,11 @@ function populatePosterDropdowns(){
 
 function updateProductDropdown(){
   var s = document.getElementById("prodCategory");
+  if (!s) return;
   s.innerHTML = "";
   var html = "";
-  for (var i = 0; i < defaultCategories.length; i++){
-    html += "<option value='" + defaultCategories[i].id + "'>" + defaultCategories[i].marathi + " (" + defaultCategories[i].name + ")</option>";
-  }
-  for (var j = 0; j < customCategories.length; j++){
-    html += "<option value='" + customCategories[j].id + "'>" + customCategories[j].marathi + " (" + customCategories[j].name + ")</option>";
-  }
+  for (var i = 0; i < defaultCategories.length; i++) html += "<option value='" + defaultCategories[i].id + "'>" + defaultCategories[i].marathi + " (" + defaultCategories[i].name + ")</option>";
+  for (var j = 0; j < customCategories.length; j++) html += "<option value='" + customCategories[j].id + "'>" + customCategories[j].marathi + " (" + customCategories[j].name + ")</option>";
   s.innerHTML = html;
 }
 
@@ -1765,7 +1721,7 @@ async function loadDashboardStats(){
   try {
     var thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     var snap = await db.collection("orders").where("createdAt", ">=", thirtyDaysAgo).get();
-    var totalOrders = 0, totalSales = 0, collected = 0, pending = 0, cashTotal = 0;
+    var totalOrders = 0, totalSales = 0, totalProfit = 0;
     var dayStats = {}, productCount = {}, societyStats = {};
     var now = new Date();
     var last7 = [];
@@ -1774,29 +1730,14 @@ async function loadDashboardStats(){
       var k = d.toISOString().split("T")[0];
       last7.push(k); dayStats[k] = { count: 0, sales: 0 };
     }
-    var weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    var weekOrders = 0, weekSales = 0;
-    var totalProfit = 0;
-    var pendingCustomers = {};
     snap.forEach(function(doc){
       var o = doc.data();
       var orderSales = (o.pendingAmount || 0) + (o.cashAmount || 0);
       totalOrders++; totalSales += orderSales;
-      cashTotal += (o.cashAmount || 0);
-      collected += (o.cashAmount || 0);
-      if (o.pendingAmount > 0){
-        if (o.pendingPaid) collected += o.pendingAmount;
-        else {
-          pending += o.pendingAmount;
-          var ph = o.customerPhone;
-          if (ph && !pendingCustomers[ph]) pendingCustomers[ph] = { fee: o.deliveryFee || 0 };
-        }
-      }
       if (o.createdAt){
         var d2 = new Date(o.createdAt.seconds * 1000);
         var k2 = d2.toISOString().split("T")[0];
         if (dayStats[k2]){ dayStats[k2].count++; dayStats[k2].sales += orderSales; }
-        if (d2 >= weekAgo){ weekOrders++; weekSales += orderSales; }
       }
       var allItems = [].concat(o.pendingItems || [], o.cashItems || []);
       for (var ai = 0; ai < allItems.length; ai++){
@@ -1808,11 +1749,7 @@ async function loadDashboardStats(){
         for (var mpi = 0; mpi < products.length; mpi++){
           var mp = products[mpi];
           if (mp.name === it.name || mp.marathi === it.marathi){
-            if (mp.hasVariants && mp.costPriceAvg){
-              var qty = it.qty || 1;
-              var profit = (it.finalPrice - mp.costPriceAvg) * qty;
-              if (profit > 0) totalProfit += profit;
-            } else if (!mp.hasVariants && mp.costPerBaseUnit){
+            if (!mp.hasVariants && mp.costPerBaseUnit){
               var qty2 = it.qty || 1;
               var profit2 = (mp.pricePerBaseUnit - mp.costPerBaseUnit) * qty2;
               if (profit2 > 0) totalProfit += profit2;
@@ -1826,14 +1763,8 @@ async function loadDashboardStats(){
         societyStats[o.society].count++; societyStats[o.society].sales += orderSales;
       }
     });
-    var weeklyFeeTotal = 0;
-    var pcKeys = Object.keys(pendingCustomers);
-    for (var pk = 0; pk < pcKeys.length; pk++) weeklyFeeTotal += (pendingCustomers[pcKeys[pk]].fee || 0);
-    var finalPending = pending + weeklyFeeTotal;
     document.getElementById("dashTotalOrders").textContent = totalOrders;
     document.getElementById("dashTotalSales").textContent = totalSales;
-    document.getElementById("dashCollected").textContent = collected;
-    document.getElementById("dashPending").textContent = finalPending;
     document.getElementById("dashProfit").textContent = totalProfit > 0 ? Math.round(totalProfit) : "0";
     var maxSales = 1;
     for (var m = 0; m < last7.length; m++) if (dayStats[last7[m]].sales > maxSales) maxSales = dayStats[last7[m]].sales;
@@ -1884,9 +1815,7 @@ async function loadCustomerBills(reset){
     adminBillsCustomersMap = {};
     list.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>लोड होत आहे...</p>";
     loadMoreBtn.classList.add("hidden");
-  } else {
-    loadMoreBtn.classList.add("hidden");
-  }
+  } else loadMoreBtn.classList.add("hidden");
   try {
     var q = db.collection("orders").orderBy("createdAt", "desc").limit(50);
     if (adminBillsLastDoc) q = q.startAfter(adminBillsLastDoc);
@@ -1904,7 +1833,7 @@ async function loadCustomerBills(reset){
       var ph = o.customerPhone;
       if (!ph) return;
       if (!adminBillsCustomersMap[ph]){
-        adminBillsCustomersMap[ph] = { name: o.customerName || "Unknown", phone: ph, society: o.society || "इतर (No Society)", flat: o.flat || "-", pendingAmount: 0, cashAmount: 0, deliveryFeeUnpaid: 0, orderCount: 0, orders: [] };
+        adminBillsCustomersMap[ph] = { name: o.customerName || "Unknown", phone: ph, society: o.society || "इतर", flat: o.flat || "-", pendingAmount: 0, cashAmount: 0, deliveryFeeUnpaid: 0, orderCount: 0, orders: [] };
       }
       var c = adminBillsCustomersMap[ph];
       c.orderCount++;
@@ -1959,16 +1888,15 @@ function renderAdminBillsList(){
       var o = c.orders[j];
       var pAmt = o.pendingAmount, cAmt = o.cashAmount;
       var pc = o.pendingPaid ? "text-emerald-700" : "text-amber-700";
-      var pl = o.pendingPaid ? "✓ PAID" : "⏳ PENDING";
       var amtLine = "";
       if (pAmt > 0 && cAmt > 0) amtLine = "🕐₹" + pAmt + " + 💵₹" + cAmt;
       else if (pAmt > 0) amtLine = "🕐₹" + pAmt;
       else amtLine = "💵₹" + cAmt;
-      oh += "<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-xl mb-1.5'><div><p class='text-[10px] font-extrabold text-gray-700'>#" + o.id.slice(-6).toUpperCase() + "</p><p class='text-[10px] " + pc + " font-extrabold'>" + (pAmt > 0 ? pl : "💵 CASH") + "</p></div><div class='flex items-center gap-2'><span class='font-extrabold text-gray-900 text-[11px]'>" + amtLine + "</span><button data-del-order='" + o.id + "' data-del-name='" + c.name + "' class='text-red-500 bg-red-100 p-1.5 rounded-full'>🗑️</button></div></div>";
+      oh += "<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-xl mb-1.5'><div><p class='text-[10px] font-extrabold text-gray-700'>#" + o.id.slice(-6).toUpperCase() + "</p><p class='text-[10px] " + pc + " font-extrabold'>" + (pAmt > 0 ? (o.pendingPaid ? "PAID" : "PENDING") : "CASH") + "</p></div><div class='flex items-center gap-2'><span class='font-extrabold text-gray-900 text-[11px]'>" + amtLine + "</span><button data-del-order='" + o.id + "' data-del-name='" + c.name + "' class='text-red-500 bg-red-100 p-1.5 rounded-full'>🗑️</button></div></div>";
     }
     var cd = document.createElement("div");
     cd.className = "bg-white p-4 rounded-3xl premium-shadow border-l-4 " + cbg + " mt-3";
-    cd.innerHTML = "<div class='mb-3'><h4 class='font-extrabold text-gray-900 text-[15px]'>👤 " + c.name + "</h4><p class='text-[11px] text-gray-500 mt-1 font-medium'>📞 " + c.phone + "</p><p class='text-[11px] text-gray-500 mt-0.5'>🏠 Flat: " + c.flat + "</p><p class='text-[10px] text-gray-400 mt-1 font-semibold'>📦 " + c.orderCount + " ऑर्डर्स</p></div><div class='grid grid-cols-2 gap-2 mb-3'><div class='bg-amber-50 p-2.5 rounded-xl border border-amber-200'><p class='text-[9px] font-extrabold text-amber-700'>🕐 Pending</p><p class='font-extrabold text-amber-800 text-lg'>₹" + c.pendingAmount + "</p>" + (fee > 0 ? "<p class='text-[9px] text-amber-600 mt-0.5'>+ ₹" + fee + " fee</p>" : "") + "</div><div class='bg-emerald-50 p-2.5 rounded-xl border border-emerald-200'><p class='text-[9px] font-extrabold text-emerald-700'>💵 Cash</p><p class='font-extrabold text-emerald-800 text-lg'>₹" + c.cashAmount + "</p></div></div>" + cb + "<button data-toggle-orders='" + ps + "' class='w-full mt-2 bg-blue-50 text-blue-700 py-2.5 rounded-xl font-bold text-[11px]'>📋 ऑर्डर्स पहा / डिलीट करा</button><div id='ord_" + ps + "' class='hidden mt-2'>" + (oh || "<p class='text-xs text-gray-400 text-center py-2'>ऑर्डर नाहीत.</p>") + "</div><div class='flex gap-2 mt-2'><a href='https://wa.me/91" + c.phone + "' target='_blank' class='flex-1 text-center bg-green-50 text-green-700 py-2.5 rounded-xl text-[11px] font-bold'>💬 WhatsApp</a><a href='tel:" + c.phone + "' class='flex-1 text-center bg-blue-50 text-blue-700 py-2.5 rounded-xl text-[11px] font-bold'>📞 Call</a></div>";
+    cd.innerHTML = "<div class='mb-3'><h4 class='font-extrabold text-gray-900 text-[15px]'>👤 " + c.name + "</h4><p class='text-[11px] text-gray-500 mt-1'>📞 " + c.phone + "</p><p class='text-[11px] text-gray-500 mt-0.5'>🏠 Flat: " + c.flat + "</p><p class='text-[10px] text-gray-400 mt-1'>📦 " + c.orderCount + " ऑर्डर्स</p></div><div class='grid grid-cols-2 gap-2 mb-3'><div class='bg-amber-50 p-2.5 rounded-xl border border-amber-200'><p class='text-[9px] font-extrabold text-amber-700'>🕐 Pending</p><p class='font-extrabold text-amber-800 text-lg'>₹" + c.pendingAmount + "</p>" + (fee > 0 ? "<p class='text-[9px] text-amber-600 mt-0.5'>+ ₹" + fee + " fee</p>" : "") + "</div><div class='bg-emerald-50 p-2.5 rounded-xl border border-emerald-200'><p class='text-[9px] font-extrabold text-emerald-700'>💵 Cash</p><p class='font-extrabold text-emerald-800 text-lg'>₹" + c.cashAmount + "</p></div></div>" + cb + "<button data-toggle-orders='" + ps + "' class='w-full mt-2 bg-blue-50 text-blue-700 py-2.5 rounded-xl font-bold text-[11px]'>📋 ऑर्डर्स पहा</button><div id='ord_" + ps + "' class='hidden mt-2'>" + (oh || "<p class='text-xs text-gray-400 text-center py-2'>ऑर्डर नाहीत.</p>") + "</div><div class='flex gap-2 mt-2'><a href='https://wa.me/91" + c.phone + "' target='_blank' class='flex-1 text-center bg-green-50 text-green-700 py-2.5 rounded-xl text-[11px] font-bold'>💬 WhatsApp</a><a href='tel:" + c.phone + "' class='flex-1 text-center bg-blue-50 text-blue-700 py-2.5 rounded-xl text-[11px] font-bold'>📞 Call</a></div>";
     list.appendChild(cd);
   }
   document.getElementById("adminCustomerCount").textContent = ca.length;
@@ -2002,7 +1930,7 @@ async function deleteOrder(orderId, customerName){
 }
 
 async function clearCustomerPending(phone, name){
-  if (!confirm(name + " यांचे सर्व Pending बिल Paid म्हणून मार्क करायचे आहे का?")) return;
+  if (!confirm(name + " यांचे सर्व Pending बिल Paid म्हणून मार्क करायचे?")) return;
   try {
     var snap = await db.collection("orders").where("customerPhone", "==", phone).get();
     var batch = db.batch();
@@ -2016,14 +1944,12 @@ async function clearCustomerPending(phone, name){
     });
     if (count === 0){ alert("आधीच Paid आहे!"); return; }
     await batch.commit();
-    alert("✅ " + name + " यांचे " + count + " Pending बिल Paid मार्क झाले!");
+    alert("✅ " + name + " यांचे " + count + " बिल Paid मार्क झाले!");
     loadCustomerBills(true);
   } catch(e){ alert("एरर: " + e.message); }
 }
 
 // ==================== ADMIN PRODUCTS ====================
-var editingProductId = null;
-
 function renderAdminProductsByCategory(){
   var container = document.getElementById("adminProductsByCategory");
   if (!container) return;
@@ -2086,7 +2012,6 @@ function editProduct(id){
   document.getElementById("prodRating").value = p.rating || 4.5;
   document.getElementById("prodImage").value = p.image || "";
   document.getElementById("prodIsBestDeal").checked = p.isBestDeal === true;
-  setProductMode("quantity");
   document.getElementById("prodUnitType").value = p.unitType || "weight";
   document.getElementById("prodMinQty").value = p.minQuantity || 250;
   document.getElementById("prodStepQty").value = p.stepQuantity || 250;
@@ -2110,7 +2035,6 @@ function cancelEdit(){
   document.getElementById("prodImage").value = "";
   document.getElementById("prodRating").value = "4.5";
   document.getElementById("prodIsBestDeal").checked = false;
-  setProductMode("quantity");
   autoFillUnitDefaults();
 }
 
@@ -2194,7 +2118,7 @@ async function saveAllPosters(){
     };
     await db.collection("settings").doc("posterConfig").set({ posters: p }, { merge: true });
     posterConfigs = p;
-    alert("✅ 4 Posters सेव्ह झाले!");
+    alert("✅ Posters सेव्ह झाले!");
   } catch(e){ alert("एरर: " + e.message); }
 }
 
@@ -2237,7 +2161,7 @@ async function deleteServiceById(id){
   }
 }
 
-// ==================== NOTIFY SOCIETY ====================
+// ==================== NOTIFY ====================
 async function loadSocietyList(){
   try {
     var snap = await db.collection("orders").limit(500).get();
@@ -2273,7 +2197,7 @@ async function loadSocietyCustomers(){
     var arr = Object.keys(unique).map(function(k){ return unique[k]; });
     document.getElementById("notifyCount").textContent = arr.length;
     list.innerHTML = "";
-    if (arr.length === 0){ list.innerHTML = "<p class='text-gray-500 text-sm text-center py-6'>या सोसायटीत ग्राहक नाहीत.</p>"; return; }
+    if (arr.length === 0){ list.innerHTML = "<p class='text-gray-500 text-sm text-center py-6'>ग्राहक नाहीत.</p>"; return; }
     for (var i = 0; i < arr.length; i++){
       var c = arr[i];
       var psafe = c.phone.replace(/[^0-9]/g, "");
@@ -2306,7 +2230,7 @@ async function sendBulkNotification(){
     });
     var phones = Object.keys(unique);
     if (phones.length === 0) return alert("ग्राहक नाहीत!");
-    if (!confirm("📢 " + soc + " मधील " + phones.length + " ग्राहकांना WhatsApp उघडायचा?")) return;
+    if (!confirm("📢 " + soc + " मधील " + phones.length + " ग्राहकांना WhatsApp?")) return;
     var progressDiv = document.getElementById("bulkProgress");
     progressDiv.classList.remove("hidden");
     for (var i = 0; i < phones.length; i++){
@@ -2368,7 +2292,7 @@ function checkSecretAdmin(){
         localStorage.setItem("mh24_admin_attempts", "0");
         var b = document.getElementById("adminServiceBtn");
         if (b) b.classList.remove("hidden");
-        if (result.firstTime) alert("✅ पहिल्यांदा Admin password सेट झाला! (" + pass + ")");
+        if (result.firstTime) alert("✅ पहिल्यांदा Admin password सेट झाला!");
         navigateTo("view-admin");
         setTimeout(function(){ try { history.replaceState(null, null, window.location.pathname); } catch(e){} }, 300);
       } else {
@@ -2383,63 +2307,6 @@ function checkSecretAdmin(){
 }
 
 // ==================== EVENT LISTENERS ====================
-document.addEventListener("click", function(e){
-  var t = e.target;
-  // ADD TO CART
-  var addBtn = t.closest("[data-add-pid]");
-  if (addBtn){ e.stopPropagation(); addToCartById(addBtn.getAttribute("data-add-pid")); return; }
-  // OPEN PRODUCT
-  var tile = t.closest("[data-pid]");
-  if (tile){ openProductDetail(tile.getAttribute("data-pid")); return; }
-  // OPEN CATEGORY
-  var catBtn = t.closest("[data-open-cat]");
-  if (catBtn){ openCategory(catBtn.getAttribute("data-open-cat"), catBtn.getAttribute("data-cat-name"), parseInt(catBtn.getAttribute("data-cat-cols") || "2")); return; }
-  // BACK
-  if (t.closest(".back-btn")){ goBack(); return; }
-  // NAV
-  var navBtn = t.closest("[data-nav]");
-  if (navBtn){ navigateTo(navBtn.getAttribute("data-nav")); return; }
-  // QTY
-  var qtyBtn = t.closest("[data-qty-key]");
-  if (qtyBtn){ updateQtyByKey(qtyBtn.getAttribute("data-qty-key"), parseInt(qtyBtn.getAttribute("data-qty-ch"))); return; }
-  // REMOVE
-  var remBtn = t.closest("[data-remove-key]");
-  if (remBtn){ removeItemByKey(remBtn.getAttribute("data-remove-key")); return; }
-  // DELETE SERVICE
-  var dsBtn = t.closest("[data-del-service]");
-  if (dsBtn){ deleteServiceById(dsBtn.getAttribute("data-del-service")); return; }
-  // BOOK SERVICE
-  var bsBtn = t.closest("[data-book-service]");
-  if (bsBtn){ openServiceBooking(bsBtn.getAttribute("data-book-service")); return; }
-  // TOGGLE ORDERS
-  var toBtn = t.closest("[data-toggle-orders]");
-  if (toBtn){ toggleOrdersList("ord_" + toBtn.getAttribute("data-toggle-orders")); return; }
-  // DELETE ORDER
-  var doBtn = t.closest("[data-del-order]");
-  if (doBtn){ deleteOrder(doBtn.getAttribute("data-del-order"), doBtn.getAttribute("data-del-name")); return; }
-  // CLEAR PENDING
-  var cpBtn = t.closest("[data-clear-pending]");
-  if (cpBtn){ clearCustomerPending(cpBtn.getAttribute("data-clear-pending"), cpBtn.getAttribute("data-clear-name")); return; }
-  // EDIT PRODUCT
-  var epBtn = t.closest("[data-edit-pid]");
-  if (epBtn){ editProduct(epBtn.getAttribute("data-edit-pid")); return; }
-  // DELETE PRODUCT
-  var dpBtn = t.closest("[data-del-pid]");
-  if (dpBtn){ deleteProductById(dpBtn.getAttribute("data-del-pid")); return; }
-  // DELETE CATEGORY
-  var dcBtn = t.closest("[data-del-cat]");
-  if (dcBtn){ deleteCategoryById(dcBtn.getAttribute("data-del-cat")); return; }
-  // VARIANT
-  var varBtn = t.closest("[data-vidx]");
-  if (varBtn){ selectVariant(parseInt(varBtn.getAttribute("data-vidx"))); return; }
-  // NOTIFY ONE
-  var nBtn = t.closest("[data-notify-one]");
-  if (nBtn){ sendNotificationToOne(nBtn.getAttribute("data-notify-one")); return; }
-  // POSTER TAP
-  var pTap = t.closest("[data-poster]");
-  if (pTap){ var num = pTap.getAttribute("data-poster"); jumpToTarget(posterConfigs[num] || "other"); return; }
-});
-
 function jumpToTarget(target){
   if (target === "other"){ openOtherCategories(); return; }
   if (target === "services"){ navigateTo("view-services"); return; }
@@ -2450,39 +2317,54 @@ function jumpToTarget(target){
   openCategory(target, cn, 3);
 }
 
-function openOtherCategories(){ renderOtherPage(); navigateTo("view-other-categories"); }
-
-function setProductMode(mode){
-  currentProductMode = mode;
-  var q = document.getElementById("modeQtyBtn");
-  var v = document.getElementById("modeVarBtn");
-  if (q) q.classList.toggle("active", mode === "quantity");
-  if (v) v.classList.toggle("active", mode === "variants");
-  document.getElementById("quantityMode").classList.toggle("hidden", mode !== "quantity");
-  document.getElementById("variantsMode").classList.toggle("hidden", mode !== "variants");
-}
-
 function setCatBillingType(type){
   currentCatBillingType = type;
   document.getElementById("catBillPendingBtn").classList.toggle("active-pending", type === "pending");
   document.getElementById("catBillCashBtn").classList.toggle("active-cash", type === "cash");
 }
 
-function updateCarouselDots(){
-  var c = document.getElementById("posterCarousel");
-  if (!c) return;
-  var ai = Math.round(c.scrollLeft / c.clientWidth);
-  for (var i = 0; i < 4; i++){
-    var d = document.getElementById("dot" + i);
-    if (d) d.className = i === ai ? "w-6 h-1.5 rounded-full bg-green-600" : "w-1.5 h-1.5 rounded-full bg-gray-300";
-  }
-}
+document.addEventListener("click", function(e){
+  var t = e.target;
+  var addBtn = t.closest("[data-add-pid]");
+  if (addBtn){ e.stopPropagation(); addToCartById(addBtn.getAttribute("data-add-pid")); return; }
+  var tile = t.closest("[data-pid]");
+  if (tile){ openProductDetail(tile.getAttribute("data-pid")); return; }
+  var catBtn = t.closest("[data-open-cat]");
+  if (catBtn){ e.stopPropagation(); openCategory(catBtn.getAttribute("data-open-cat"), catBtn.getAttribute("data-cat-name"), parseInt(catBtn.getAttribute("data-cat-cols") || "2")); return; }
+  if (t.closest(".back-btn")){ goBack(); return; }
+  var navBtn = t.closest("[data-nav]");
+  if (navBtn){ navigateTo(navBtn.getAttribute("data-nav")); return; }
+  var qtyBtn = t.closest("[data-qty-key]");
+  if (qtyBtn){ updateQtyByKey(qtyBtn.getAttribute("data-qty-key"), parseInt(qtyBtn.getAttribute("data-qty-ch"))); return; }
+  var remBtn = t.closest("[data-remove-key]");
+  if (remBtn){ removeItemByKey(remBtn.getAttribute("data-remove-key")); return; }
+  var dsBtn = t.closest("[data-del-service]");
+  if (dsBtn){ deleteServiceById(dsBtn.getAttribute("data-del-service")); return; }
+  var bsBtn = t.closest("[data-book-service]");
+  if (bsBtn){ openServiceBooking(bsBtn.getAttribute("data-book-service")); return; }
+  var toBtn = t.closest("[data-toggle-orders]");
+  if (toBtn){ toggleOrdersList("ord_" + toBtn.getAttribute("data-toggle-orders")); return; }
+  var doBtn = t.closest("[data-del-order]");
+  if (doBtn){ deleteOrder(doBtn.getAttribute("data-del-order"), doBtn.getAttribute("data-del-name")); return; }
+  var cpBtn = t.closest("[data-clear-pending]");
+  if (cpBtn){ clearCustomerPending(cpBtn.getAttribute("data-clear-pending"), cpBtn.getAttribute("data-clear-name")); return; }
+  var epBtn = t.closest("[data-edit-pid]");
+  if (epBtn){ editProduct(epBtn.getAttribute("data-edit-pid")); return; }
+  var dpBtn = t.closest("[data-del-pid]");
+  if (dpBtn){ deleteProductById(dpBtn.getAttribute("data-del-pid")); return; }
+  var dcBtn = t.closest("[data-del-cat]");
+  if (dcBtn){ deleteCategoryById(dcBtn.getAttribute("data-del-cat")); return; }
+  var varBtn = t.closest("[data-vidx]");
+  if (varBtn){ selectVariant(parseInt(varBtn.getAttribute("data-vidx"))); return; }
+  var nBtn = t.closest("[data-notify-one]");
+  if (nBtn){ sendNotificationToOne(nBtn.getAttribute("data-notify-one")); return; }
+  var pTap = t.closest("[data-poster]");
+  if (pTap){ var num = pTap.getAttribute("data-poster"); jumpToTarget(posterConfigs[num] || "other"); return; }
+});
 
-// ==================== INIT: BIND EVENTS ====================
 function bindAllEvents(){
   document.getElementById("searchBtn").addEventListener("click", function(){ navigateTo("view-search"); });
   document.getElementById("cartBtn").addEventListener("click", function(){ navigateTo("view-basket"); });
-  document.getElementById("otherCatBtn").addEventListener("click", function(){ openOtherCategories(); });
   document.getElementById("searchInput").addEventListener("input", handleSearchInput);
   document.getElementById("pdQtyMinus").addEventListener("click", function(){ pdQtyChange(-1); });
   document.getElementById("pdQtyPlus").addEventListener("click", function(){ pdQtyChange(1); });
@@ -2511,24 +2393,12 @@ function bindAllEvents(){
   document.getElementById("saveCatBtn").addEventListener("click", addCategoryFromForm);
   document.getElementById("catBillPendingBtn").addEventListener("click", function(){ setCatBillingType("pending"); });
   document.getElementById("catBillCashBtn").addEventListener("click", function(){ setCatBillingType("cash"); });
-  document.getElementById("modeQtyBtn").addEventListener("click", function(){ setProductMode("quantity"); });
-  document.getElementById("modeVarBtn").addEventListener("click", function(){ setProductMode("variants"); });
   document.getElementById("prodSaveBtn").addEventListener("click", addProduct);
   document.getElementById("cancelEditBtn").addEventListener("click", cancelEdit);
   document.getElementById("prodUnitType").addEventListener("change", autoFillUnitDefaults);
   document.getElementById("loadMoreBillsBtn").addEventListener("click", function(){ loadCustomerBills(false); });
   document.getElementById("sendBulkBtn").addEventListener("click", sendBulkNotification);
   document.getElementById("notifySocietySelect").addEventListener("change", loadSocietyCustomers);
-  // Variant row add
-  var avb = document.getElementById("addVarRowBtn");
-  if (avb) avb.addEventListener("click", function(){
-    var rows = document.getElementById("variantRows");
-    var row = document.createElement("div");
-    row.className = "flex gap-2 mb-2 items-center";
-    row.innerHTML = "<input placeholder='100g' class='custom-input flex-1 mb-0 vWeight' style='font-size:13px'><input placeholder='MRP' type='number' class='custom-input mb-0 vMRP' style='width:65px'><input placeholder='Price' type='number' class='custom-input mb-0 vPrice' style='width:65px'><button type='button' class='text-red-500 bg-red-50 rounded-full w-8 h-8 flex items-center justify-center font-bold'>×</button>";
-    row.querySelector("button").addEventListener("click", function(){ row.remove(); });
-    rows.appendChild(row);
-  });
 }
 
 // ==================== STARTUP ====================
@@ -2549,6 +2419,18 @@ if (adminToken){
   isAdmin = true;
   var ab = document.getElementById("adminServiceBtn");
   if (ab) ab.classList.remove("hidden");
+}
+
+// Carousel dots update
+var carousel = document.getElementById("posterCarousel");
+if (carousel){
+  carousel.addEventListener("scroll", function(){
+    var ai = Math.round(carousel.scrollLeft / carousel.clientWidth);
+    for (var i = 0; i < 4; i++){
+      var d = document.getElementById("dot" + i);
+      if (d) d.className = i === ai ? "w-6 h-1.5 rounded-full bg-green-600" : "w-1.5 h-1.5 rounded-full bg-gray-300";
+    }
+  });
 }
 </script>
 </body>
