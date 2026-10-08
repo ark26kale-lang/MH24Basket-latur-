@@ -791,7 +791,12 @@ Basket
 Profile
 </div>
 </div>
-
+<script>
+window.onerror=function(msg,url,line,col){
+alert('❌ ERROR:\n'+msg+'\n\nLine: '+line+'\nCol: '+col);
+return false;
+};
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 <script>
