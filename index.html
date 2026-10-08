@@ -3178,34 +3178,63 @@ function bindAllEvents(){
 
 // ==================== REFERRAL FUNCTIONS ====================
 async function loadReferEarnPage(){
-  if (!userProfile || !userProfile.phone){ alert("आधी प्रोफाइल सेव्ह करा!"); navigateTo("view-profile"); return; }
-  try {
-    var myDoc = await db.collection("customers").doc(userProfile.phone).get();
-    var myData = myDoc.exists ? myDoc.data() : {};
-    var myCode = myData.referralCode || generateReferralCode(userProfile.name, userProfile.phone);
-    document.getElementById("myRefCode").textContent = myCode;
-    var myRefs = await db.collection("referrals").where("referrerPhone", "==", userProfile.phone).get();
-    var refList = [];
-    myRefs.forEach(function(doc){ refList.push(Object.assign({ id: doc.id }, doc.data())); });
-    refList.sort(function(a,b){ return (b.createdAt ? b.createdAt.seconds : 0) - (a.createdAt ? a.createdAt.seconds : 0); });
-    var points = (myData.referralPoints || 0) + (myData.loyaltyPoints || 0);
-    var freeUsed = myData.freeWeeksUsed || 0;
-    document.getElementById("refCount").textContent = refList.length + "/4";
-    document.getElementById("refPoints").textContent = points;
-    document.getElementById("refFreeWeeks").textContent = freeUsed + "/2";
-    var container = document.getElementById("myReferralsList");
-    if (refList.length === 0){ container.innerHTML = "<p class='text-center text-gray-500 py-6 text-sm font-semibold'>अजून कोणताही referral नाही.</p>"; return; }
-    var html = "";
-    for (var i = 0; i < refList.length; i++){
-      var r = refList[i];
-      var badge = "";
-      if (r.status === "approved") badge = "<span class='bg-green-100 text-green-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>✅ " + (r.points || 50) + " points मिळाले</span>";
-      else if (r.status === "rejected") badge = "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🚫 Rejected</span>";
-      else badge = "<span class='bg-amber-100 text-amber-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>⏳ पहिला आठवडा बाकी</span>";
-      html += "<div class='bg-gray-50 p-3 rounded-2xl border border-gray-100 mb-2'><p class='font-bold text-[13px] text-gray-900'>👤 " + r.newCustomerName + "</p><p class='text-[10px] text-gray-500 mt-0.5'>📞 " + r.newCustomerPhone + "</p><div class='mt-1'>" + badge + "</div></div>";
-    }
-    container.innerHTML = html;
-  } catch(e){ console.error(e); document.getElementById("myReferralsList").innerHTML = "<p class='text-center text-red-500 py-6 text-sm'>अडचण आली.</p>"; }
+if (!userProfile || !userProfile.phone){ alert("आधी प्रोफाइल सेव्ह करा!"); navigateTo("view-profile"); return; }
+// ✅ Code लगेच generate करा
+var myCode = generateReferralCode(userProfile.name, userProfile.phone);
+document.getElementById("myRefCode").textContent = myCode;
+// Firestore मधून data fetch
+try {
+var myDoc = await db.collection("customers").doc(userProfile.phone).get();
+var myData = {};
+if (myDoc.exists){
+myData = myDoc.data();
+if (myData.referralCode){
+myCode = myData.referralCode;
+document.getElementById("myRefCode").textContent = myCode;
+} else {
+await db.collection("customers").doc(userProfile.phone).update({ referralCode: myCode });
+}
+} else {
+await db.collection("customers").doc(userProfile.phone).set({
+name: userProfile.name, phone: userProfile.phone,
+society: userProfile.society || "", flat: userProfile.flat || "",
+address: userProfile.address || "",
+referralCode: myCode, referredBy: null,
+isBlocked: false, referralPoints: 0, loyaltyPoints: 0,
+orderCount: 0, totalSpent: 0,
+totalReferrals: 0, successfulReferrals: 0,
+freeWeeksUsed: 0, firstWeekFree: false,
+loyaltyCounter: 0, last4CashTotal: 0,
+createdAt: new Date(), updatedAt: new Date()
+});
+}
+var myRefs = await db.collection("referrals").where("referrerPhone", "==", userProfile.phone).get();
+var refList = [];
+myRefs.forEach(function(doc){ refList.push(Object.assign({ id: doc.id }, doc.data())); });
+refList.sort(function(a,b){ return (b.createdAt ? b.createdAt.seconds : 0) - (a.createdAt ? a.createdAt.seconds : 0); });
+var points = (myData.referralPoints || 0) + (myData.loyaltyPoints || 0);
+var freeUsed = myData.freeWeeksUsed || 0;
+document.getElementById("refCount").textContent = refList.length + "/4";
+document.getElementById("refPoints").textContent = points;
+document.getElementById("refFreeWeeks").textContent = freeUsed + "/2";
+var container = document.getElementById("myReferralsList");
+if (refList.length === 0){
+container.innerHTML = "<p class='text-center text-gray-500 py-6 text-sm font-semibold'>अजून कोणताही referral नाही.</p>";
+return;
+}
+var html = "";
+for (var i = 0; i < refList.length; i++){
+var r = refList[i];
+var badge = "";
+if (r.status === "approved") badge = "<span class='bg-green-100 text-green-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>✅ " + (r.points || 50) + " points मिळाले</span>";
+else if (r.status === "rejected") badge = "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🚫 Rejected</span>";
+else badge = "<span class='bg-amber-100 text-amber-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>⏳ पहिला आठवडा बाकी</span>";
+html += "<div class='bg-gray-50 p-3 rounded-2xl border border-gray-100 mb-2'><p class='font-bold text-[13px] text-gray-900'>👤 " + r.newCustomerName + "</p><p class='text-[10px] text-gray-500 mt-0.5'>📞 " + r.newCustomerPhone + "</p><div class='mt-1'>" + badge + "</div></div>";
+}
+container.innerHTML = html;
+} catch(e) {
+console.error(e);
+// Code आधीच display झाला आहे - काही नको
 }
 
 function shareReferralCode(){
