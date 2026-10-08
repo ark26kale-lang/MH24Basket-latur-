@@ -56,10 +56,23 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 .modal-backdrop.show .modal-sheet{transform:translateY(0)}
 .cust-filter-btn{background:#f1f5f9;color:#64748b;border:2px solid transparent;cursor:pointer;transition:all .2s}
 .cust-filter-btn.active{background:#15803d;color:#fff;border-color:#15803d}
+.ref-code-box{background:linear-gradient(135deg,#15803d,#14532d);color:#fff;padding:20px;border-radius:20px;text-align:center;box-shadow:0 8px 24px rgba(21,128,61,.3)}
+.ref-code-big{font-size:32px;font-weight:800;letter-spacing:6px;margin:12px 0;font-family:monospace}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.02em}
+.status-new{background:#dbeafe;color:#1e40af}
+.status-preparing{background:#fef3c7;color:#92400e}
+.status-out{background:#fed7aa;color:#9a3412}
+.status-delivered{background:#d1fae5;color:#065f46}
+.status-cancel-req{background:#fce7f3;color:#9f1239}
+.status-cancelled{background:#fee2e2;color:#991b1b}
+.status-returned{background:#e0e7ff;color:#3730a3}
+.notification-banner{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-200px);background:linear-gradient(135deg,#15803d,#22c55e);color:#fff;padding:16px 24px;border-radius:20px;font-weight:700;font-size:14px;box-shadow:0 12px 40px rgba(21,128,61,.5);z-index:300;transition:transform .4s cubic-bezier(.4,0,.2,1);max-width:90%;text-align:center}
+.notification-banner.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 <div id="toastMsg" class="toast">प्रोडक्ट जोडले! 🛒</div>
+<div id="notifyBanner" class="notification-banner"></div>
 
 <div id="confirmModal" class="modal-backdrop">
 <div class="modal-sheet">
@@ -333,6 +346,11 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 <div id="profileForm" class="bg-white p-6 rounded-3xl premium-shadow">
 <h3 class="premium-title text-gray-900 text-[17px] mb-4">📝 तुमची माहिती भरा</h3>
+<div id="refCodeEntry" class="hidden mb-4 bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-4">
+<p class="text-[11px] font-extrabold text-amber-900 mb-1">🎁 Referral Code Applied!</p>
+<p class="text-[14px] font-extrabold text-amber-700" id="refCodeEntryText">---</p>
+<p class="text-[10px] text-amber-600 mt-1">तुम्हाला पहिला आठवडा मोफत मिळेल!</p>
+</div>
 <label class="form-label">नाव *</label><input type="text" id="custName" class="custom-input" placeholder="तुमचे पूर्ण नाव">
 <label class="form-label">मोबाईल *</label><input type="tel" id="custPhone" class="custom-input" placeholder="10 अंकी मोबाईल">
 <label class="form-label">सोसायटी</label><input type="text" id="custSociety" class="custom-input" placeholder="तुमच्या सोसायटीचे नाव">
@@ -347,11 +365,58 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <h3 class="premium-title text-xl text-gray-900" id="displayName"></h3>
 <p class="text-gray-700 font-bold mt-1" id="displayPhone"></p>
 <p class="text-gray-600 text-[12px] mt-2 leading-relaxed" id="displayAddress"></p>
+<div id="displayPoints" class="mt-3 inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-[12px] font-extrabold"></div>
 </div>
 <button id="weeklyPlanBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">📅 आठवड्याची योजना</button>
 <button id="editProfileBtn" class="w-full bg-white border-2 border-green-600 text-green-700 py-4 rounded-2xl font-bold mb-3">✏️ Edit My Profile</button>
 <button id="myBillsBtn" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🧾 My Bills</button>
+<button id="referEarnBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🎁 Refer & Earn</button>
 <button id="aboutUsBtn" class="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-4 rounded-2xl font-bold shadow-md">ℹ️ About Us / आमच्याबद्दल</button>
+</div>
+</div>
+
+<div id="view-refer-earn" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-5">
+<button class="back-btn bg-white w-10 h-10 rounded-full premium-shadow border border-gray-200 flex items-center justify-center">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 class="premium-title text-[22px] text-gray-900">🎁 Refer & Earn</h2>
+</div>
+<div class="ref-code-box mb-4">
+<p class="text-[11px] font-bold uppercase tracking-wider opacity-90">तुमचा Referral Code</p>
+<p class="ref-code-big" id="myRefCode">------</p>
+<button id="copyRefCodeBtn" class="bg-white text-green-700 px-5 py-2 rounded-xl font-bold text-[12px] shadow-sm">📋 Copy Code</button>
+</div>
+<div class="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 rounded-3xl p-4 mb-4 shadow-sm">
+<p class="text-[12px] text-amber-900 leading-relaxed mb-3"><b>📢 मित्रांना Share करा!</b><br>प्रत्येक मित्र जोडल्यावर त्याला <b>1 आठवडा मोफत</b> आणि तुम्हाला <b>50 points</b> मिळतील.</p>
+<button id="shareRefBtn" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-2xl font-extrabold text-[14px] shadow-md">💬 WhatsApp वर Share करा</button>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Referrals</p>
+<p class="text-2xl font-extrabold mt-0.5" id="refCount">0/4</p>
+</div>
+<div class="bg-gradient-to-br from-purple-600 to-purple-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Total Points</p>
+<p class="text-2xl font-extrabold mt-0.5" id="refPoints">0</p>
+</div>
+<div class="bg-gradient-to-br from-green-600 to-green-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Free Weeks</p>
+<p class="text-2xl font-extrabold mt-0.5" id="refFreeWeeks">0/2</p>
+</div>
+</div>
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-4">
+<h3 class="premium-title text-gray-900 text-[15px] mb-3">💡 कसे काम करतं?</h3>
+<div class="space-y-2 text-[12px] text-gray-700">
+<p>• मित्र तुमचा code वापरतो → त्याला <b>1 आठवडा मोफत</b></p>
+<p>• त्याने 1 आठवडा पूर्ण केल्यावर तुम्हाला <b>50 points</b></p>
+<p>• <b>99 points = 1 आठवडा तुमचा मोफत</b></p>
+<p>• कमाल <b>4 referrals</b> आणि <b>2 free weeks</b></p>
+</div>
+</div>
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-4">
+<h3 class="premium-title text-gray-900 text-[15px] mb-3">📋 तुमचे Referrals</h3>
+<div id="myReferralsList"><p class="text-center text-gray-500 py-6 text-sm font-semibold">लोड होत आहे...</p></div>
 </div>
 </div>
 
@@ -434,8 +499,16 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div class="text-white text-2xl">📈</div>
 </div>
 <div id="adminCustomersBtn" class="bg-gradient-to-br from-indigo-600 to-purple-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
-<div><h3 class="text-white premium-title text-lg">👥 Customers</h3><p class="text-indigo-100 text-[11px] mt-0.5">सर्व ग्राहक लिस्ट • Block / Unblock</p></div>
+<div><h3 class="text-white premium-title text-lg">👥 Customers</h3><p class="text-indigo-100 text-[11px] mt-0.5">सर्व ग्राहक लिस्ट • Block</p></div>
 <div class="text-white text-2xl">👥</div>
+</div>
+<div id="adminReferralsBtn" class="bg-gradient-to-br from-pink-600 to-rose-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
+<div><h3 class="text-white premium-title text-lg">🎁 Referrals & Points</h3><p class="text-pink-100 text-[11px] mt-0.5">Approve • Points • Top List</p></div>
+<div class="text-white text-2xl">🎁</div>
+</div>
+<div id="adminCancelsBtn" class="bg-gradient-to-br from-red-600 to-rose-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
+<div><h3 class="text-white premium-title text-lg">🚫 Cancel Requests</h3><p class="text-red-100 text-[11px] mt-0.5">Order cancellation approve</p></div>
+<div class="text-white text-2xl">🚫</div>
 </div>
 <div id="adminNotifyBtn" class="bg-gradient-to-br from-purple-600 to-pink-600 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
 <div><h3 class="text-white premium-title text-lg">🔔 Society Notification</h3><p class="text-purple-100 text-[11px] mt-0.5">WhatsApp पाठवा</p></div>
@@ -589,6 +662,58 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div id="customerListContent"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
 </div>
 
+<div id="view-admin-referrals" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-5">
+<button class="back-btn bg-white w-10 h-10 rounded-full premium-shadow border border-gray-200 flex items-center justify-center">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 class="premium-title text-[22px] text-gray-900">🎁 Referrals & Points</h2>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Total</p>
+<p class="text-2xl font-extrabold mt-0.5" id="refTotalCount">0</p>
+</div>
+<div class="bg-gradient-to-br from-amber-500 to-amber-600 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Pending</p>
+<p class="text-2xl font-extrabold mt-0.5" id="refPendingCount">0</p>
+</div>
+<div class="bg-gradient-to-br from-green-600 to-green-700 p-3 rounded-2xl shadow text-white text-center">
+<p class="text-[9px] font-bold uppercase opacity-90">Approved</p>
+<p class="text-2xl font-extrabold mt-0.5" id="refApprovedCount">0</p>
+</div>
+</div>
+<div class="bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-3xl shadow-lg mb-4 text-white">
+<p class="text-[11px] font-bold uppercase opacity-90 mb-2">💰 Points Manual Add</p>
+<input type="text" id="manualPointsPhone" placeholder="Customer phone" class="w-full bg-white/20 placeholder-white/70 text-white border border-white/30 px-4 py-2.5 rounded-xl mb-2 text-[13px]" style="outline:none">
+<input type="number" id="manualPointsAmount" placeholder="Points (उदा. 50)" class="w-full bg-white/20 placeholder-white/70 text-white border border-white/30 px-4 py-2.5 rounded-xl mb-2 text-[13px]" style="outline:none">
+<input type="text" id="manualPointsReason" placeholder="Reason" class="w-full bg-white/20 placeholder-white/70 text-white border border-white/30 px-4 py-2.5 rounded-xl mb-3 text-[13px]" style="outline:none">
+<button id="addManualPointsBtn" class="w-full bg-white text-purple-700 py-2.5 rounded-xl font-extrabold text-[13px]">➕ Points Add करा</button>
+</div>
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-4">
+<h3 class="premium-title text-gray-900 text-[15px] mb-3">🏆 Top Customers (Points)</h3>
+<div id="topPointsList"><p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p></div>
+</div>
+<input type="text" id="adminRefSearch" placeholder="🔍 Search customer / code..." class="custom-input mb-3">
+<div class="flex gap-2 mb-4 overflow-x-auto pb-1" style="scrollbar-width:none">
+<button data-ref-filter="all" class="cust-filter-btn active px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">All</button>
+<button data-ref-filter="pending" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">⏳ Pending</button>
+<button data-ref-filter="approved" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">✅ Approved</button>
+<button data-ref-filter="rejected" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">🚫 Rejected</button>
+</div>
+<div id="adminReferralsList"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
+</div>
+
+<div id="view-admin-cancels" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-5">
+<button class="back-btn bg-white w-10 h-10 rounded-full premium-shadow border border-gray-200 flex items-center justify-center">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 class="premium-title text-[22px] text-gray-900">🚫 Cancel Requests</h2>
+</div>
+<div id="adminCancelsList"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
+</div>
+
 <div id="view-admin-notify" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-5">
 <button class="back-btn bg-white w-10 h-10 rounded-full premium-shadow border border-gray-200 flex items-center justify-center">
@@ -688,7 +813,11 @@ var products = [];
 var services = [];
 var customCategories = [];
 var allCustomers = [];
+var allReferrals = [];
+var allCancels = [];
 var currentCustFilter = "all";
+var currentRefFilter = "all";
+var urlReferralCode = null;
 var userProfile = JSON.parse(localStorage.getItem("mh24_user")) || null;
 var cart = JSON.parse(localStorage.getItem("mh24_cart")) || [];
 var weeklyPlan = JSON.parse(localStorage.getItem("mh24_weekly_plan")) || {};
@@ -716,7 +845,7 @@ var viewStack = [];
 var currentView = "view-home";
 var isNavigatingBack = false;
 
-var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-about-us","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
+var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
 
 // ==================== NAVIGATION ====================
 function navigateTo(viewId){
@@ -749,7 +878,7 @@ function showView(viewId){
   if (viewId === "view-basket" || viewId === "view-success"){
     var b = document.getElementById("nav-basket"); if (b) b.classList.add("active");
   }
-  if (viewId === "view-profile" || viewId === "view-weekly-plan" || viewId === "view-my-bills" || viewId === "view-about-us"){
+  if (viewId === "view-profile" || viewId === "view-weekly-plan" || viewId === "view-my-bills" || viewId === "view-about-us" || viewId === "view-refer-earn"){
     var p = document.getElementById("nav-profile"); if (p) p.classList.add("active");
   }
   if (viewId === "view-basket") renderBasket();
@@ -785,7 +914,7 @@ window.addEventListener("popstate", function(){
   }
 });
 
-// ==================== TOAST ====================
+// ==================== TOAST + NOTIFICATION ====================
 var toastTimer = null;
 function showToast(msg, type){
   type = type || "success";
@@ -801,6 +930,14 @@ function showToast(msg, type){
   t.classList.add("show");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 1800);
+}
+
+function showNotifyBanner(msg, duration){
+  duration = duration || 4000;
+  var b = document.getElementById("notifyBanner");
+  b.textContent = msg;
+  b.classList.add("show");
+  setTimeout(function(){ b.classList.remove("show"); }, duration);
 }
 
 // ==================== HELPERS ====================
@@ -881,6 +1018,14 @@ function getWeekKey(date){
   return sunday.toISOString().split("T")[0];
 }
 
+function generateReferralCode(name, phone){
+  var namePart = (name || "CUS").toUpperCase().replace(/[^A-Z]/g, "");
+  if (namePart.length < 3) namePart = (namePart + "XXX").substring(0, 3);
+  else namePart = namePart.substring(0, 3);
+  var phonePart = (phone || "000").slice(-3);
+  return namePart + phonePart;
+}
+
 function normalizeProduct(p){
   if (p.hasVariants !== undefined) return p;
   var v = null;
@@ -899,6 +1044,27 @@ function normalizeProduct(p){
   p.mrpPerBaseUnit = p.mrpForMin / p.minQuantity;
   p.costPerBaseUnit = p.costPriceForMin / p.minQuantity;
   return p;
+}
+
+// ==================== TIME SLOT LOGIC ====================
+function getDeliverySlot(cashBillExists, pendingBillExists, orderTime){
+  orderTime = orderTime || new Date();
+  var hour = orderTime.getHours();
+  var minute = orderTime.getMinutes();
+  var slots = [];
+  if (cashBillExists){
+    // Cash items delivery slot
+    if (hour < 6 || (hour === 6 && minute < 30)){
+      slots.push("उद्या संध्याकाळी 6:30 PM - 8:30 PM");
+    } else {
+      slots.push("उद्या सकाळी 4:30 AM - 5:30 AM");
+    }
+  }
+  if (pendingBillExists){
+    // Pending items - morning/evening slot
+    slots.push("उद्या सकाळी 6:00 AM - 8:30 AM (Pending Items)");
+  }
+  return slots;
 }
 
 // ==================== BLOCK CHECK ====================
@@ -1111,10 +1277,7 @@ function renderOtherPage(){
 
 // ==================== OPEN CATEGORY ====================
 function openCategory(catId, catName, gridCols){
-  if (catId === "other"){
-    openOtherCategories();
-    return;
-  }
+  if (catId === "other"){ openOtherCategories(); return; }
   var g = document.getElementById("categoryProductGrid");
   g.innerHTML = "";
   var cols = gridCols || 2;
@@ -1303,7 +1466,52 @@ function runSearch(){
   for (var j = 0; j < f.length; j++) r.appendChild(buildProductTile(f[j], true));
 }
 
-// ==================== BASKET ====================
+// ==================== ORDER STATUS (NEW) ====================
+function getOrderStatusInfo(order){
+  if (!order.createdAt) return { status: "new", label: "📝 New", class: "status-new", showUntil: null };
+  var created = new Date(order.createdAt.seconds * 1000);
+  var now = new Date();
+  var ageHours = (now - created) / (1000 * 60 * 60);
+  if (order.status === "cancelled") return { status: "cancelled", label: "❌ Cancelled", class: "status-cancelled", showUntil: null };
+  if (order.status === "returned") return { status: "returned", label: "🔄 Returned", class: "status-returned", showUntil: null };
+  if (order.cancelRequested && !order.status) return { status: "cancel-req", label: "🕐 Cancel Request", class: "status-cancel-req", showUntil: null };
+  // Show status only for 4 hours
+  if (ageHours > 4){
+    return { status: "delivered", label: "✅ Delivered", class: "status-delivered", showUntil: null };
+  }
+  if (ageHours < 0.5) return { status: "new", label: "📝 Order Received", class: "status-new", showUntil: 4 };
+  if (ageHours < 2) return { status: "preparing", label: "👨‍🍳 Preparing", class: "status-preparing", showUntil: 4 };
+  return { status: "out", label: "🚴 Out for Delivery", class: "status-out", showUntil: 4 };
+}
+
+function renderOrderStatusCard(order){
+  var info = getOrderStatusInfo(order);
+  if (!info) return "";
+  // Show only if within 4 hours OR cancel requested
+  if (info.status !== "cancel-req" && info.status !== "new" && info.status !== "preparing" && info.status !== "out" && info.status !== "cancelled" && info.status !== "returned"){
+    return "";
+  }
+  var created = order.createdAt ? new Date(order.createdAt.seconds * 1000) : new Date();
+  var hasCash = (order.cashAmount || 0) > 0;
+  var hasPending = (order.pendingAmount || 0) > 0;
+  var slots = getDeliverySlot(hasCash, hasPending, created);
+  var slotText = slots.length > 0 ? slots.join(" • ") : "लवकरच येईल";
+  var cancelBtn = "";
+  var ageHours = (new Date() - created) / (1000 * 60 * 60);
+  if (ageHours <= 4 && !order.cancelRequested && order.status !== "cancelled" && order.status !== "returned"){
+    cancelBtn = "<button data-cancel-order='" + order.id + "' class='w-full mt-2 bg-red-50 text-red-600 py-2.5 rounded-xl font-bold text-[11px]'>🚫 Cancel Request पाठवा</button>";
+  }
+  if (order.cancelRequested && !order.status){
+    cancelBtn = "<div class='w-full mt-2 bg-amber-50 text-amber-800 py-2.5 rounded-xl font-bold text-[11px] text-center'>⏳ Admin Approval बाकी</div>";
+  }
+  var html = "<div class='bg-white p-4 rounded-2xl premium-shadow border border-gray-100 mb-3'>";
+  html += "<div class='flex justify-between items-center mb-2'><p class='text-[10px] font-bold text-gray-500'>#" + order.id.slice(-6).toUpperCase() + "</p><span class='status-badge " + info.class + "'>" + info.label + "</span></div>";
+  html += "<p class='text-[11px] text-gray-600 mb-2'>📅 " + created.toLocaleDateString("mr-IN") + " " + created.toLocaleTimeString("mr-IN", { hour: "2-digit", minute: "2-digit" }) + "</p>";
+  html += "<div class='bg-blue-50 p-2.5 rounded-xl mb-2'><p class='text-[10px] font-bold text-blue-800 mb-1'>🚚 Expected Delivery</p><p class='text-[11px] text-blue-700 font-semibold'>" + slotText + "</p></div>";
+  html += cancelBtn;
+  html += "</div>";
+  return html;
+}// ==================== BASKET ====================
 function renderBasket(){
   var c = document.getElementById("basketItems");
   var s = document.getElementById("basketSummary");
@@ -1373,12 +1581,27 @@ async function openConfirmModal(){
     return;
   }
   var totals = calcCartTotals();
+  // Get points
+  var custDoc = await db.collection("customers").doc(userProfile.phone).get();
+  var custData = custDoc.exists ? custDoc.data() : {};
+  var totalPoints = (custData.referralPoints || 0) + (custData.loyaltyPoints || 0);
+  var freeWeeksUsed = custData.freeWeeksUsed || 0;
+  var firstWeekFree = custData.firstWeekFree === true && (custData.orderCount || 0) === 0;
+  var applyFreeWeek = false;
+  var pointsUsed = 0;
+  if (totals.hasPending){
+    if (firstWeekFree){ applyFreeWeek = true; }
+    else if (totalPoints >= 99 && freeWeeksUsed < 2){ applyFreeWeek = true; pointsUsed = 99; }
+  }
+  var finalTotal = totals.grand - (applyFreeWeek ? 99 : 0);
   var html = "<div class='bg-gray-50 rounded-2xl p-4 space-y-2'>";
   html += "<div class='flex justify-between text-[13px]'><span class='text-gray-600'>एकूण items</span><span class='font-bold'>" + cart.length + "</span></div>";
   if (totals.hasPending) html += "<div class='flex justify-between text-[13px]'><span class='text-amber-700'>🕐 Pending</span><span class='font-bold text-amber-800'>₹" + totals.pendingTotal + "</span></div>";
   if (totals.cashTotal > 0) html += "<div class='flex justify-between text-[13px]'><span class='text-emerald-700'>💵 Cash</span><span class='font-bold text-emerald-800'>₹" + totals.cashTotal + "</span></div>";
-  html += "<p class='text-[11px] text-gray-500 mt-2 pt-2 border-t border-gray-200'>ℹ️ ₹99 आठवड्याला एकदाच</p>";
-  html += "<div class='divider'></div><div class='flex justify-between items-center'><span class='font-bold text-gray-800'>Total</span><span class='font-extrabold text-green-700 text-xl'>₹" + totals.grand + "</span></div></div>";
+  if (totals.hasPending) html += "<div class='flex justify-between text-[13px]'><span class='text-gray-600'>🚚 Weekly Fee</span><span class='font-bold'>₹99</span></div>";
+  if (applyFreeWeek) html += "<div class='flex justify-between text-[13px]'><span class='text-green-700 font-bold'>🎁 " + (firstWeekFree ? "First Week FREE" : "Points Used") + "</span><span class='font-bold text-green-700'>-₹99</span></div>";
+  html += "<div class='divider'></div><div class='flex justify-between items-center'><span class='font-bold text-gray-800'>Total</span><span class='font-extrabold text-green-700 text-xl'>₹" + finalTotal + "</span></div></div>";
+  if (totalPoints > 0 && !applyFreeWeek) html += "<p class='text-[11px] text-purple-700 mt-2 text-center font-semibold'>💰 तुमचे Points: " + totalPoints + "</p>";
   html += "<p class='text-[11px] text-gray-500 mt-3 text-center'>📍 " + userProfile.address + "</p>";
   document.getElementById("confirmModalBody").innerHTML = html;
   document.getElementById("confirmModal").classList.add("show");
@@ -1434,9 +1657,25 @@ async function confirmAndSend(){
   }
   m += "━━━━━━━━━━━━━━━%0A*Order Total: ₹" + (pendingTotal + cashTotal) + "*%0A%0Aकृपया कन्फर्म करा.";
 
+  // ============ Referral + Loyalty + Free Week Logic ============
+  var custDocRef = db.collection("customers").doc(userProfile.phone);
+  var custSnap2 = await custDocRef.get();
+  var custData = custSnap2.exists ? custSnap2.data() : {};
+  var applyFreeWeek = false;
+  var pointsUsed = 0;
+  var isFirstWeekFree = false;
+  var totalPoints = (custData.referralPoints || 0) + (custData.loyaltyPoints || 0);
+  if (pendingTotal > 0){
+    if (custData.firstWeekFree === true && (custData.orderCount || 0) === 0){
+      applyFreeWeek = true; isFirstWeekFree = true;
+    } else if (totalPoints >= 99 && (custData.freeWeeksUsed || 0) < 2){
+      applyFreeWeek = true; pointsUsed = 99;
+    }
+  }
+
   var weekKey = getWeekKey();
   var feeAlreadyCharged = false;
-  if (pendingTotal > 0){
+  if (pendingTotal > 0 && !applyFreeWeek){
     try {
       var snap = await db.collection("orders").where("customerPhone", "==", userProfile.phone).limit(100).get();
       snap.forEach(function(doc){
@@ -1445,7 +1684,25 @@ async function confirmAndSend(){
       });
     } catch(e){ console.error("Week check:", e); }
   }
-  var deliveryFee = (pendingTotal > 0 && !feeAlreadyCharged) ? DELIVERY_FEE : 0;
+  var deliveryFee = (pendingTotal > 0 && !feeAlreadyCharged && !applyFreeWeek) ? DELIVERY_FEE : 0;
+  var finalAmount = pendingTotal + cashTotal + deliveryFee;
+
+  // Loyalty points calculation
+  var loyaltyPointsEarned = 0;
+  if (cashTotal > 0){
+    var counter = custData.loyaltyCounter || 0;
+    var last4Cash = custData.last4CashTotal || 0;
+    last4Cash += cashTotal;
+    counter++;
+    if (cashTotal >= 400){
+      loyaltyPointsEarned = Math.round(cashTotal * 0.0112);
+      counter = 0; last4Cash = 0;
+    } else if (counter >= 4 && last4Cash >= 400){
+      loyaltyPointsEarned = Math.round(last4Cash * 0.0112);
+      counter = 0; last4Cash = 0;
+    }
+  }
+
   try {
     var orderRef = await db.collection("orders").add({
       customerName: userProfile.name,
@@ -1457,43 +1714,71 @@ async function confirmAndSend(){
       pendingItems: oiP, pendingAmount: pendingTotal, pendingPaid: false,
       cashItems: oiC, cashAmount: cashTotal, cashPaid: true,
       totalSavings: pendingSaving + cashSaving,
-      finalAmount: pendingTotal + cashTotal,
+      finalAmount: finalAmount,
       deliveryFee: deliveryFee, weekKey: weekKey,
-      paid: false, paidAt: null, status: "new",
+      referralFreeWeek: applyFreeWeek, pointsUsedInOrder: pointsUsed,
+      loyaltyPointsEarned: loyaltyPointsEarned,
+      status: "new",
+      cancelRequested: false,
+      paid: false, paidAt: null,
       createdAt: new Date()
     });
     localStorage.setItem("mh24_last_order_id", orderRef.id);
-    // Customer stats update
-    try {
-      var custRef = db.collection("customers").doc(userProfile.phone);
-      var custDoc = await custRef.get();
-      var amt = pendingTotal + cashTotal;
-      if (custDoc.exists){
-        var cd = custDoc.data();
-        await custRef.update({
-          orderCount: (cd.orderCount || 0) + 1,
-          totalSpent: (cd.totalSpent || 0) + amt,
-          lastOrderAt: new Date(),
-          updatedAt: new Date()
-        });
+
+    // Update customer
+    var custUpdate = {
+      orderCount: (custData.orderCount || 0) + 1,
+      totalSpent: (custData.totalSpent || 0) + (pendingTotal + cashTotal),
+      lastOrderAt: new Date(),
+      updatedAt: new Date()
+    };
+    if (pointsUsed > 0){
+      var newReferral = custData.referralPoints || 0;
+      var newLoyalty = custData.loyaltyPoints || 0;
+      if (newReferral >= 99){ newReferral -= 99; }
+      else { var rem = 99 - newReferral; newReferral = 0; newLoyalty -= rem; }
+      custUpdate.referralPoints = newReferral;
+      custUpdate.loyaltyPoints = newLoyalty;
+      custUpdate.freeWeeksUsed = (custData.freeWeeksUsed || 0) + 1;
+    }
+    if (isFirstWeekFree){
+      custUpdate.firstWeekFree = false;
+      custUpdate.freeWeeksUsed = (custData.freeWeeksUsed || 0) + 1;
+    }
+    // Loyalty counter
+    if (cashTotal > 0){
+      var counter2 = custData.loyaltyCounter || 0;
+      var last4Cash2 = custData.last4CashTotal || 0;
+      last4Cash2 += cashTotal;
+      counter2++;
+      if (cashTotal >= 400){
+        custUpdate.loyaltyCounter = 0;
+        custUpdate.last4CashTotal = 0;
+      } else if (counter2 >= 4 && last4Cash2 >= 400){
+        custUpdate.loyaltyCounter = 0;
+        custUpdate.last4CashTotal = 0;
       } else {
-        await custRef.set({
-          name: userProfile.name, phone: userProfile.phone,
-          society: userProfile.society || "", flat: userProfile.flat || "",
-          address: userProfile.address || "",
-          isBlocked: false, blockedAt: null, blockedReason: "",
-          orderCount: 1, totalSpent: amt,
-          lastOrderAt: new Date(),
-          createdAt: new Date(), updatedAt: new Date()
-        });
+        custUpdate.loyaltyCounter = counter2;
+        custUpdate.last4CashTotal = last4Cash2;
       }
-    } catch(e){ console.error("Customer update error:", e); }
+    }
+    if (loyaltyPointsEarned > 0){
+      custUpdate.loyaltyPoints = (custUpdate.loyaltyPoints !== undefined ? custUpdate.loyaltyPoints : (custData.loyaltyPoints || 0)) + loyaltyPointsEarned;
+    }
+    await custDocRef.update(custUpdate);
+
     window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + m, "_blank");
     setTimeout(function(){
       cart = [];
       localStorage.setItem("mh24_cart", JSON.stringify(cart));
       updateCartBadge();
-      showToast("ऑर्डर पाठवली! ✅", "success");
+      if (loyaltyPointsEarned > 0){
+        showNotifyBanner("🎉 " + loyaltyPointsEarned + " Loyalty Points मिळाले!");
+      } else if (applyFreeWeek){
+        showNotifyBanner("🎁 आठवडा मोफत मिळाला!");
+      } else {
+        showToast("ऑर्डर पाठवली! ✅", "success");
+      }
       navigateTo("view-success");
     }, 500);
   } catch(e){
@@ -1518,18 +1803,43 @@ async function saveProfile(){
   try {
     var custRef = db.collection("customers").doc(phone);
     var existing = await custRef.get();
+    var myCode = generateReferralCode(name, phone);
     if (!existing.exists){
+      var refBy = null;
+      if (urlReferralCode && urlReferralCode !== myCode){ refBy = urlReferralCode; }
       await custRef.set({
         name: name, phone: phone, society: society, flat: flat, address: address,
         isBlocked: false, blockedAt: null, blockedReason: "",
         orderCount: 0, totalSpent: 0, lastOrderAt: null,
+        referralCode: myCode,
+        referredBy: refBy,
+        referrerApproved: false,
+        referralPoints: 0,
+        loyaltyPoints: 0,
+        totalReferrals: 0,
+        successfulReferrals: 0,
+        freeWeeksUsed: 0,
+        firstWeekFree: refBy ? true : false,
+        loyaltyCounter: 0,
+        last4CashTotal: 0,
         createdAt: new Date(), updatedAt: new Date()
       });
+      if (refBy){
+        var refSnap = await db.collection("customers").where("referralCode", "==", refBy).limit(1).get();
+        var refPhone = null; var refName = "Unknown";
+        refSnap.forEach(function(doc){ refPhone = doc.id; refName = doc.data().name || "Unknown"; });
+        if (refPhone){
+          await db.collection("referrals").add({
+            referrerPhone: refPhone, referrerName: refName, referrerCode: refBy,
+            newCustomerPhone: phone, newCustomerName: name,
+            status: "pending", points: 50,
+            weekCompletedAt: null, approvedAt: null, rejectedAt: null,
+            createdAt: new Date()
+          });
+        }
+      }
     } else {
-      await custRef.update({
-        name: name, society: society, flat: flat, address: address,
-        updatedAt: new Date()
-      });
+      await custRef.update({ name: name, society: society, flat: flat, address: address, updatedAt: new Date() });
     }
   } catch(e){ console.error("Customer save error:", e); }
   showToast("प्रोफाइल सेव्ह! ✅", "success");
@@ -1548,7 +1858,7 @@ function editProfile(){
   }
 }
 
-function renderProfile(){
+async function renderProfile(){
   if (userProfile){
     document.getElementById("profileForm").classList.add("hidden");
     document.getElementById("profileDisplay").classList.remove("hidden");
@@ -1558,6 +1868,14 @@ function renderProfile(){
     if (userProfile.society) addr = userProfile.society + ", " + addr;
     if (userProfile.flat) addr = addr + " (Flat " + userProfile.flat + ")";
     document.getElementById("displayAddress").textContent = addr;
+    try {
+      var doc = await db.collection("customers").doc(userProfile.phone).get();
+      if (doc.exists){
+        var d = doc.data();
+        var total = (d.referralPoints || 0) + (d.loyaltyPoints || 0);
+        document.getElementById("displayPoints").textContent = "💰 Points: " + total;
+      }
+    } catch(e){}
   } else {
     document.getElementById("profileForm").classList.remove("hidden");
     document.getElementById("profileDisplay").classList.add("hidden");
@@ -1586,6 +1904,7 @@ async function loadMyBills(){
     var pendingOrders = [], cashOrders = [];
     for (var i = 0; i < myOrders.length; i++){
       var o = myOrders[i];
+      if (o.status === "cancelled") continue;
       var pAmt = o.pendingAmount || 0, cAmt = o.cashAmount || 0;
       if (pAmt > 0){ pendingOrders.push(o); if (!o.pendingPaid) pendingUnpaid += pAmt; }
       if (cAmt > 0){ cashOrders.push(o); cashTotal += cAmt; }
@@ -1597,35 +1916,19 @@ async function loadMyBills(){
     }
     var totalPending = pendingUnpaid + weeklyFee;
     var html = "";
+    // Order Status Cards (top)
+    html += "<div class='mb-4'><h3 class='section-title text-[15px]'>📦 Recent Orders</h3>";
+    for (var os = 0; os < Math.min(myOrders.length, 3); os++){
+      html += renderOrderStatusCard(myOrders[os]);
+    }
+    html += "</div>";
     if (pendingOrders.length > 0){
       html += "<div class='bg-gradient-to-br from-amber-500 to-amber-600 p-5 rounded-3xl mb-3 shadow-lg text-white'><p class='text-[10px] font-extrabold uppercase opacity-90'>Pending Bill</p><div class='flex justify-between text-[12px] mt-2 mb-1'><span>Items</span><span class='font-bold'>₹" + pendingUnpaid + "</span></div>";
       if (weeklyFee > 0) html += "<div class='flex justify-between text-[12px] mb-1'><span>Weekly Fee</span><span class='font-bold'>₹" + weeklyFee + "</span></div>";
       html += "<div class='divider'></div><div class='flex justify-between items-center'><span class='text-[12px] font-bold'>Total</span><span class='font-extrabold text-2xl'>₹" + totalPending + "</span></div></div>";
-      html += "<div class='bg-white p-4 rounded-3xl premium-shadow mb-5 border border-amber-100'>";
-      for (var pi = 0; pi < pendingOrders.length; pi++){
-        var po = pendingOrders[pi];
-        var ds2 = "-";
-        if (po.createdAt){ var dd = new Date(po.createdAt.seconds * 1000); ds2 = dd.toLocaleDateString("mr-IN"); }
-        var items = "";
-        var pItems = po.pendingItems || [];
-        for (var pj = 0; pj < pItems.length; pj++) items += "<div class='flex justify-between text-[11px] py-0.5'><span>" + pItems[pj].marathi + "</span><span>₹" + pItems[pj].total + "</span></div>";
-        html += "<div class='bg-amber-50 rounded-2xl p-3 mb-2'><p class='text-[10px] font-bold'>#" + po.id.slice(-6).toUpperCase() + " — " + ds2 + "</p>" + items + "<div class='flex justify-between text-[11px] pt-1 mt-1 border-t border-amber-200'><span class='font-bold'>Subtotal</span><span class='font-bold'>₹" + po.pendingAmount + "</span></div></div>";
-      }
-      html += "</div>";
     }
     if (cashOrders.length > 0){
       html += "<div class='bg-gradient-to-br from-emerald-600 to-emerald-700 p-5 rounded-3xl mb-3 shadow-lg text-white'><p class='text-[10px] font-extrabold'>Cash Bill</p><div class='flex justify-between items-center mt-2'><span class='text-[12px] font-bold'>Total</span><span class='font-extrabold text-2xl'>₹" + cashTotal + "</span></div></div>";
-      html += "<div class='bg-white p-4 rounded-3xl premium-shadow mb-5 border border-emerald-100'>";
-      for (var ci = 0; ci < cashOrders.length; ci++){
-        var co = cashOrders[ci];
-        var ds3 = "-";
-        if (co.createdAt){ var dd2 = new Date(co.createdAt.seconds * 1000); ds3 = dd2.toLocaleDateString("mr-IN"); }
-        var items2 = "";
-        var cItems = co.cashItems || [];
-        for (var cj = 0; cj < cItems.length; cj++) items2 += "<div class='flex justify-between text-[11px] py-0.5'><span>" + cItems[cj].marathi + "</span><span>₹" + cItems[cj].total + "</span></div>";
-        html += "<div class='bg-emerald-50 rounded-2xl p-3 mb-2'><p class='text-[10px] font-bold'>#" + co.id.slice(-6).toUpperCase() + " — " + ds3 + "</p>" + items2 + "<div class='flex justify-between text-[11px] pt-1 mt-1 border-t border-emerald-200'><span class='font-bold'>Subtotal</span><span class='font-bold'>₹" + co.cashAmount + "</span></div></div>";
-      }
-      html += "</div>";
     }
     var totalSaving = 0;
     for (var si = 0; si < myOrders.length; si++) totalSaving += (myOrders[si].totalSavings || 0);
@@ -1636,6 +1939,35 @@ async function loadMyBills(){
     console.error(e);
     container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>";
   }
+}
+
+// ==================== CANCEL ORDER ====================
+async function requestCancelOrder(orderId){
+  if (!confirm("🚫 Order cancel request पाठवायची?")) return;
+  try {
+    var orderDoc = await db.collection("orders").doc(orderId).get();
+    if (!orderDoc.exists) return alert("Order सापडली नाही!");
+    var o = orderDoc.data();
+    var created = new Date(o.createdAt.seconds * 1000);
+    var ageHours = (new Date() - created) / (1000 * 60 * 60);
+    if (ageHours > 4){ alert("⏰ 4 तासांपेक्षा जास्त वेळ झाला.\n\nआता Return पर्याय आहे."); return; }
+    if (o.cancelRequested) return alert("आधीच request पाठवली आहे!");
+    await db.collection("orders").doc(orderId).update({
+      cancelRequested: true,
+      cancelRequestedAt: new Date()
+    });
+    await db.collection("cancelRequests").add({
+      orderId: orderId,
+      customerPhone: o.customerPhone,
+      customerName: o.customerName,
+      orderAmount: o.finalAmount,
+      loyaltyPoints: o.loyaltyPointsEarned || 0,
+      status: "pending",
+      createdAt: new Date()
+    });
+    showNotifyBanner("🚫 Cancel request पाठवली!");
+    loadMyBills();
+  } catch(e){ alert("एरर: " + e.message); }
 }
 
 // ==================== SERVICES ====================
@@ -1807,9 +2139,7 @@ function updateProductDropdown(){
   for (var i = 0; i < defaultCategories.length; i++) html += "<option value='" + defaultCategories[i].id + "'>" + defaultCategories[i].marathi + " (" + defaultCategories[i].name + ")</option>";
   for (var j = 0; j < customCategories.length; j++) html += "<option value='" + customCategories[j].id + "'>" + customCategories[j].marathi + " (" + customCategories[j].name + ")</option>";
   s.innerHTML = html;
-}
-
-// ==================== ADMIN DASHBOARD ====================
+}// ==================== ADMIN DASHBOARD ====================
 async function loadDashboardStats(){
   try {
     var thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
@@ -1825,6 +2155,7 @@ async function loadDashboardStats(){
     }
     snap.forEach(function(doc){
       var o = doc.data();
+      if (o.status === "cancelled") return;
       var orderSales = (o.pendingAmount || 0) + (o.cashAmount || 0);
       totalOrders++; totalSales += orderSales;
       if (o.createdAt){
@@ -1911,7 +2242,8 @@ async function loadCustomersPage(){
         isBlocked: c.isBlocked === true,
         orderCount: c.orderCount || 0,
         totalSpent: c.totalSpent || 0,
-        lastOrderAt: c.lastOrderAt,
+        referralPoints: c.referralPoints || 0,
+        loyaltyPoints: c.loyaltyPoints || 0,
         source: "profile"
       };
     });
@@ -1921,16 +2253,10 @@ async function loadCustomersPage(){
       if (!ph) return;
       if (!map[ph]){
         map[ph] = {
-          phone: ph,
-          name: o.customerName || "Unknown",
-          society: o.society || "इतर",
-          flat: o.flat || "-",
-          address: o.address || "",
-          isBlocked: false,
-          orderCount: 0,
-          totalSpent: 0,
-          lastOrderAt: null,
-          source: "order"
+          phone: ph, name: o.customerName || "Unknown",
+          society: o.society || "इतर", flat: o.flat || "-", address: o.address || "",
+          isBlocked: false, orderCount: 0, totalSpent: 0,
+          referralPoints: 0, loyaltyPoints: 0, source: "order"
         };
       }
     });
@@ -1939,8 +2265,10 @@ async function loadCustomersPage(){
       var ph = o.customerPhone;
       if (!ph || !map[ph]) return;
       if (map[ph].source === "order"){
-        map[ph].orderCount++;
-        map[ph].totalSpent += (o.pendingAmount || 0) + (o.cashAmount || 0);
+        if (o.status !== "cancelled"){
+          map[ph].orderCount++;
+          map[ph].totalSpent += (o.pendingAmount || 0) + (o.cashAmount || 0);
+        }
       }
     });
     allCustomers = Object.keys(map).map(function(k){ return map[k]; });
@@ -1950,10 +2278,7 @@ async function loadCustomersPage(){
       return (b.orderCount || 0) - (a.orderCount || 0);
     });
     renderCustomersList();
-  } catch(e){
-    console.error(e);
-    container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली: " + e.message + "</p>";
-  }
+  } catch(e){ console.error(e); container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>"; }
 }
 
 function renderCustomersList(){
@@ -1974,10 +2299,7 @@ function renderCustomersList(){
   document.getElementById("custTotalCount").textContent = allCustomers.length;
   document.getElementById("custRealCount").textContent = allCustomers.filter(function(c){ return c.orderCount > 0 && !c.isBlocked; }).length;
   document.getElementById("custBlockedCount").textContent = allCustomers.filter(function(c){ return c.isBlocked; }).length;
-  if (list.length === 0){
-    container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>कोणताही customer सापडला नाही.</p>";
-    return;
-  }
+  if (list.length === 0){ container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>Customer सापडला नाही.</p>"; return; }
   var html = "";
   var lastSoc = "";
   for (var i = 0; i < list.length; i++){
@@ -1993,8 +2315,9 @@ function renderCustomersList(){
     if (c.isBlocked) badge = "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🚫 BLOCKED</span>";
     else if (c.orderCount > 0) badge = "<span class='bg-green-100 text-green-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>✅ REAL</span>";
     else badge = "<span class='bg-yellow-100 text-yellow-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🟡 NEW</span>";
-    var srcBadge = c.source === "order" ? "<span class='bg-gray-100 text-gray-600 text-[9px] font-bold px-2 py-0.5 rounded-full ml-1'>Guest</span>" : "";
-    html += "<div class='bg-white p-3 rounded-2xl premium-shadow border border-gray-100 mb-2'><div class='flex items-center gap-3 mb-2'><div class='w-10 h-10 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-lg shrink-0'>👤</div><div class='min-w-0 flex-1'><p class='font-extrabold text-[14px] text-gray-900 truncate'>" + c.name + "</p><p class='text-[11px] text-gray-500 truncate'>📞 " + c.phone + " • 🏠 " + c.flat + "</p><div class='flex gap-1 mt-1 flex-wrap'>" + badge + srcBadge + "</div></div></div>";
+    var totalPts = (c.referralPoints || 0) + (c.loyaltyPoints || 0);
+    var pointsBadge = totalPts > 0 ? "<span class='bg-purple-100 text-purple-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full ml-1'>💰 " + totalPts + " pts</span>" : "";
+    html += "<div class='bg-white p-3 rounded-2xl premium-shadow border border-gray-100 mb-2'><div class='flex items-center gap-3 mb-2'><div class='w-10 h-10 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-lg shrink-0'>👤</div><div class='min-w-0 flex-1'><p class='font-extrabold text-[14px] text-gray-900 truncate'>" + c.name + "</p><p class='text-[11px] text-gray-500 truncate'>📞 " + c.phone + " • 🏠 " + c.flat + "</p><div class='flex gap-1 mt-1 flex-wrap'>" + badge + pointsBadge + "</div></div></div>";
     if (c.orderCount > 0){
       html += "<div class='grid grid-cols-2 gap-2 mb-2'><div class='bg-green-50 p-2 rounded-xl border border-green-200 text-center'><p class='text-[9px] text-green-700 font-bold'>📦 Orders</p><p class='font-extrabold text-green-800 text-[14px]'>" + c.orderCount + "</p></div><div class='bg-blue-50 p-2 rounded-xl border border-blue-200 text-center'><p class='text-[9px] text-blue-700 font-bold'>💰 Total</p><p class='font-extrabold text-blue-800 text-[14px]'>₹" + c.totalSpent + "</p></div></div>";
     }
@@ -2013,13 +2336,9 @@ function renderCustomersList(){
 }
 
 async function blockCustomer(phone, name){
-  if (!confirm("🚫 " + name + " यांना block करायचं?\n\nहे customer order देऊ शकणार नाहीत.")) return;
+  if (!confirm("🚫 " + name + " यांना block करायचं?")) return;
   try {
-    await db.collection("customers").doc(phone).set({
-      isBlocked: true,
-      blockedAt: new Date(),
-      blockedReason: "Admin blocked"
-    }, { merge: true });
+    await db.collection("customers").doc(phone).set({ isBlocked: true, blockedAt: new Date(), blockedReason: "Admin blocked" }, { merge: true });
     showToast("🚫 Blocked!", "warn");
     loadCustomersPage();
   } catch(e){ alert("एरर: " + e.message); }
@@ -2028,11 +2347,175 @@ async function blockCustomer(phone, name){
 async function unblockCustomer(phone){
   if (!confirm("✅ Unblock करायचं?")) return;
   try {
-    await db.collection("customers").doc(phone).set({
-      isBlocked: false, blockedAt: null, blockedReason: ""
-    }, { merge: true });
+    await db.collection("customers").doc(phone).set({ isBlocked: false, blockedAt: null, blockedReason: "" }, { merge: true });
     showToast("✅ Unblocked!", "success");
     loadCustomersPage();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+// ==================== ADMIN REFERRALS ====================
+async function loadAdminReferrals(){
+  var container = document.getElementById("adminReferralsList");
+  container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>लोड होत आहे...</p>";
+  try {
+    var snap = await db.collection("referrals").get();
+    allReferrals = [];
+    snap.forEach(function(doc){ allReferrals.push(Object.assign({ id: doc.id }, doc.data())); });
+    allReferrals.sort(function(a,b){ return (b.createdAt ? b.createdAt.seconds : 0) - (a.createdAt ? a.createdAt.seconds : 0); });
+    renderAdminReferralsList();
+    loadTopPointsList();
+  } catch(e){ console.error(e); container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>"; }
+}
+
+async function loadTopPointsList(){
+  var container = document.getElementById("topPointsList");
+  try {
+    var snap = await db.collection("customers").get();
+    var arr = [];
+    snap.forEach(function(doc){
+      var c = doc.data();
+      var total = (c.referralPoints || 0) + (c.loyaltyPoints || 0);
+      if (total > 0) arr.push({ name: c.name || "Unknown", phone: doc.id, total: total, ref: c.referralPoints || 0, loy: c.loyaltyPoints || 0 });
+    });
+    arr.sort(function(a,b){ return b.total - a.total; });
+    arr = arr.slice(0, 10);
+    if (arr.length === 0){ container.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतेही points नाहीत.</p>"; return; }
+    var html = "";
+    var medals = ["🥇","🥈","🥉","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"];
+    for (var i = 0; i < arr.length; i++){
+      var a = arr[i];
+      html += "<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-xl mb-1.5'><div class='flex items-center gap-2 min-w-0'><span class='text-lg'>" + medals[i] + "</span><div class='min-w-0'><p class='font-bold text-[12px] text-gray-800 truncate'>" + a.name + "</p><p class='text-[10px] text-gray-500'>📞 " + a.phone + "</p></div></div><div class='text-right shrink-0'><p class='font-extrabold text-purple-700 text-[14px]'>" + a.total + " pts</p><p class='text-[9px] text-gray-500'>R:" + a.ref + " L:" + a.loy + "</p></div></div>";
+    }
+    container.innerHTML = html;
+  } catch(e){ console.error(e); container.innerHTML = "<p class='text-center text-red-500 py-4 text-sm'>अडचण.</p>"; }
+}
+
+function renderAdminReferralsList(){
+  var container = document.getElementById("adminReferralsList");
+  var q = (document.getElementById("adminRefSearch").value || "").toLowerCase().trim();
+  var list = allReferrals.slice();
+  if (currentRefFilter !== "all") list = list.filter(function(r){ return r.status === currentRefFilter; });
+  if (q){
+    list = list.filter(function(r){
+      return (r.referrerName || "").toLowerCase().indexOf(q) > -1 ||
+             (r.referrerPhone || "").indexOf(q) > -1 ||
+             (r.newCustomerName || "").toLowerCase().indexOf(q) > -1 ||
+             (r.newCustomerPhone || "").indexOf(q) > -1 ||
+             (r.referrerCode || "").toLowerCase().indexOf(q) > -1;
+    });
+  }
+  document.getElementById("refTotalCount").textContent = allReferrals.length;
+  document.getElementById("refPendingCount").textContent = allReferrals.filter(function(r){ return r.status === "pending"; }).length;
+  document.getElementById("refApprovedCount").textContent = allReferrals.filter(function(r){ return r.status === "approved"; }).length;
+  if (list.length === 0){ container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>Referral सापडला नाही.</p>"; return; }
+  var html = "";
+  for (var i = 0; i < list.length; i++){
+    var r = list[i];
+    var badge = "";
+    if (r.status === "approved") badge = "<span class='bg-green-100 text-green-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>✅ Approved</span>";
+    else if (r.status === "rejected") badge = "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🚫 Rejected</span>";
+    else badge = "<span class='bg-amber-100 text-amber-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>⏳ Pending</span>";
+    var actions = "";
+    if (r.status === "pending" && r.type !== "manual"){
+      actions = "<div class='flex gap-2 mt-2'><button data-approve-ref='" + r.id + "' data-ref-referrer='" + r.referrerPhone + "' data-ref-points='" + (r.points || 50) + "' data-ref-name='" + r.referrerName + "' class='flex-1 bg-green-500 text-white py-2 rounded-xl text-[11px] font-bold'>✅ Approve (+" + (r.points || 50) + ")</button><button data-reject-ref='" + r.id + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>🚫 Reject</button></div>";
+    }
+    if (r.type === "manual"){
+      html += "<div class='bg-purple-50 p-3 rounded-2xl border border-purple-200 mb-2'><div class='flex justify-between items-center'><div><p class='text-[10px] text-purple-700 font-bold uppercase'>💰 Manual Points</p><p class='font-bold text-[12px] text-gray-800'>" + r.referrerPhone + "</p><p class='text-[10px] text-gray-500'>" + (r.reason || "") + "</p></div><span class='font-extrabold text-purple-700'>+" + r.points + "</span></div></div>";
+      continue;
+    }
+    html += "<div class='bg-white p-4 rounded-2xl premium-shadow border border-gray-100 mb-2'><div class='flex justify-between items-start mb-2'><div class='flex-1'><p class='text-[10px] text-gray-500 font-bold uppercase'>Referrer</p><p class='font-extrabold text-[13px] text-gray-900'>👤 " + r.referrerName + " • " + r.referrerCode + "</p><p class='text-[11px] text-gray-500'>📞 " + r.referrerPhone + "</p></div><div>" + badge + "</div></div><div class='bg-gray-50 p-2.5 rounded-xl mb-2'><p class='text-[10px] text-gray-500 font-bold uppercase'>New Customer</p><p class='font-bold text-[12px] text-gray-800'>👤 " + r.newCustomerName + "</p><p class='text-[11px] text-gray-500'>📞 " + r.newCustomerPhone + "</p></div>" + actions + "</div>";
+  }
+  container.innerHTML = html;
+}
+
+async function approveReferral(refId, referrerPhone, points, referrerName){
+  if (!confirm("✅ " + referrerName + " ला " + points + " points द्यायचे?")) return;
+  try {
+    var custRef = db.collection("customers").doc(referrerPhone);
+    var custSnap = await custRef.get();
+    var currentPoints = custSnap.exists ? (custSnap.data().referralPoints || 0) : 0;
+    var totalRefs = custSnap.exists ? (custSnap.data().successfulReferrals || 0) : 0;
+    await custRef.update({ referralPoints: currentPoints + points, successfulReferrals: totalRefs + 1, updatedAt: new Date() }, { merge: true });
+    await db.collection("referrals").doc(refId).update({ status: "approved", approvedAt: new Date() });
+    showToast("✅ " + points + " points दिले!", "success");
+    loadAdminReferrals();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+async function rejectReferral(refId){
+  if (!confirm("🚫 हा referral reject करायचा?")) return;
+  try {
+    await db.collection("referrals").doc(refId).update({ status: "rejected", rejectedAt: new Date() });
+    showToast("🚫 Rejected", "warn");
+    loadAdminReferrals();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+async function addManualPoints(){
+  var phone = document.getElementById("manualPointsPhone").value.trim();
+  var amt = parseFloat(document.getElementById("manualPointsAmount").value);
+  var reason = document.getElementById("manualPointsReason").value.trim() || "Manual add";
+  if (!phone || !amt || amt <= 0) return alert("Phone आणि Points भरा!");
+  try {
+    var custRef = db.collection("customers").doc(phone);
+    var custSnap = await custRef.get();
+    if (!custSnap.exists) return alert("Customer सापडला नाही!");
+    var currentPoints = custSnap.data().referralPoints || 0;
+    await custRef.update({ referralPoints: currentPoints + amt, updatedAt: new Date() });
+    await db.collection("referrals").add({ type: "manual", referrerPhone: phone, points: amt, reason: reason, status: "approved", createdAt: new Date(), approvedAt: new Date() });
+    document.getElementById("manualPointsPhone").value = "";
+    document.getElementById("manualPointsAmount").value = "";
+    document.getElementById("manualPointsReason").value = "";
+    showToast("✅ " + amt + " points added!", "success");
+    loadAdminReferrals();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+// ==================== ADMIN CANCELS ====================
+async function loadAdminCancels(){
+  var container = document.getElementById("adminCancelsList");
+  container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>लोड होत आहे...</p>";
+  try {
+    var snap = await db.collection("cancelRequests").where("status", "==", "pending").get();
+    var arr = [];
+    snap.forEach(function(doc){ arr.push(Object.assign({ id: doc.id }, doc.data())); });
+    arr.sort(function(a,b){ return (b.createdAt ? b.createdAt.seconds : 0) - (a.createdAt ? a.createdAt.seconds : 0); });
+    if (arr.length === 0){ container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>कोणतीही cancel request नाही.</p>"; return; }
+    var html = "";
+    for (var i = 0; i < arr.length; i++){
+      var r = arr[i];
+      html += "<div class='bg-white p-4 rounded-2xl premium-shadow border-l-4 border-red-500 mb-2'><p class='text-[10px] text-gray-500 font-bold uppercase'>Order #" + r.orderId.slice(-6).toUpperCase() + "</p><p class='font-extrabold text-[14px] text-gray-900 mt-1'>👤 " + r.customerName + "</p><p class='text-[11px] text-gray-500'>📞 " + r.customerPhone + "</p><p class='text-[12px] font-bold text-red-700 mt-1'>Order Amount: ₹" + r.orderAmount + "</p>" + (r.loyaltyPoints > 0 ? "<p class='text-[11px] text-purple-700 font-bold'>Loyalty: " + r.loyaltyPoints + " pts (रद्द होतील)</p>" : "") + "<div class='flex gap-2 mt-3'><button data-approve-cancel='" + r.id + "' data-cancel-order='" + r.orderId + "' data-cancel-cust='" + r.customerPhone + "' data-cancel-points='" + (r.loyaltyPoints || 0) + "' class='flex-1 bg-red-500 text-white py-2.5 rounded-xl text-[12px] font-bold'>✅ Approve Cancel</button><button data-reject-cancel='" + r.id + "' data-cancel-order='" + r.orderId + "' class='flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-[12px] font-bold'>❌ Reject</button></div></div>";
+    }
+    container.innerHTML = html;
+  } catch(e){ console.error(e); container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>"; }
+}
+
+async function approveCancelRequest(reqId, orderId, customerPhone, points){
+  if (!confirm("✅ ही order cancel करायची? Loyalty points रद्द होतील.")) return;
+  try {
+    await db.collection("orders").doc(orderId).update({ status: "cancelled", cancelledAt: new Date() });
+    await db.collection("cancelRequests").doc(reqId).update({ status: "approved", approvedAt: new Date() });
+    if (points > 0){
+      var custRef = db.collection("customers").doc(customerPhone);
+      var custSnap = await custRef.get();
+      if (custSnap.exists){
+        var currentLoy = custSnap.data().loyaltyPoints || 0;
+        var newLoy = Math.max(0, currentLoy - points);
+        await custRef.update({ loyaltyPoints: newLoy, updatedAt: new Date() });
+      }
+    }
+    showToast("✅ Order cancel झाली!", "info");
+    loadAdminCancels();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+async function rejectCancelRequest(reqId, orderId){
+  if (!confirm("❌ Cancel request reject करायची?")) return;
+  try {
+    await db.collection("orders").doc(orderId).update({ cancelRequested: false });
+    await db.collection("cancelRequests").doc(reqId).update({ status: "rejected", rejectedAt: new Date() });
+    showToast("❌ Rejected", "warn");
+    loadAdminCancels();
   } catch(e){ alert("एरर: " + e.message); }
 }
 
@@ -2067,6 +2550,7 @@ async function loadCustomerBills(reset){
     adminBillsLastDoc = snap.docs[snap.docs.length - 1];
     snap.forEach(function(doc){
       var o = doc.data();
+      if (o.status === "cancelled") return;
       var ph = o.customerPhone;
       if (!ph) return;
       if (!adminBillsCustomersMap[ph]){
@@ -2087,11 +2571,7 @@ async function loadCustomerBills(reset){
     renderAdminBillsList();
     if (snap.docs.length === 50) loadMoreBtn.classList.remove("hidden");
     adminBillsLoading = false;
-  } catch(e){
-    console.error(e);
-    adminBillsLoading = false;
-    if (reset) list.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>";
-  }
+  } catch(e){ console.error(e); adminBillsLoading = false; if (reset) list.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>"; }
 }
 
 function renderAdminBillsList(){
@@ -2174,7 +2654,7 @@ async function clearCustomerPending(phone, name){
     var count = 0;
     snap.forEach(function(doc){
       var o = doc.data();
-      if (!o.pendingPaid && o.pendingAmount > 0){
+      if (!o.pendingPaid && o.pendingAmount > 0 && o.status !== "cancelled"){
         batch.update(doc.ref, { pendingPaid: true, paidAt: new Date() });
         count++;
       }
@@ -2427,9 +2907,7 @@ async function loadSocietyCustomers(){
     var unique = {};
     snap.forEach(function(doc){
       var o = doc.data();
-      if (o.customerPhone && !unique[o.customerPhone]){
-        unique[o.customerPhone] = { name: o.customerName || "Unknown", phone: o.customerPhone };
-      }
+      if (o.customerPhone && !unique[o.customerPhone]) unique[o.customerPhone] = { name: o.customerName || "Unknown", phone: o.customerPhone };
     });
     var arr = Object.keys(unique).map(function(k){ return unique[k]; });
     document.getElementById("notifyCount").textContent = arr.length;
@@ -2461,10 +2939,7 @@ async function sendBulkNotification(){
   try {
     var snap = await db.collection("orders").where("society", "==", soc).limit(500).get();
     var unique = {};
-    snap.forEach(function(doc){
-      var o = doc.data();
-      if (o.customerPhone) unique[o.customerPhone] = true;
-    });
+    snap.forEach(function(doc){ var o = doc.data(); if (o.customerPhone) unique[o.customerPhone] = true; });
     var phones = Object.keys(unique);
     if (phones.length === 0) return alert("ग्राहक नाहीत!");
     if (!confirm("📢 " + soc + " मधील " + phones.length + " ग्राहकांना WhatsApp?")) return;
@@ -2543,7 +3018,7 @@ function checkSecretAdmin(){
   }
 }
 
-// ==================== EVENT LISTENERS ====================
+// ==================== EVENT DELEGATION ====================
 function jumpToTarget(target){
   if (target === "other"){ openOtherCategories(); return; }
   if (target === "services"){ navigateTo("view-services"); return; }
@@ -2604,14 +3079,34 @@ document.addEventListener("click", function(e){
   var custF = t.closest("[data-cust-filter]");
   if (custF){
     currentCustFilter = custF.getAttribute("data-cust-filter");
-    var allF = document.querySelectorAll(".cust-filter-btn");
+    var allF = document.querySelectorAll("[data-cust-filter]");
     for (var fi = 0; fi < allF.length; fi++) allF[fi].classList.remove("active");
     custF.classList.add("active");
     renderCustomersList();
     return;
   }
+  var approveRefBtn = t.closest("[data-approve-ref]");
+  if (approveRefBtn){ approveReferral(approveRefBtn.getAttribute("data-approve-ref"), approveRefBtn.getAttribute("data-ref-referrer"), parseInt(approveRefBtn.getAttribute("data-ref-points")), approveRefBtn.getAttribute("data-ref-name")); return; }
+  var rejectRefBtn = t.closest("[data-reject-ref]");
+  if (rejectRefBtn){ rejectReferral(rejectRefBtn.getAttribute("data-reject-ref")); return; }
+  var refF = t.closest("[data-ref-filter]");
+  if (refF){
+    currentRefFilter = refF.getAttribute("data-ref-filter");
+    var allRF = document.querySelectorAll("[data-ref-filter]");
+    for (var rfi = 0; rfi < allRF.length; rfi++) allRF[rfi].classList.remove("active");
+    refF.classList.add("active");
+    renderAdminReferralsList();
+    return;
+  }
+  var approveCancelBtn = t.closest("[data-approve-cancel]");
+  if (approveCancelBtn){ approveCancelRequest(approveCancelBtn.getAttribute("data-approve-cancel"), approveCancelBtn.getAttribute("data-cancel-order"), approveCancelBtn.getAttribute("data-cancel-cust"), parseInt(approveCancelBtn.getAttribute("data-cancel-points"))); return; }
+  var rejectCancelBtn = t.closest("[data-reject-cancel]");
+  if (rejectCancelBtn){ rejectCancelRequest(rejectCancelBtn.getAttribute("data-reject-cancel"), rejectCancelBtn.getAttribute("data-cancel-order")); return; }
+  var cancelOrderBtn = t.closest("[data-cancel-order]");
+  if (cancelOrderBtn){ requestCancelOrder(cancelOrderBtn.getAttribute("data-cancel-order")); return; }
 });
 
+// ==================== BIND EVENTS ====================
 function bindAllEvents(){
   document.getElementById("searchBtn").addEventListener("click", function(){ navigateTo("view-search"); });
   document.getElementById("cartBtn").addEventListener("click", function(){ navigateTo("view-basket"); });
@@ -2628,6 +3123,9 @@ function bindAllEvents(){
   document.getElementById("weeklyPlanBtn").addEventListener("click", openWeeklyPlan);
   document.getElementById("myBillsBtn").addEventListener("click", openMyBills);
   document.getElementById("aboutUsBtn").addEventListener("click", function(){ navigateTo("view-about-us"); });
+  document.getElementById("referEarnBtn").addEventListener("click", function(){ navigateTo("view-refer-earn"); loadReferEarnPage(); });
+  document.getElementById("shareRefBtn").addEventListener("click", shareReferralCode);
+  document.getElementById("copyRefCodeBtn").addEventListener("click", copyReferralCode);
   document.getElementById("saveWeeklyBtn").addEventListener("click", saveWeeklyPlan);
   document.getElementById("clearWeeklyBtn").addEventListener("click", clearWeeklyPlan);
   document.getElementById("submitBookingBtn").addEventListener("click", submitServiceBooking);
@@ -2636,6 +3134,8 @@ function bindAllEvents(){
   document.getElementById("adminBillsBtn").addEventListener("click", function(){ navigateTo("view-admin-bills"); loadCustomerBills(true); });
   document.getElementById("adminDashBtn").addEventListener("click", function(){ navigateTo("view-admin-dashboard"); loadDashboardStats(); });
   document.getElementById("adminCustomersBtn").addEventListener("click", function(){ navigateTo("view-admin-customers"); loadCustomersPage(); });
+  document.getElementById("adminReferralsBtn").addEventListener("click", function(){ navigateTo("view-admin-referrals"); loadAdminReferrals(); });
+  document.getElementById("adminCancelsBtn").addEventListener("click", function(){ navigateTo("view-admin-cancels"); loadAdminCancels(); });
   document.getElementById("adminNotifyBtn").addEventListener("click", function(){ navigateTo("view-admin-notify"); loadSocietyList(); });
   document.getElementById("adminProductsBtn").addEventListener("click", function(){ navigateTo("view-admin-products"); renderAdminProductsByCategory(); });
   document.getElementById("adminCatsBtn").addEventListener("click", function(){ navigateTo("view-admin-categories"); renderAdminCategoriesPage(); });
@@ -2651,9 +3151,62 @@ function bindAllEvents(){
   document.getElementById("sendBulkBtn").addEventListener("click", sendBulkNotification);
   document.getElementById("notifySocietySelect").addEventListener("change", loadSocietyCustomers);
   document.getElementById("custSearch").addEventListener("input", renderCustomersList);
+  document.getElementById("adminRefSearch").addEventListener("input", renderAdminReferralsList);
+  document.getElementById("addManualPointsBtn").addEventListener("click", addManualPoints);
+}
+
+// ==================== REFERRAL FUNCTIONS ====================
+async function loadReferEarnPage(){
+  if (!userProfile || !userProfile.phone){ alert("आधी प्रोफाइल सेव्ह करा!"); navigateTo("view-profile"); return; }
+  try {
+    var myDoc = await db.collection("customers").doc(userProfile.phone).get();
+    var myData = myDoc.exists ? myDoc.data() : {};
+    var myCode = myData.referralCode || generateReferralCode(userProfile.name, userProfile.phone);
+    document.getElementById("myRefCode").textContent = myCode;
+    var myRefs = await db.collection("referrals").where("referrerPhone", "==", userProfile.phone).get();
+    var refList = [];
+    myRefs.forEach(function(doc){ refList.push(Object.assign({ id: doc.id }, doc.data())); });
+    refList.sort(function(a,b){ return (b.createdAt ? b.createdAt.seconds : 0) - (a.createdAt ? a.createdAt.seconds : 0); });
+    var points = (myData.referralPoints || 0) + (myData.loyaltyPoints || 0);
+    var freeUsed = myData.freeWeeksUsed || 0;
+    document.getElementById("refCount").textContent = refList.length + "/4";
+    document.getElementById("refPoints").textContent = points;
+    document.getElementById("refFreeWeeks").textContent = freeUsed + "/2";
+    var container = document.getElementById("myReferralsList");
+    if (refList.length === 0){ container.innerHTML = "<p class='text-center text-gray-500 py-6 text-sm font-semibold'>अजून कोणताही referral नाही.</p>"; return; }
+    var html = "";
+    for (var i = 0; i < refList.length; i++){
+      var r = refList[i];
+      var badge = "";
+      if (r.status === "approved") badge = "<span class='bg-green-100 text-green-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>✅ " + (r.points || 50) + " points मिळाले</span>";
+      else if (r.status === "rejected") badge = "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🚫 Rejected</span>";
+      else badge = "<span class='bg-amber-100 text-amber-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>⏳ पहिला आठवडा बाकी</span>";
+      html += "<div class='bg-gray-50 p-3 rounded-2xl border border-gray-100 mb-2'><p class='font-bold text-[13px] text-gray-900'>👤 " + r.newCustomerName + "</p><p class='text-[10px] text-gray-500 mt-0.5'>📞 " + r.newCustomerPhone + "</p><div class='mt-1'>" + badge + "</div></div>";
+    }
+    container.innerHTML = html;
+  } catch(e){ console.error(e); document.getElementById("myReferralsList").innerHTML = "<p class='text-center text-red-500 py-6 text-sm'>अडचण आली.</p>"; }
+}
+
+function shareReferralCode(){
+  var code = document.getElementById("myRefCode").textContent;
+  if (!code || code === "------") return alert("Code अजून तयार नाही!");
+  var msg = "🛒 *MH24 Basket* वापरून बघ!\n\nताजी भाजी घरपोच. 0% margin, 100% fresh.\n\n🎁 माझा code: *" + code + "*\nपहिला आठवडा तुला *मोफत*!\n\n🔗 https://mh-24-basket-latur.vercel.app?ref=" + code + "\n\n— " + (userProfile.name || "");
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
+
+async function copyReferralCode(){
+  var code = document.getElementById("myRefCode").textContent;
+  if (!code || code === "------") return;
+  try { await navigator.clipboard.writeText(code); showToast("✅ Code copy झाला!", "success"); }
+  catch(e){ var tmp = document.createElement("textarea"); tmp.value = code; document.body.appendChild(tmp); tmp.select(); document.execCommand("copy"); document.body.removeChild(tmp); showToast("✅ Code copy झाला!", "success"); }
 }
 
 // ==================== STARTUP ====================
+try {
+  var urlParams = new URLSearchParams(window.location.search);
+  urlReferralCode = urlParams.get("ref");
+  if (urlReferralCode) urlReferralCode = urlReferralCode.toUpperCase();
+} catch(e){ urlReferralCode = null; }
 history.pushState({ view: "view-home" }, "", "");
 bindAllEvents();
 updateCartBadge();
@@ -2666,13 +3219,18 @@ loadOtherBanner();
 autoFillUnitDefaults();
 setCatBillingType("pending");
 checkSecretAdmin();
-
+if (urlReferralCode){
+  var entry = document.getElementById("refCodeEntry");
+  if (entry){
+    entry.classList.remove("hidden");
+    document.getElementById("refCodeEntryText").textContent = urlReferralCode;
+  }
+}
 if (adminToken){
   isAdmin = true;
   var ab = document.getElementById("adminServiceBtn");
   if (ab) ab.classList.remove("hidden");
 }
-
 var carousel = document.getElementById("posterCarousel");
 if (carousel){
   carousel.addEventListener("scroll", function(){
