@@ -707,6 +707,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <button data-cust-filter="real" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">✅ Real</button>
 <button data-cust-filter="new" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">🟡 New</button>
 <button data-cust-filter="blocked" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">🚫 Blocked</button>
+<button data-cust-filter="hidden" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">🗑️ Hidden</button>
 </div>
 <div id="customerListContent"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
 </div>
@@ -2430,6 +2431,8 @@ async function loadCustomersPage(){
         phone: doc.id, name: c.name || "Unknown",
         society: c.society || "इतर (No Society)", flat: c.flat || "-",
         address: c.address || "", isBlocked: c.isBlocked === true,
+        isHidden: c.isHidden === true,
+hiddenAt: c.hiddenAt || null,
         orderCount: c.orderCount || 0, totalSpent: c.totalSpent || 0,
         referralPoints: c.referralPoints || 0, loyaltyPoints: c.loyaltyPoints || 0,
         source: "profile"
@@ -2463,13 +2466,20 @@ async function loadCustomersPage(){
 }
 
 function renderCustomersList(){
-  var container = document.getElementById("customerListContent");
-  if (!container) return;
-  var q = (document.getElementById("custSearch").value || "").toLowerCase().trim();
-  var list = allCustomers.slice();
-  if (currentCustFilter === "real") list = list.filter(function(c){ return c.orderCount > 0 && !c.isBlocked; });
-  else if (currentCustFilter === "new") list = list.filter(function(c){ return c.orderCount === 0 && !c.isBlocked; });
-  else if (currentCustFilter === "blocked") list = list.filter(function(c){ return c.isBlocked; });
+var container = document.getElementById("customerListContent");
+if (!container) return;
+var q = (document.getElementById("custSearch").value || "").toLowerCase().trim();
+var list = allCustomers.slice();
+// 🆕 Hidden filter
+if (currentCustFilter === "hidden"){
+list = list.filter(function(c){ return c.isHidden === true; });
+} else {
+// मुख्य list - hidden customers दाखवू नका
+list = list.filter(function(c){ return c.isHidden !== true; });
+if (currentCustFilter === "real") list = list.filter(function(c){ return c.orderCount > 0 && !c.isBlocked; });
+else if (currentCustFilter === "new") list = list.filter(function(c){ return c.orderCount === 0 && !c.isBlocked; });
+else if (currentCustFilter === "blocked") list = list.filter(function(c){ return c.isBlocked; });
+}
   if (q){
     list = list.filter(function(c){
       return (c.name || "").toLowerCase().indexOf(q) > -1 ||
@@ -2517,17 +2527,60 @@ function renderCustomersList(){
         html += "<div class='flex gap-2'>";
         html += "<a href='https://wa.me/91" + c.phone + "' target='_blank' class='flex-1 text-center bg-green-50 text-green-700 py-2 rounded-xl text-[11px] font-bold'>💬 Chat</a>";
         html += "<a href='tel:" + c.phone + "' class='flex-1 text-center bg-blue-50 text-blue-700 py-2 rounded-xl text-[11px] font-bold'>📞 Call</a>";
-        if (c.isBlocked){
-          html += "<button data-unblock='" + c.phone + "' class='flex-1 bg-emerald-50 text-emerald-700 py-2 rounded-xl text-[11px] font-bold'>✅ Unblock</button>";
-        } else {
-          html += "<button data-block='" + c.phone + "' data-block-name='" + c.name + "' class='flex-1 bg-red-50 text-red-700 py-2 rounded-xl text-[11px] font-bold'>🚫 Block</button>";
-        }
-        html += "</div></div>";
+      if (c.isHidden){
+html += "<button data-restore='" + c.phone + "' class='flex-1 bg-blue-50 text-blue-700 py-2 rounded-xl text-[11px] font-bold'>🔄 Restore</button>";
+html += "<button data-hard-del='" + c.phone + "' data-del-name='" + c.name + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>❌ Hard Delete</button>";
+} else {
+if (c.isBlocked){
+html += "<button data-unblock='" + c.phone + "' class='flex-1 bg-emerald-50 text-emerald-700 py-2 rounded-xl text-[11px] font-bold'>✅ Unblock</button>";
+} else {
+html += "<button data-block='" + c.phone + "' data-block-name='" + c.name + "' class='flex-1 bg-red-50 text-red-700 py-2 rounded-xl text-[11px] font-bold'>🚫 Block</button>";
+}
+}
+html += "</div>";
+if (!c.isHidden){
+html += "<button data-hide='" + c.phone + "' data-hide-name='" + c.name + "' class='w-full mt-2 bg-gray-100 text-gray-600 py-2 rounded-xl text-[11px] font-bold'>🗑️ Hide (Fake)</button>";
+}
+html += "</div>";  
       }
       html += "</div>";
     }
   }
   container.innerHTML = html;
+}
+// ==================== HIDE / RESTORE / HARD DELETE ====================
+async function hideCustomer(phone, name){
+if (!confirm("🗑️ " + name + " यांना customer list मधून लपवायचं?\n\nपुन्हा [Hidden] filter मधून Restore करता येईल.")) return;
+try {
+await db.collection("customers").doc(phone).set({
+isHidden: true,
+hiddenAt: new Date(),
+hiddenReason: "Admin hide (Fake/Test)"
+}, { merge: true });
+showToast("🗑️ Hidden!", "warn");
+loadCustomersPage();
+} catch(e){ alert("एरर: " + e.message); }
+}
+
+async function restoreCustomer(phone){
+if (!confirm("🔄 हा customer पुन्हा मुख्य list मध्ये आणायचा?")) return;
+try {
+await db.collection("customers").doc(phone).set({
+isHidden: false, hiddenAt: null, hiddenReason: ""
+}, { merge: true });
+showToast("✅ Restored!", "success");
+loadCustomersPage();
+} catch(e){ alert("एरर: " + e.message); }
+}
+
+async function hardDeleteCustomer(phone, name){
+if (!confirm("❌ " + name + " यांना कायमचा DELETE करायचं?\n\n⚠️ हे पूर्णपणे निघून जाईल:\n• Customer Profile\n• Referral Points\n• Loyalty Points\n\nOrders इतिहास राहील.\n\nपक्का?")) return;
+if (!confirm("⚠️ शेवटची संधी! " + name + " कायमचा Delete होईल. पुढे परत मिळणार नाही. पक्का?")) return;
+try {
+await db.collection("customers").doc(phone).delete();
+showToast("❌ Deleted!", "info");
+loadCustomersPage();
+} catch(e){ alert("एरर: " + e.message); }
 }
 
 async function blockCustomer(phone, name){
@@ -3344,6 +3397,12 @@ document.addEventListener("click", function(e){
   if (blockBtn){ blockCustomer(blockBtn.getAttribute("data-block"), blockBtn.getAttribute("data-block-name")); return; }
   var unblockBtn = t.closest("[data-unblock]");
   if (unblockBtn){ unblockCustomer(unblockBtn.getAttribute("data-unblock")); return; }
+  var hideBtn = t.closest("[data-hide]");
+if (hideBtn){ hideCustomer(hideBtn.getAttribute("data-hide"), hideBtn.getAttribute("data-hide-name")); return; }
+var restoreBtn = t.closest("[data-restore]");
+if (restoreBtn){ restoreCustomer(restoreBtn.getAttribute("data-restore")); return; }
+var hardDelBtn = t.closest("[data-hard-del]");
+if (hardDelBtn){ hardDeleteCustomer(hardDelBtn.getAttribute("data-hard-del"), hardDelBtn.getAttribute("data-del-name")); return; }
   var custF = t.closest("[data-cust-filter]");
   if (custF){
     currentCustFilter = custF.getAttribute("data-cust-filter");
