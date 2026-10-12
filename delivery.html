@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;padding-bottom:20px;color:#0f172a;margin:0;overflow-x:hidden}
+body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;padding-bottom:30px;color:#0f172a;margin:0;overflow-x:hidden}
 *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
 .hidden{display:none!important}
 .premium-shadow{box-shadow:0 4px 24px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.04)}
@@ -16,31 +16,40 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;paddi
 .custom-input:focus{outline:none;border-color:#ea580c;box-shadow:0 0 0 4px rgba(234,88,12,.08)}
 .filter-btn{background:#f1f5f9;color:#64748b;border:2px solid transparent;cursor:pointer;transition:all .2s;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
 .filter-btn.active{background:#ea580c;color:#fff;border-color:#ea580c}
-.cash-warning{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin:10px 0}
-.cash-amount{font-size:22px;font-weight:800;color:#92400e}
+.society-card{background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff;padding:16px 20px;border-radius:18px;font-weight:800;font-size:15px;margin-bottom:12px;cursor:pointer;box-shadow:0 6px 20px rgba(234,88,12,.3);transition:transform .15s;display:flex;justify-content:space-between;align-items:center}
+.society-card:active{transform:scale(.98)}
+.society-card.complete{background:linear-gradient(135deg,#15803d,#166534);box-shadow:0 6px 20px rgba(21,128,61,.3)}
+.society-card .soc-count{background:rgba(255,255,255,.25);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.society-card .arrow{font-size:18px;transition:transform .2s}
+.society-card.expanded .arrow{transform:rotate(180deg)}
 .btn-call{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;padding:10px;border-radius:12px;font-weight:700;font-size:12px;text-align:center;display:block;text-decoration:none;border:none;cursor:pointer}
 .btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:10px;border-radius:12px;font-weight:700;font-size:12px;text-align:center;display:block;text-decoration:none;border:none;cursor:pointer}
 .btn-map{background:linear-gradient(135deg,#0891b2,#0e7490);color:#fff;padding:10px;border-radius:12px;font-weight:700;font-size:12px;text-align:center;display:block;text-decoration:none;border:none;cursor:pointer}
+.btn-upi{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;padding:10px;border-radius:12px;font-weight:700;font-size:12px;text-align:center;display:block;text-decoration:none;border:none;cursor:pointer;width:100%;margin-top:8px}
 .btn-deliver{background:linear-gradient(135deg,#15803d,#166534);color:#fff;padding:14px;border-radius:14px;font-weight:800;font-size:14px;text-align:center;width:100%;border:none;cursor:pointer;margin-top:10px}
-.btn-deliver.done{background:#d1fae5;color:#065f46;cursor:not-allowed}
-.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s}
+.btn-deliver.done{background:#d1fae5;color:#065f46;cursor:not-allowed;font-weight:700}
+.cash-warning{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+.cash-amount{font-size:22px;font-weight:800;color:#92400e}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s}
 .modal-backdrop.show{opacity:1;visibility:visible}
-.modal-sheet{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:520px;padding:24px;transform:translateY(100%);transition:transform .3s;max-height:90vh;overflow-y:auto}
+.modal-sheet{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:520px;padding:24px;transform:translateY(100%);transition:transform .3s;max-height:92vh;overflow-y:auto}
 .modal-backdrop.show .modal-sheet{transform:translateY(0)}
 .notif-banner{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-200px);background:linear-gradient(135deg,#15803d,#22c55e);color:#fff;padding:16px 24px;border-radius:20px;font-weight:700;font-size:14px;box-shadow:0 12px 40px rgba(21,128,61,.5);z-index:300;transition:transform .4s;max-width:90%;text-align:center}
 .notif-banner.show{transform:translateX(-50%) translateY(0)}
-.society-header{background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff;padding:12px 18px;border-radius:16px;font-weight:800;font-size:14px;margin:16px 0 12px;box-shadow:0 4px 12px rgba(234,88,12,.3)}
+.notif-banner.warn{background:linear-gradient(135deg,#d97706,#b45309)}
+.icon-3d{filter:drop-shadow(0 3px 6px rgba(0,0,0,.2))}
+.qr-container{background:#fff;padding:16px;border-radius:20px;display:inline-block;box-shadow:0 4px 20px rgba(15,23,42,.1)}
 </style>
 </head>
 <body>
 
 <div id="notifBanner" class="notif-banner"></div>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="loginScreen" class="min-h-screen flex items-center justify-center px-5">
 <div class="w-full max-w-sm">
 <div class="text-center mb-8">
-<div class="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"><span class="text-5xl">🚴</span></div>
+<div class="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"><span class="text-5xl icon-3d">🚴</span></div>
 <h1 class="text-[26px] font-extrabold text-gray-900">MH24 Delivery</h1>
 <p class="text-[12px] text-orange-600 font-bold uppercase tracking-widest mt-1">डिलिव्हरी पार्टनर</p>
 </div>
@@ -49,7 +58,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;paddi
 <label class="text-[11px] font-bold text-gray-600 uppercase mb-2 block">Password</label>
 <input type="password" id="loginPassword" class="custom-input" placeholder="Password टाका">
 <label class="text-[11px] font-bold text-gray-600 uppercase mb-2 block">तुमचं नाव</label>
-<input type="text" id="loginName" class="custom-input" placeholder="उदा. राहुल">
+<input type="text" id="loginName" class="custom-input" placeholder="उदा. Ram" value="Ram">
 <button id="loginBtn" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-2xl font-extrabold text-[15px] shadow-md">🚴 लॉगिन</button>
 <p id="loginError" class="text-red-500 text-[12px] font-bold text-center mt-3 hidden">❌ चुकीचा password!</p>
 </div>
@@ -57,15 +66,15 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;paddi
 </div>
 </div>
 
-<!-- MAIN SCREEN -->
+<!-- MAIN -->
 <div id="mainScreen" class="hidden">
 <header class="bg-gradient-to-r from-orange-500 to-red-600 sticky top-0 z-40 shadow-md">
 <div class="px-4 py-3 flex justify-between items-center">
 <div class="flex items-center gap-3">
-<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center"><span class="text-xl">🚴</span></div>
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center"><span class="text-xl icon-3d">🚴</span></div>
 <div>
 <h1 class="text-white font-extrabold text-[17px]">MH24 Delivery</h1>
-<p class="text-orange-100 text-[10px] font-bold" id="headerDate">---</p>
+<p class="text-orange-100 text-[10px] font-bold" id="headerInfo">---</p>
 </div>
 </div>
 <div class="flex items-center gap-2">
@@ -94,10 +103,10 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;paddi
 
 <div class="bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-2xl shadow mb-4 text-white flex justify-between items-center">
 <div>
-<p class="text-[10px] font-bold uppercase opacity-90">💵 Total Cash Collection</p>
+<p class="text-[10px] font-bold uppercase opacity-90">💵 Cash Collection</p>
 <p class="text-2xl font-extrabold mt-0.5">₹<span id="statCash">0</span></p>
 </div>
-<div class="text-3xl">💰</div>
+<div class="text-3xl icon-3d">💰</div>
 </div>
 
 <div class="flex gap-2 mb-4 overflow-x-auto pb-1" style="scrollbar-width:none">
@@ -117,7 +126,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;paddi
 <div class="modal-sheet">
 <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-4"></div>
 <div class="text-center mb-4">
-<div class="w-20 h-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-4xl">💰</span></div>
+<div class="w-20 h-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-4xl icon-3d">💰</span></div>
 <h3 class="text-[22px] font-extrabold text-gray-900">Cash मिळाला का?</h3>
 <p class="text-[13px] text-gray-500 mt-1" id="cashModalName"></p>
 </div>
@@ -132,9 +141,37 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:#f6f7f9;paddi
 </div>
 </div>
 
+<!-- UPI QR MODAL -->
+<div id="upiModal" class="modal-backdrop">
+<div class="modal-sheet">
+<div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-4"></div>
+<div class="text-center mb-4">
+<div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full flex items-center justify-center mx-auto mb-3"><span class="text-4xl icon-3d">💳</span></div>
+<h3 class="text-[22px] font-extrabold text-gray-900">UPI Payment</h3>
+<p class="text-[13px] text-gray-500 mt-1" id="upiModalName"></p>
+</div>
+<div class="text-center mb-4">
+<div class="qr-container">
+<img src="/upi-qr.jpg" alt="UPI QR" class="w-[240px] h-[240px]">
+</div>
+</div>
+<div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-4 mb-3 text-center">
+<p class="text-[11px] text-purple-700 font-bold uppercase">एकूण रक्कम</p>
+<p class="text-3xl font-extrabold text-purple-700 mt-1">₹<span id="upiAmount">0</span></p>
+<p class="text-[10px] text-purple-600 mt-2">UPI ID: <b>9503816596@airtel</b></p>
+</div>
+<p class="text-[11px] text-gray-500 text-center mb-4">Customer, तुमच्या UPI app (PhonePe/GPay/Paytm) ने QR scan करा</p>
+<div class="flex gap-3">
+<button id="upiCancelBtn" class="flex-1 bg-gray-100 text-gray-700 py-4 rounded-2xl font-bold">❌ रद्द</button>
+<button id="upiConfirmBtn" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-4 rounded-2xl font-bold">✅ Payment मिळाला</button>
+</div>
+</div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
-<script>// ==================== FIREBASE ====================
+<script>
+// ==================== FIREBASE ====================
 var firebaseConfig={
   apiKey: "AIzaSyAlRrFaovXjVso2AK_w04jMFa_YHYSo2AK",
   authDomain: "mh24-basket.firebaseapp.com",
@@ -152,15 +189,19 @@ var DELIVERY_PASSWORD = "D1234five";
 var currentBoy = null;
 var allOrders = [];
 var currentFilter = "all";
+var expandedSocieties = {};
 var pendingDeliverOrder = null;
+var pendingUPIOrder = null;
 
 // ==================== HELPERS ====================
-function showNotif(msg, duration){
-  duration = duration || 3500;
+function showNotif(msg, type){
+  type = type || "success";
   var b = document.getElementById("notifBanner");
   b.textContent = msg;
+  b.className = "notif-banner";
+  if (type === "warn") b.classList.add("warn");
   b.classList.add("show");
-  setTimeout(function(){ b.classList.remove("show"); }, duration);
+  setTimeout(function(){ b.classList.remove("show"); }, 3500);
 }
 
 function formatQuantity(qty, unitType){
@@ -205,8 +246,8 @@ function doLogin(){
   var pass = document.getElementById("loginPassword").value.trim();
   var name = document.getElementById("loginName").value.trim();
   var errEl = document.getElementById("loginError");
-  if (!pass) { errEl.textContent = "❌ Password टाका!"; errEl.classList.remove("hidden"); return; }
-  if (!name) { errEl.textContent = "❌ तुमचं नाव टाका!"; errEl.classList.remove("hidden"); return; }
+  if (!pass){ errEl.textContent = "❌ Password टाका!"; errEl.classList.remove("hidden"); return; }
+  if (!name) name = "Ram";
   if (pass !== DELIVERY_PASSWORD){
     errEl.textContent = "❌ चुकीचा password!";
     errEl.classList.remove("hidden");
@@ -224,7 +265,7 @@ function logout(){
   sessionStorage.removeItem("mh24_delivery_boy");
   currentBoy = null;
   document.getElementById("loginPassword").value = "";
-  document.getElementById("loginName").value = "";
+  document.getElementById("loginName").value = "Ram";
   checkLogin();
 }
 
@@ -233,7 +274,7 @@ function showMainScreen(){
   document.getElementById("mainScreen").classList.remove("hidden");
   var d = new Date();
   var dayNames = ["रविवार","सोमवार","मंगळवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"];
-  document.getElementById("headerDate").textContent = dayNames[d.getDay()] + " • " + d.toLocaleDateString("mr-IN");
+  document.getElementById("headerInfo").textContent = (currentBoy ? currentBoy.name : "Ram") + " • " + dayNames[d.getDay()] + ", " + d.toLocaleDateString("mr-IN");
   loadOrders();
 }
 
@@ -242,15 +283,12 @@ async function loadOrders(){
   var container = document.getElementById("ordersList");
   container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>लोड होत आहे...</p>";
   try {
-    var todayStart = new Date();
-    todayStart.setHours(0,0,0,0);
     var snap = await db.collection("orders").orderBy("createdAt", "desc").limit(100).get();
     allOrders = [];
     snap.forEach(function(doc){
       var o = doc.data();
       if (!o.createdAt || !o.createdAt.seconds) return;
       var created = new Date(o.createdAt.seconds * 1000);
-      // आजचे + उद्याचे orders दाखवा
       var ageHours = (new Date() - created) / (1000 * 60 * 60);
       if (ageHours > 48) return;
       if (o.status === "cancelled") return;
@@ -270,8 +308,7 @@ function renderOrders(){
   if (currentFilter === "pending") filtered = filtered.filter(function(o){ return o.status !== "delivered"; });
   else if (currentFilter === "delivered") filtered = filtered.filter(function(o){ return o.status === "delivered"; });
   else if (currentFilter === "cash") filtered = filtered.filter(function(o){ return (o.cashAmount || 0) > 0 && o.status !== "delivered"; });
-  
-  // Stats
+
   var totalCount = allOrders.length;
   var deliveredCount = allOrders.filter(function(o){ return o.status === "delivered"; }).length;
   var pendingCount = totalCount - deliveredCount;
@@ -289,26 +326,59 @@ function renderOrders(){
     return;
   }
 
-  // Sort by society
-  filtered.sort(function(a,b){
-    var s = (a.society || "").localeCompare(b.society || "");
-    if (s !== 0) return s;
-    return (a._created < b._created) ? 1 : -1;
-  });
-
-  var html = "";
-  var lastSociety = "";
+  // Group by society
+  var grouped = {};
   for (var i = 0; i < filtered.length; i++){
     var o = filtered[i];
     var soc = o.society || "इतर (No Society)";
-    if (soc !== lastSociety){
-      var count = 0;
-      for (var x = 0; x < filtered.length; x++) if ((filtered[x].society || "इतर (No Society)") === soc) count++;
-      html += "<div class='society-header'>🏘️ " + soc + " <span style='float:right;background:rgba(255,255,255,.25);padding:2px 10px;border-radius:20px;font-size:12px'>" + count + "</span></div>";
-      lastSociety = soc;
-    }
-    html += buildOrderCard(o);
+    if (!grouped[soc]) grouped[soc] = [];
+    grouped[soc].push(o);
   }
+
+  var societies = Object.keys(grouped).sort();
+  var html = "";
+
+  for (var s = 0; s < societies.length; s++){
+    var sn = societies[s];
+    var socList = grouped[sn];
+    var socTotal = socList.length;
+    var socDelivered = socList.filter(function(o){ return o.status === "delivered"; }).length;
+    var isComplete = socDelivered === socTotal;
+    var isExpanded = expandedSocieties[sn] === true;
+
+    // Society header
+    var socClass = "society-card";
+    if (isComplete) socClass += " complete";
+    if (isExpanded) socClass += " expanded";
+
+    html += "<div class='" + socClass + "' data-toggle-soc='" + sn.replace(/'/g, "&#39;") + "'>";
+    html += "<div class='flex items-center gap-2'>";
+    html += "<span class='text-xl icon-3d'>" + (isComplete ? "✅" : "🏘️") + "</span>";
+    html += "<span>" + sn + "</span>";
+    html += "</div>";
+    html += "<div class='flex items-center gap-2'>";
+    html += "<span class='soc-count'>" + socDelivered + "/" + socTotal + "</span>";
+    html += "<span class='arrow'>▼</span>";
+    html += "</div>";
+    html += "</div>";
+
+    // Expanded customers
+    if (isExpanded){
+      html += "<div class='space-y-2 mb-4'>";
+      // Sort: pending first
+      socList.sort(function(a, b){
+        var aD = a.status === "delivered" ? 1 : 0;
+        var bD = b.status === "delivered" ? 1 : 0;
+        if (aD !== bD) return aD - bD;
+        return a._created - b._created;
+      });
+      for (var j = 0; j < socList.length; j++){
+        html += buildOrderCard(socList[j]);
+      }
+      html += "</div>";
+    }
+  }
+
   container.innerHTML = html;
 }
 
@@ -344,22 +414,26 @@ function buildOrderCard(o){
 
   var cashBox = "";
   if (isCash && !isDelivered){
-    cashBox = "<div class='cash-warning'><div><p class='text-[10px] font-bold text-amber-800'>💵 CASH COLLECT करायचा</p><p class='cash-amount'>₹" + o.cashAmount + "</p></div><span class='text-3xl'>💰</span></div>";
+    cashBox = "<div class='cash-warning'><div><p class='text-[10px] font-bold text-amber-800'>💵 CASH COLLECT करायचा</p><p class='cash-amount'>₹" + o.cashAmount + "</p></div><span class='text-3xl icon-3d'>💰</span></div>";
   }
 
-  var deliverBtn = "";
+  var actionBtns = "";
   if (isDelivered){
-    deliverBtn = "<button class='btn-deliver done' disabled>✅ Delivered (" + (o.deliveredAt ? new Date(o.deliveredAt.seconds * 1000).toLocaleTimeString("mr-IN", {hour:"2-digit",minute:"2-digit"}) : "") + ")</button>";
+    actionBtns = "<button class='btn-deliver done' disabled>✅ Delivered (" + (o.deliveredAt ? new Date(o.deliveredAt.seconds * 1000).toLocaleTimeString("mr-IN", {hour:"2-digit",minute:"2-digit"}) : "") + ")</button>";
   } else {
-    deliverBtn = "<button class='btn-deliver' data-deliver='" + o.id + "' data-cash='" + (o.cashAmount || 0) + "' data-name='" + o.customerName + "'>✅ Delivered Mark करा</button>";
+    // UPI button - only if cash exists
+    if (isCash){
+      actionBtns += "<button class='btn-upi' data-upi='" + o.id + "' data-cash='" + (o.cashAmount || 0) + "' data-name='" + o.customerName + "'>💳 UPI QR दाखवा</button>";
+    }
+    actionBtns += "<button class='btn-deliver' data-deliver='" + o.id + "' data-cash='" + (o.cashAmount || 0) + "' data-name='" + o.customerName + "'>✅ Delivered Mark करा</button>";
   }
 
-  return "<div class='bg-white p-4 rounded-2xl premium-shadow mb-3 border-l-4 " + (isDelivered ? "border-green-500" : (isCash ? "border-amber-500" : "border-blue-500")) + "'>" +
+  return "<div class='bg-white p-4 rounded-2xl premium-shadow mb-2 border-l-4 " + (isDelivered ? "border-green-500" : (isCash ? "border-amber-500" : "border-blue-500")) + "'>" +
     "<div class='flex justify-between items-start mb-2'><div class='flex-1 min-w-0'><p class='font-extrabold text-[15px] text-gray-900 truncate'>👤 " + o.customerName + "</p><p class='text-[11px] text-gray-500 mt-0.5'>📞 " + phone + " • 🏠 Flat " + (o.flat || "-") + "</p><p class='text-[10px] text-gray-400 mt-0.5'>🕐 " + timeStr + "</p></div><div>" + statusBadge + "</div></div>" +
     "<div class='bg-gray-50 p-3 rounded-xl mb-2'>" + (itemsHTML || "<p class='text-[11px] text-gray-400 text-center py-1'>Items नाहीत</p>") + "<div class='flex justify-between text-[13px] pt-2 mt-1 border-t-2 border-gray-200'><span class='font-bold text-gray-800'>Total</span><span class='font-extrabold text-gray-900'>₹" + totalAmount + "</span></div></div>" +
     cashBox +
     "<div class='grid grid-cols-3 gap-2 mb-2'><a href='tel:" + phone + "' class='btn-call'>📞 Call</a><a href='" + waUrl + "' target='_blank' class='btn-wa'>💬 WA</a><a href='" + mapUrl + "' target='_blank' class='btn-map'>🗺️ Map</a></div>" +
-    deliverBtn +
+    actionBtns +
     "</div>";
 }
 
@@ -371,11 +445,11 @@ function markDelivered(orderId){
   var isCash = (o.cashAmount || 0) > 0;
   if (isCash){
     pendingDeliverOrder = o;
-    document.getElementById("cashModalName").textContent = o.customerName + " • " + o.phone;
+    document.getElementById("cashModalName").textContent = o.customerName + " • " + o.customerPhone;
     document.getElementById("cashModalAmount").textContent = o.cashAmount || 0;
     document.getElementById("cashModal").classList.add("show");
   } else {
-    confirmDelivered(orderId, false);
+    confirmDelivered(orderId, false, "");
   }
 }
 
@@ -388,32 +462,76 @@ function confirmCashReceived(){
   if (!pendingDeliverOrder) return;
   var id = pendingDeliverOrder.id;
   closeCashModal();
-  confirmDelivered(id, true);
+  confirmDelivered(id, true, "cash");
 }
 
-async function confirmDelivered(orderId, cashCollected){
+// ==================== UPI ACTION ====================
+function showUPIModal(orderId){
+  var o = null;
+  for (var i = 0; i < allOrders.length; i++) if (allOrders[i].id === orderId){ o = allOrders[i]; break; }
+  if (!o) return;
+  pendingUPIOrder = o;
+  document.getElementById("upiModalName").textContent = o.customerName + " • " + o.customerPhone;
+  document.getElementById("upiAmount").textContent = o.cashAmount || 0;
+  document.getElementById("upiModal").classList.add("show");
+}
+
+function closeUPIModal(){
+  document.getElementById("upiModal").classList.remove("show");
+  pendingUPIOrder = null;
+}
+
+function confirmUPIPayment(){
+  if (!pendingUPIOrder) return;
+  var id = pendingUPIOrder.id;
+  closeUPIModal();
+  confirmDelivered(id, true, "upi");
+}
+
+// ==================== CONFIRM DELIVERED ====================
+async function confirmDelivered(orderId, paymentCollected, paymentMethod){
   try {
     var updates = {
       status: "delivered",
       deliveredAt: new Date(),
-      deliveredBy: currentBoy ? currentBoy.name : "Unknown"
+      deliveredBy: currentBoy ? currentBoy.name : "Ram"
     };
-    if (cashCollected){
+    if (paymentCollected){
       updates.cashCollected = true;
       updates.cashCollectedAt = new Date();
-      updates.cashCollectedBy = currentBoy ? currentBoy.name : "Unknown";
+      updates.cashCollectedBy = currentBoy ? currentBoy.name : "Ram";
+      updates.paymentMethod = paymentMethod || "cash";
     }
     await db.collection("orders").doc(orderId).update(updates);
+
+    // Check if society is complete
+    var order = null;
+    for (var i = 0; i < allOrders.length; i++) if (allOrders[i].id === orderId){ order = allOrders[i]; break; }
+    var society = order ? order.society : null;
+
     showNotif("✅ Delivered!");
-    loadOrders();
+
+    // Reload
+    await loadOrders();
+
+    // If society complete, show notification
+    if (society){
+      var socOrders = allOrders.filter(function(o){ return (o.society || "इतर (No Society)") === (society || "इतर (No Society)"); });
+      var allDone = socOrders.every(function(o){ return o.status === "delivered"; });
+      if (allDone && socOrders.length > 0){
+        setTimeout(function(){ showNotif("🎉 " + society + " Complete! पुढच्या society वर जा.", "success"); }, 1500);
+      }
+    }
   } catch(e){
-    alert("एरर: " + e.message);
+    alert("Error: " + e.message);
   }
 }
 
 // ==================== EVENT LISTENERS ====================
 document.addEventListener("click", function(e){
   var t = e.target;
+
+  // Deliver button
   var deliverBtn = t.closest("[data-deliver]");
   if (deliverBtn){
     var id = deliverBtn.getAttribute("data-deliver");
@@ -428,10 +546,28 @@ document.addEventListener("click", function(e){
         document.getElementById("cashModal").classList.add("show");
       }
     } else {
-      confirmDelivered(id, false);
+      confirmDelivered(id, false, "");
     }
     return;
   }
+
+  // UPI button
+  var upiBtn = t.closest("[data-upi]");
+  if (upiBtn){
+    showUPIModal(upiBtn.getAttribute("data-upi"));
+    return;
+  }
+
+  // Society toggle
+  var socBtn = t.closest("[data-toggle-soc]");
+  if (socBtn){
+    var sn = socBtn.getAttribute("data-toggle-soc");
+    expandedSocieties[sn] = !expandedSocieties[sn];
+    renderOrders();
+    return;
+  }
+
+  // Filter
   var fBtn = t.closest("[data-filter]");
   if (fBtn){
     currentFilter = fBtn.getAttribute("data-filter");
@@ -452,14 +588,21 @@ document.getElementById("logoutBtn").addEventListener("click", logout);
 document.getElementById("cashYesBtn").addEventListener("click", confirmCashReceived);
 document.getElementById("cashNoBtn").addEventListener("click", function(){
   closeCashModal();
-  showNotif("💵 Cash नाही मिळाला. Order pending आहे.", 3000);
+  showNotif("💵 Cash नाही मिळाला. Order pending आहे.", "warn");
 });
 document.getElementById("cashModal").addEventListener("click", function(e){
   if (e.target === this) closeCashModal();
 });
 
+// UPI buttons
+document.getElementById("upiConfirmBtn").addEventListener("click", confirmUPIPayment);
+document.getElementById("upiCancelBtn").addEventListener("click", function(){
+  closeUPIModal();
+  showNotif("❌ UPI रद्द केलं", "warn");
+});
+document.getElementById("upiModal").addEventListener("click", function(e){
+  if (e.target === this) closeUPIModal();
+});
+
 // ==================== STARTUP ====================
 checkLogin();
-</script>
-</body>
-</html>
