@@ -1805,65 +1805,66 @@ if (urlReferralCode) {
 
 // ==================== PROFILE ====================
 async function saveProfile(){
-  var name = document.getElementById("custName").value.trim();
-  var phone = document.getElementById("custPhone").value.trim();
-  var society = document.getElementById("custSociety").value.trim();
-  var flat = document.getElementById("custFlat").value.trim();
-  var address = document.getElementById("custAddress").value.trim();
-  var notes = document.getElementById("custNotes").value.trim();
-  if (!name || !phone || !address) return alert("सर्व भरा!");
-  if (phone.length < 10) return alert("मोबाईल नंबर 10 अंकी हवा!");
-  userProfile = { name: name, phone: phone, society: society, flat: flat, address: address, notes: notes };
-  localStorage.setItem("mh24_user", JSON.stringify(userProfile));
-  renderProfile();
-  try {
-    var custRef = db.collection("customers").doc(phone);
-    var existing = await custRef.get();
-    var myCode = generateReferralCode(name, phone);
-    if (!existing.exists){
-      var refBy = null;
-      if (urlReferralCode && urlReferralCode !== myCode){ refBy = urlReferralCode; }
-      await custRef.set({
-        name: name, phone: phone, society: society, flat: flat, address: address,
-        isBlocked: false, blockedAt: null, blockedReason: "",
-        orderCount: 0, totalSpent: 0, lastOrderAt: null,
-        referralCode: myCode,
-        referredBy: refBy,
-        referrerApproved: false,
-        referralPoints: 0,
-        loyaltyPoints: 0,
-        totalReferrals: 0,
-        successfulReferrals: 0,
-        freeWeeksUsed: 0,
-        firstWeekFree: refBy ? true : false,
-        loyaltyCounter: 0,
-        last4CashTotal: 0,
-        createdAt: new Date(), updatedAt: new Date()
-      });
-      if (refBy){
-        var refSnap = await db.collection("customers").where("referralCode", "==", refBy).limit(1).get();
-        var refPhone = null; var refName = "Unknown";
-        refSnap.forEach(function(doc){ refPhone = doc.id; refName = doc.data().name || "Unknown"; });
-        if (refPhone){
-          await db.collection("referrals").add({
-            referrerPhone: refPhone, referrerName: refName, referrerCode: refBy,
-            newCustomerPhone: phone, newCustomerName: name,
-            status: "pending", points: 50,
-            weekCompletedAt: null, approvedAt: null, rejectedAt: null,
-            createdAt: new Date()
-          });
-        }
-      }
-    } else {
-      await custRef.update({ name: name, society: society, flat: flat, address: address, updatedAt: new Date() });
-    }
-  } catch(e){ console.error("Customer save error:", e); }
-  showToast("प्रोफाइल सेव्ह! ✅", "success");
-}if (urlReferralCode) {
-  urlReferralCode = null;
-  try { history.replaceState(null, null, window.location.pathname); } catch(e){}
-  var entryBox = document.getElementById("refCodeEntry");
-  if (entryBox) entryBox.classList.add("hidden");
+var name = document.getElementById("custName").value.trim();
+var phone = document.getElementById("custPhone").value.trim();
+var society = document.getElementById("custSociety").value.trim();
+var flat = document.getElementById("custFlat").value.trim();
+var address = document.getElementById("custAddress").value.trim();
+var notes = document.getElementById("custNotes").value.trim();
+if (!name || !phone || !address) return alert("सर्व भरा!");
+if (phone.length < 10) return alert("मोबाईल नंबर 10 अंकी हवा!");
+userProfile = { name: name, phone: phone, society: society, flat: flat, address: address, notes: notes };
+localStorage.setItem("mh24_user", JSON.stringify(userProfile));
+renderProfile();
+try {
+var custRef = db.collection("customers").doc(phone);
+var existing = await custRef.get();
+var myCode = generateReferralCode(name, phone);
+if (!existing.exists){
+var refBy = null;
+if (urlReferralCode && urlReferralCode !== myCode){ refBy = urlReferralCode; }
+await custRef.set({
+name: name, phone: phone, society: society, flat: flat, address: address,
+isBlocked: false, blockedAt: null, blockedReason: "",
+orderCount: 0, totalSpent: 0, lastOrderAt: null,
+referralCode: myCode,
+referredBy: refBy,
+referrerApproved: false,
+referralPoints: 0,
+loyaltyPoints: 0,
+totalReferrals: 0,
+successfulReferrals: 0,
+freeWeeksUsed: 0,
+firstWeekFree: refBy ? true : false,
+loyaltyCounter: 0,
+last4CashTotal: 0,
+createdAt: new Date(), updatedAt: new Date()
+});
+if (refBy){
+var refSnap = await db.collection("customers").where("referralCode", "==", refBy).limit(1).get();
+var refPhone = null; var refName = "Unknown";
+refSnap.forEach(function(doc){ refPhone = doc.id; refName = doc.data().name || "Unknown"; });
+if (refPhone){
+await db.collection("referrals").add({
+referrerPhone: refPhone, referrerName: refName, referrerCode: refBy,
+newCustomerPhone: phone, newCustomerName: name,
+status: "pending", points: 50,
+weekCompletedAt: null, approvedAt: null, rejectedAt: null,
+createdAt: new Date()
+});
+}
+}
+} else {
+await custRef.update({ name: name, society: society, flat: flat, address: address, updatedAt: new Date() });
+}
+} catch(e){ console.error("Customer save error:", e); }
+showToast("प्रोफाइल सेव्ह! ✅", "success");
+if (urlReferralCode) {
+urlReferralCode = null;
+try { history.replaceState(null, null, window.location.pathname); } catch(e){}
+var entryBox = document.getElementById("refCodeEntry");
+if (entryBox) entryBox.classList.add("hidden");
+}
 }
   
 function editProfile(){
