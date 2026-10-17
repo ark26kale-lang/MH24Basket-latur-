@@ -162,7 +162,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <p class="text-[9px] text-orange-600 font-bold mt-1 tracking-wider">● IN STOCK</p>
 </div>
 <div onclick="openSpecialOffers()" class="bg-gradient-to-br from-red-50 to-white p-4 rounded-3xl text-center cursor-pointer border border-red-100 premium-shadow">
-<img src="offer1.jpg" class="w-20 h-20 mx-auto mb-2 object-contain mix-blend-multiply" loading="lazy" decoding="async">
+<img src="special.jpg" class="w-20 h-20 mx-auto mb-2 object-contain mix-blend-multiply" loading="lazy" decoding="async">
 <p class="premium-title text-[15px] text-red-900">Special Offers</p>
 <p class="text-[9px] text-red-600 font-bold mt-1 tracking-wider">🔥 HOT DEALS</p>
 </div>
@@ -226,7 +226,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div id="allCategoriesGrid" class="grid grid-cols-4 gap-2"></div>
 </div>
 </div>
-<!-- SPECIAL OFFERS LIST -->
+
 <div id="view-special-offers" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-4">
 <button class="back-btn icon-box-3d w-10 h-10 flex items-center justify-center">
@@ -237,7 +237,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div id="specialOffersList" class="space-y-4 pb-10"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
 </div>
 
-<!-- OFFER PRODUCTS -->
 <div id="view-offer-products" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-4">
 <button class="back-btn icon-box-3d w-10 h-10 flex items-center justify-center">
@@ -247,6 +246,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 <div id="offerProductsGrid" class="grid grid-cols-2 gap-3"></div>
 </div>
+
 <div id="view-category" class="hidden fade-in">
 <div id="categoryProductGrid" class="grid grid-cols-2 gap-3 mt-1"></div>
 </div>
@@ -563,16 +563,16 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div><h3 class="text-white premium-title text-lg">📊 Dashboard</h3><p class="text-blue-100 text-[11px] mt-0.5">Sales • Profit • Report</p></div>
 <div class="icon-3d icon-3d-lg">📈</div>
 </div>
-<div id="adminOffersBtn" onclick="navigateTo('view-admin-offers'); loadAdminOffers();" class="bg-gradient-to-br from-red-600 to-rose-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
-<div><h3 class="text-white premium-title text-lg">🎁 Special Offers</h3><p class="text-red-100 text-[11px] mt-0.5">Banners व्यवस्थापित करा</p></div>
-<div class="icon-3d icon-3d-lg">🎁</div>
-</div>
 <div id="adminCustomersBtn" class="bg-gradient-to-br from-indigo-600 to-purple-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
 <div><h3 class="text-white premium-title text-lg">👥 Customers</h3><p class="text-indigo-100 text-[11px] mt-0.5">Society-wise view</p></div>
 <div class="icon-3d icon-3d-lg">👥</div>
 </div>
 <div id="adminReferralsBtn" class="bg-gradient-to-br from-pink-600 to-rose-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
 <div><h3 class="text-white premium-title text-lg">🎁 Referrals & Points</h3><p class="text-pink-100 text-[11px] mt-0.5">Approve • Points • Top List</p></div>
+<div class="icon-3d icon-3d-lg">🎁</div>
+</div>
+<div id="adminOffersBtn" class="bg-gradient-to-br from-red-600 to-rose-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
+<div><h3 class="text-white premium-title text-lg">🎁 Special Offers</h3><p class="text-red-100 text-[11px] mt-0.5">Banners व्यवस्थापित करा</p></div>
 <div class="icon-3d icon-3d-lg">🎁</div>
 </div>
 <div id="adminPointsApproveBtn" class="bg-gradient-to-br from-purple-600 to-violet-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
@@ -703,38 +703,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-4"><h3 class="premium-title text-gray-800 mb-3 text-lg">🏆 टॉप 5 प्रोडक्ट्स</h3><div id="dashTopProducts" class="space-y-2"></div></div>
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-4"><h3 class="premium-title text-gray-800 mb-3 text-lg">🏘️ Society-wise विक्री</h3><div id="dashSocietyStats" class="space-y-2"></div></div>
 </div>
-<!-- ADMIN SPECIAL OFFERS -->
-<div id="view-admin-offers" class="hidden fade-in">
-<div class="flex items-center gap-3 mb-5">
-<button class="back-btn icon-box-3d w-10 h-10">
-<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-</button>
-<h2 class="premium-title text-[22px] text-gray-900">🎁 Special Offers</h2>
-</div>
 
-<div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-red-500">
-<h3 class="premium-title text-gray-800 mb-4 text-lg">नवीन Offer जोडा</h3>
-<label class="form-label">Offer Title</label>
-<input type="text" id="offerTitle" placeholder="उदा. Diwali Dhamaka 50% OFF" class="custom-input">
-<label class="form-label">Banner Image URL</label>
-<input type="url" id="offerBannerUrl" placeholder="https://..." class="custom-input">
-<div class="bg-gray-100 p-3 rounded-2xl mb-3 border border-gray-300">
-<p class="text-[11px] font-extrabold text-gray-800 mb-2 px-1">कोणते प्रोडक्ट्स दाखवायचे?</p>
-<select id="offerTargetType" class="custom-input mb-2">
-<option value="category">संपूर्ण Category निवडा</option>
-<option value="products">विशिष्ट प्रोडक्ट्स (नाव/ID)</option>
-</select>
-<select id="offerCategorySelect" class="custom-input"></select>
-<input type="text" id="offerProductsInput" placeholder="प्रोडक्ट नावे किंवा ID (comma ने वेगळे करा)" class="custom-input hidden">
-</div>
-<button onclick="saveOffer()" class="btn-primary">💾 Offer Save करा</button>
-</div>
-
-<div class="bg-white p-5 rounded-3xl premium-shadow mb-5">
-<h3 class="premium-title text-gray-800 mb-3 text-lg">सध्याचे Offers</h3>
-<div id="adminOffersList" class="space-y-2"><p class="text-center text-gray-500 py-4">लोड होत आहे...</p></div>
-</div>
-</div>
 <div id="view-admin-customers" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-5">
 <button class="back-btn icon-box-3d w-10 h-10">
@@ -807,6 +776,36 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <button data-ref-filter="rejected" class="cust-filter-btn px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap">🚫 Rejected</button>
 </div>
 <div id="adminReferralsList"><p class="text-center text-gray-500 py-10 font-semibold text-sm">लोड होत आहे...</p></div>
+</div>
+
+<div id="view-admin-offers" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-5">
+<button class="back-btn icon-box-3d w-10 h-10">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 class="premium-title text-[22px] text-gray-900">🎁 Special Offers</h2>
+</div>
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-red-500">
+<h3 class="premium-title text-gray-800 mb-4 text-lg">नवीन Offer जोडा</h3>
+<label class="form-label">Offer Title</label>
+<input type="text" id="offerTitle" placeholder="उदा. Diwali Dhamaka 50% OFF" class="custom-input">
+<label class="form-label">Banner Image URL</label>
+<input type="url" id="offerBannerUrl" placeholder="https://..." class="custom-input">
+<div class="bg-gray-100 p-3 rounded-2xl mb-3 border border-gray-300">
+<p class="text-[11px] font-extrabold text-gray-800 mb-2 px-1">कोणते प्रोडक्ट्स दाखवायचे?</p>
+<select id="offerTargetType" class="custom-input mb-2">
+<option value="category">संपूर्ण Category निवडा</option>
+<option value="products">विशिष्ट प्रोडक्ट्स (नाव/ID)</option>
+</select>
+<select id="offerCategorySelect" class="custom-input"></select>
+<input type="text" id="offerProductsInput" placeholder="प्रोडक्ट नावे किंवा ID (comma ने वेगळे करा)" class="custom-input hidden">
+</div>
+<button onclick="saveOffer()" class="btn-primary">💾 Offer Save करा</button>
+</div>
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5">
+<h3 class="premium-title text-gray-800 mb-3 text-lg">सध्याचे Offers</h3>
+<div id="adminOffersList" class="space-y-2"><p class="text-center text-gray-500 py-4">लोड होत आहे...</p></div>
+</div>
 </div>
 
 <div id="view-admin-points" class="hidden fade-in">
@@ -926,11 +925,11 @@ db.settings({ ignoreUndefinedProperties: true });
 var products = [];
 var services = [];
 var customCategories = [];
-var offers = [];
 var allCustomers = [];
 var allReferrals = [];
 var allCancels = [];
 var allPointsRequests = [];
+var offers = [];
 var currentCustFilter = "all";
 var currentRefFilter = "all";
 var urlReferralCode = null;
@@ -961,7 +960,8 @@ var viewStack = [];
 var currentView = "view-home";
 var isNavigatingBack = false;
 
-var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-special-offers","view-offer-products","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-points","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-points","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
+var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-special-offers","view-offer-products","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-points","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-offers","view-admin-points","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
+
 // ==================== NAVIGATION ====================
 function navigateTo(viewId){
   if (viewId === currentView) return;
@@ -984,7 +984,7 @@ function showView(viewId){
   window.scrollTo({top: 0, behavior: "instant"});
   var navItems = document.querySelectorAll(".nav-item");
   for (var n = 0; n < navItems.length; n++) navItems[n].classList.remove("active");
-  if (viewId === "view-home" || viewId === "view-other-categories" || viewId === "view-category" || viewId === "view-product-detail"){
+  if (viewId === "view-home" || viewId === "view-other-categories" || viewId === "view-special-offers" || viewId === "view-offer-products" || viewId === "view-category" || viewId === "view-product-detail"){
     var h = document.getElementById("nav-home"); if (h) h.classList.add("active");
   }
   if (viewId === "view-services" || viewId === "view-service-booking"){
@@ -1003,6 +1003,7 @@ function showView(viewId){
   if (viewId === "view-my-bills") loadMyBills();
   if (viewId === "view-other-categories") renderOtherPage();
   if (viewId === "view-points") loadPointsPage();
+  if (viewId === "view-special-offers") loadOffersFromFirebase();
   updateCartBadge();
 }
 
@@ -1162,7 +1163,7 @@ function normalizeProduct(p){
   return p;
 }
 
-// ==================== DELIVERY TIME LOGIC (FIXED) ====================
+// ==================== DELIVERY TIME LOGIC ====================
 function getDeliverySlot(cashExists, pendingExists, orderTime){
   orderTime = orderTime || new Date();
   var hour = orderTime.getHours();
@@ -1170,26 +1171,21 @@ function getDeliverySlot(cashExists, pendingExists, orderTime){
   var totalMinutes = hour * 60 + minute;
   var slots = [];
 
-  // Cash Bill cutoff: 6:30 PM (18:30) आणि 7:30 PM (19:30)
   var cutoff1 = 18 * 60 + 30;  // 6:30 PM
   var cutoff2 = 19 * 60 + 30;  // 7:30 PM
 
   if (cashExists){
     if (totalMinutes < cutoff1){
-      // 6:30 PM पूर्वी → पुढच्या दिवशी सकाळी 6:30 AM - 8:30 AM
       slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Cash Items)");
     } else if (totalMinutes < cutoff2){
-      // 6:30 PM - 7:30 PM → पुढच्या दिवशी सकाळी 6:30 AM - 8:30 AM
       slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Cash Items)");
     } else {
-      // 7:30 PM नंतर → पुढच्या दिवशी संध्याकाळी 4:30 PM - 5:30 PM
       slots.push("उद्या संध्याकाळी 4:30 PM - 5:30 PM (Cash Items)");
     }
   }
 
   if (pendingExists){
-    // Pending items - fixed morning slot: 6:30 AM - 8:30 AM
-    if (totalMinutes >= 21 * 60 + 30){  // 9:30 PM नंतर
+    if (totalMinutes >= 21 * 60 + 30){
       slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Pending Items)");
     } else {
       slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Pending Items)");
@@ -1336,6 +1332,72 @@ function buildProductTile(p, wide){
   info.appendChild(bottom);
   tile.appendChild(info);
   return tile;
+}
+
+// ==================== SPECIAL OFFERS SYSTEM ====================
+async function loadOffersFromFirebase(){
+  try {
+    var snap = await db.collection("offers").orderBy("createdAt", "desc").get();
+    offers = [];
+    snap.forEach(function(doc){ offers.push(Object.assign({ id: doc.id }, doc.data())); });
+    if (currentView === "view-special-offers") renderSpecialOffers();
+  } catch(e){ console.error("Offers load error:", e); }
+}
+
+function openSpecialOffers(){
+  if (offers.length === 0) loadOffersFromFirebase();
+  renderSpecialOffers();
+  navigateTo("view-special-offers");
+}
+
+function renderSpecialOffers(){
+  var container = document.getElementById("specialOffersList");
+  if (!container) return;
+  if (offers.length === 0){
+    container.innerHTML = "<div class='text-center py-10 bg-white rounded-3xl premium-shadow'><p class='text-gray-500 font-semibold'>सध्या कोणतेही offers नाहीत.</p></div>";
+    return;
+  }
+  var html = "";
+  var loops = 3;
+  for (var l = 0; l < loops; l++){
+    for (var i = 0; i < offers.length; i++){
+      var o = offers[i];
+      html += "<div class='relative w-full rounded-2xl overflow-hidden shadow-lg cursor-pointer mb-4 active:scale-[0.98] transition-transform' onclick=\"openOfferProducts('" + o.id + "')\">";
+      html += "<img src='" + o.bannerUrl + "' class='w-full h-auto object-cover block'>";
+      html += "<div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5'>";
+      html += "<h3 class='text-white font-extrabold text-[18px] leading-tight'>" + o.title + "</h3>";
+      html += "<p class='text-white/90 text-[12px] font-medium mt-1'>Tap to view products →</p>";
+      html += "</div></div>";
+    }
+  }
+  container.innerHTML = html;
+}
+
+async function openOfferProducts(offerId){
+  var offer = null;
+  for (var i = 0; i < offers.length; i++) if (offers[i].id === offerId){ offer = offers[i]; break; }
+  if (!offer) return;
+  document.getElementById("offerProductsTitle").textContent = offer.title;
+  var grid = document.getElementById("offerProductsGrid");
+  grid.innerHTML = "<p class='col-span-2 text-center text-gray-500 py-10'>लोड होत आहे...</p>";
+  try {
+    var filteredProducts = [];
+    if (offer.targetType === "category"){
+      filteredProducts = products.filter(function(p){ return p.category === offer.targetValue; });
+    } else if (offer.targetType === "products"){
+      var ids = offer.targetValue.split(",").map(function(s){ return s.trim(); });
+      filteredProducts = products.filter(function(p){ return ids.indexOf(p.id) > -1 || ids.indexOf(p.name) > -1; });
+    }
+    grid.innerHTML = "";
+    if (filteredProducts.length === 0){
+      grid.innerHTML = "<p class='col-span-2 text-center text-gray-500 py-10'>या ऑफरमध्ये सध्या प्रोडक्ट्स नाहीत.</p>";
+    } else {
+      for (var j = 0; j < filteredProducts.length; j++){
+        grid.appendChild(buildProductTile(filteredProducts[j], true));
+      }
+    }
+    navigateTo("view-offer-products");
+  } catch(e){ console.error(e); }
 }
 
 // ==================== OTHER PAGE ====================
@@ -2006,14 +2068,12 @@ async function loadPointsPage(){
     document.getElementById("pointsTotalBig").textContent = total;
     document.getElementById("pointsReferralBig").textContent = refPts;
     document.getElementById("pointsLoyaltyBig").textContent = loyPts;
-    // Action box
     var actionBox = document.getElementById("pointsActionBox");
     if (total >= 99){
       actionBox.innerHTML = "<div class='bg-gradient-to-br from-green-500 to-emerald-600 p-5 rounded-3xl text-white shadow-lg text-center'><p class='text-[12px] font-bold mb-2'>🎁 तुम्ही 99 Points वापरून 1 आठवडा मोफत मिळवू शकता!</p><button data-use-points='" + 99 + "' class='w-full bg-white text-green-700 py-3.5 rounded-2xl font-extrabold text-[14px] shadow-md mt-2'>✅ 99 Points वापरा (1 Free Week)</button><p class='text-[10px] mt-2 opacity-90'>⚠️ Admin approval नंतर free week मिळेल</p></div>";
     } else {
       actionBox.innerHTML = "<div class='bg-blue-50 p-5 rounded-3xl border-2 border-blue-200 text-center'><p class='text-[12px] font-bold text-blue-800'>💰 अजून " + (99 - total) + " points गरज आहे</p><p class='text-[11px] text-blue-600 mt-1'>99 points = 1 आठवडा मोफत</p></div>";
     }
-    // History
     var histHtml = "";
     histHtml += "<div class='bg-gray-50 p-3 rounded-xl mb-2 flex justify-between items-center'><div><p class='font-bold text-[12px] text-gray-800'>🎁 Referral Points</p><p class='text-[10px] text-gray-500'>मित्रांकडून मिळाले</p></div><span class='font-extrabold text-purple-700'>" + refPts + "</span></div>";
     histHtml += "<div class='bg-gray-50 p-3 rounded-xl mb-2 flex justify-between items-center'><div><p class='font-bold text-[12px] text-gray-800'>⭐ Loyalty Points (1.12%)</p><p class='text-[10px] text-gray-500'>Cash Bill वरून मिळाले</p></div><span class='font-extrabold text-green-700'>" + loyPts + "</span></div>";
@@ -2037,7 +2097,6 @@ async function usePoints(amount){
       status: "pending",
       createdAt: new Date()
     });
-    // Mark customer points as pending (काहीच कमी नाही, फक्त mark)
     await db.collection("customers").doc(userProfile.phone).update({
       pointsPendingApproval: amount,
       pointsRequestId: reqRef.id,
@@ -2386,74 +2445,6 @@ async function copyReferralCode(){
   if (!code || code === "------") return;
   try { await navigator.clipboard.writeText(code); showToast("✅ Code copy झाला!", "success"); }
   catch(e){ var tmp = document.createElement("textarea"); tmp.value = code; document.body.appendChild(tmp); tmp.select(); document.execCommand("copy"); document.body.removeChild(tmp); showToast("✅ Code copy झाला!", "success"); }
-// ==================== SPECIAL OFFERS SYSTEM ====================
-async function loadOffersFromFirebase(){
-try {
-var snap = await db.collection("offers").orderBy("createdAt", "desc").get();
-offers = [];
-snap.forEach(function(doc){ offers.push(Object.assign({ id: doc.id }, doc.data())); });
-} catch(e){ console.error("Offers load error:", e); }
-}
-
-async function openSpecialOffers(){
-if (offers.length === 0) await loadOffersFromFirebase();
-renderSpecialOffers();
-navigateTo("view-special-offers");
-}
-
-function renderSpecialOffers(){
-var container = document.getElementById("specialOffersList");
-if (offers.length === 0){
-container.innerHTML = "<div class='text-center py-10 bg-white rounded-3xl premium-shadow'><p class='text-gray-500 font-semibold'>सध्या कोणतेही offers नाहीत.</p></div>";
-return;
-}
-
-// Infinite Scroll Logic: Loop 3 times for seamless scroll
-var html = "";
-var loops = 3;
-for (var l = 0; l < loops; l++){
-for (var i = 0; i < offers.length; i++){
-var o = offers[i];
-html += "<div class='relative w-full rounded-2xl overflow-hidden shadow-lg cursor-pointer mb-4 active:scale-[0.98] transition-transform' onclick=\"openOfferProducts('" + o.id + "')\">";
-html += "<img src='" + o.bannerUrl + "' class='w-full h-auto object-cover block'>";
-html += "<div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5'>";
-html += "<h3 class='text-white font-extrabold text-[18px] leading-tight'>" + o.title + "</h3>";
-html += "<p class='text-white/90 text-[12px] font-medium mt-1'>Tap to view products →</p>";
-html += "</div></div>";
-}
-}
-container.innerHTML = html;
-}
-
-async function openOfferProducts(offerId){
-var offer = null;
-for (var i = 0; i < offers.length; i++) if (offers[i].id === offerId){ offer = offers[i]; break; }
-if (!offer) return;
-
-document.getElementById("offerProductsTitle").textContent = offer.title;
-var grid = document.getElementById("offerProductsGrid");
-grid.innerHTML = "<p class='col-span-2 text-center text-gray-500 py-10'>लोड होत आहे...</p>";
-
-try {
-var filteredProducts = [];
-if (offer.targetType === "category"){
-filteredProducts = products.filter(function(p){ return p.category === offer.targetValue; });
-} else if (offer.targetType === "products"){
-var ids = offer.targetValue.split(",").map(function(s){ return s.trim(); });
-filteredProducts = products.filter(function(p){ return ids.indexOf(p.id) > -1 || ids.indexOf(p.name) > -1; });
-}
-
-grid.innerHTML = "";
-if (filteredProducts.length === 0){
-grid.innerHTML = "<p class='col-span-2 text-center text-gray-500 py-10'>या ऑफरमध्ये सध्या प्रोडक्ट्स नाहीत.</p>";
-} else {
-for (var j = 0; j < filteredProducts.length; j++){
-grid.appendChild(buildProductTile(filteredProducts[j], true));
-}
-}
-navigateTo("view-offer-products");
-} catch(e){ console.error(e); }
-}
 }// ==================== ADMIN DASHBOARD ====================
 async function loadDashboardStats(){
   try {
@@ -2538,7 +2529,7 @@ async function loadDashboardStats(){
   } catch(e){ console.error(e); alert("Dashboard एरर: " + e.message); }
 }
 
-// ==================== ADMIN CUSTOMERS (Society-First) ====================
+// ==================== ADMIN CUSTOMERS ====================
 var expandedSocieties = {};
 
 async function loadCustomersPage(){
@@ -2555,7 +2546,6 @@ async function loadCustomersPage(){
         society: c.society || "इतर (No Society)", flat: c.flat || "-",
         address: c.address || "", isBlocked: c.isBlocked === true,
         isHidden: c.isHidden === true,
-hiddenAt: c.hiddenAt || null,
         orderCount: c.orderCount || 0, totalSpent: c.totalSpent || 0,
         referralPoints: c.referralPoints || 0, loyaltyPoints: c.loyaltyPoints || 0,
         source: "profile"
@@ -2569,7 +2559,7 @@ hiddenAt: c.hiddenAt || null,
         map[ph] = {
           phone: ph, name: o.customerName || "Unknown",
           society: o.society || "इतर (No Society)", flat: o.flat || "-", address: o.address || "",
-          isBlocked: false, orderCount: 0, totalSpent: 0,
+          isBlocked: false, isHidden: false, orderCount: 0, totalSpent: 0,
           referralPoints: 0, loyaltyPoints: 0, source: "order"
         };
       }
@@ -2589,20 +2579,18 @@ hiddenAt: c.hiddenAt || null,
 }
 
 function renderCustomersList(){
-var container = document.getElementById("customerListContent");
-if (!container) return;
-var q = (document.getElementById("custSearch").value || "").toLowerCase().trim();
-var list = allCustomers.slice();
-// 🆕 Hidden filter
-if (currentCustFilter === "hidden"){
-list = list.filter(function(c){ return c.isHidden === true; });
-} else {
-// मुख्य list - hidden customers दाखवू नका
-list = list.filter(function(c){ return c.isHidden !== true; });
-if (currentCustFilter === "real") list = list.filter(function(c){ return c.orderCount > 0 && !c.isBlocked; });
-else if (currentCustFilter === "new") list = list.filter(function(c){ return c.orderCount === 0 && !c.isBlocked; });
-else if (currentCustFilter === "blocked") list = list.filter(function(c){ return c.isBlocked; });
-}
+  var container = document.getElementById("customerListContent");
+  if (!container) return;
+  var q = (document.getElementById("custSearch").value || "").toLowerCase().trim();
+  var list = allCustomers.slice();
+  if (currentCustFilter === "hidden"){
+    list = list.filter(function(c){ return c.isHidden === true; });
+  } else {
+    list = list.filter(function(c){ return c.isHidden !== true; });
+    if (currentCustFilter === "real") list = list.filter(function(c){ return c.orderCount > 0 && !c.isBlocked; });
+    else if (currentCustFilter === "new") list = list.filter(function(c){ return c.orderCount === 0 && !c.isBlocked; });
+    else if (currentCustFilter === "blocked") list = list.filter(function(c){ return c.isBlocked; });
+  }
   if (q){
     list = list.filter(function(c){
       return (c.name || "").toLowerCase().indexOf(q) > -1 ||
@@ -2616,7 +2604,6 @@ else if (currentCustFilter === "blocked") list = list.filter(function(c){ return
   document.getElementById("custBlockedCount").textContent = allCustomers.filter(function(c){ return c.isBlocked; }).length;
   if (list.length === 0){ container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>Customer सापडला नाही.</p>"; return; }
 
-  // Group by society
   var grouped = {};
   for (var i = 0; i < list.length; i++){
     var soc = list[i].society || "इतर (No Society)";
@@ -2650,60 +2637,27 @@ else if (currentCustFilter === "blocked") list = list.filter(function(c){ return
         html += "<div class='flex gap-2'>";
         html += "<a href='https://wa.me/91" + c.phone + "' target='_blank' class='flex-1 text-center bg-green-50 text-green-700 py-2 rounded-xl text-[11px] font-bold'>💬 Chat</a>";
         html += "<a href='tel:" + c.phone + "' class='flex-1 text-center bg-blue-50 text-blue-700 py-2 rounded-xl text-[11px] font-bold'>📞 Call</a>";
-      if (c.isHidden){
-html += "<button data-restore='" + c.phone + "' class='flex-1 bg-blue-50 text-blue-700 py-2 rounded-xl text-[11px] font-bold'>🔄 Restore</button>";
-html += "<button data-hard-del='" + c.phone + "' data-del-name='" + c.name + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>❌ Hard Delete</button>";
-} else {
-if (c.isBlocked){
-html += "<button data-unblock='" + c.phone + "' class='flex-1 bg-emerald-50 text-emerald-700 py-2 rounded-xl text-[11px] font-bold'>✅ Unblock</button>";
-} else {
-html += "<button data-block='" + c.phone + "' data-block-name='" + c.name + "' class='flex-1 bg-red-50 text-red-700 py-2 rounded-xl text-[11px] font-bold'>🚫 Block</button>";
-}
-}
-html += "</div>";
-if (!c.isHidden){
-html += "<button data-hide='" + c.phone + "' data-hide-name='" + c.name + "' class='w-full mt-2 bg-gray-100 text-gray-600 py-2 rounded-xl text-[11px] font-bold'>🗑️ Hide (Fake)</button>";
-}
-html += "</div>";  
+        
+        if (c.isHidden){
+          html += "<button data-restore='" + c.phone + "' class='flex-1 bg-blue-50 text-blue-700 py-2 rounded-xl text-[11px] font-bold'>🔄 Restore</button>";
+          html += "<button data-hard-del='" + c.phone + "' data-del-name='" + c.name + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>❌ Hard Delete</button>";
+        } else {
+          if (c.isBlocked){
+            html += "<button data-unblock='" + c.phone + "' class='flex-1 bg-emerald-50 text-emerald-700 py-2 rounded-xl text-[11px] font-bold'>✅ Unblock</button>";
+          } else {
+            html += "<button data-block='" + c.phone + "' data-block-name='" + c.name + "' class='flex-1 bg-red-50 text-red-700 py-2 rounded-xl text-[11px] font-bold'>🚫 Block</button>";
+          }
+        }
+        html += "</div>";
+        if (!c.isHidden){
+          html += "<button data-hide='" + c.phone + "' data-hide-name='" + c.name + "' class='w-full mt-2 bg-gray-100 text-gray-600 py-2 rounded-xl text-[11px] font-bold'>🗑️ Hide (Fake)</button>";
+        }
+        html += "</div>";
       }
       html += "</div>";
     }
   }
   container.innerHTML = html;
-}
-// ==================== HIDE / RESTORE / HARD DELETE ====================
-async function hideCustomer(phone, name){
-if (!confirm("🗑️ " + name + " यांना customer list मधून लपवायचं?\n\nपुन्हा [Hidden] filter मधून Restore करता येईल.")) return;
-try {
-await db.collection("customers").doc(phone).set({
-isHidden: true,
-hiddenAt: new Date(),
-hiddenReason: "Admin hide (Fake/Test)"
-}, { merge: true });
-showToast("🗑️ Hidden!", "warn");
-loadCustomersPage();
-} catch(e){ alert("एरर: " + e.message); }
-}
-
-async function restoreCustomer(phone){
-if (!confirm("🔄 हा customer पुन्हा मुख्य list मध्ये आणायचा?")) return;
-try {
-await db.collection("customers").doc(phone).set({
-isHidden: false, hiddenAt: null, hiddenReason: ""
-}, { merge: true });
-showToast("✅ Restored!", "success");
-loadCustomersPage();
-} catch(e){ alert("एरर: " + e.message); }
-}
-
-async function hardDeleteCustomer(phone, name){
-if (!confirm("❌ " + name + " यांना कायमचा DELETE करायचं?\n\n⚠️ हे पूर्णपणे निघून जाईल:\n• Customer Profile\n• Referral Points\n• Loyalty Points\n\nOrders इतिहास राहील.\n\nपक्का?")) return;
-if (!confirm("⚠️ शेवटची संधी! " + name + " कायमचा Delete होईल. पुढे परत मिळणार नाही. पक्का?")) return;
-try {
-await db.collection("customers").doc(phone).delete();
-showToast("❌ Deleted!", "info");
-loadCustomersPage();
-} catch(e){ alert("एरर: " + e.message); }
 }
 
 async function blockCustomer(phone, name){
@@ -2723,61 +2677,88 @@ async function unblockCustomer(phone){
     loadCustomersPage();
   } catch(e){ alert("एरर: " + e.message); }
 }
+
+async function hideCustomer(phone, name){
+  if (!confirm("🗑️ " + name + " यांना customer list मधून लपवायचं?\n\nपुन्हा [Hidden] filter मधून Restore करता येईल.")) return;
+  try {
+    await db.collection("customers").doc(phone).set({ isHidden: true, hiddenAt: new Date(), hiddenReason: "Admin hide (Fake/Test)" }, { merge: true });
+    showToast("🗑️ Hidden!", "warn");
+    loadCustomersPage();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+async function restoreCustomer(phone){
+  if (!confirm("🔄 हा customer पुन्हा मुख्य list मध्ये आणायचा?")) return;
+  try {
+    await db.collection("customers").doc(phone).set({ isHidden: false, hiddenAt: null, hiddenReason: "" }, { merge: true });
+    showToast("✅ Restored!", "success");
+    loadCustomersPage();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+async function hardDeleteCustomer(phone, name){
+  if (!confirm("❌ " + name + " यांना कायमचा DELETE करायचं?\n\n⚠️ हे पूर्णपणे निघून जाईल:\n• Customer Profile\n• Referral Points\n• Loyalty Points\n\nOrders इतिहास राहील.\n\nपक्का?")) return;
+  if (!confirm("⚠️ शेवटची संधी! " + name + " कायमचा Delete होईल. पुढे परत मिळणार नाही. पक्का?")) return;
+  try {
+    await db.collection("customers").doc(phone).delete();
+    showToast("❌ Deleted!", "info");
+    loadCustomersPage();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
 // ==================== ADMIN OFFERS LOGIC ====================
 async function loadAdminOffers(){
-var list = document.getElementById("adminOffersList");
-list.innerHTML = "<p class='text-center text-gray-500 py-4'>लोड होत आहे...</p>";
-await loadOffersFromFirebase();
-// Populate categories dropdown
-var catSelect = document.getElementById("offerCategorySelect");
-if (catSelect && catSelect.innerHTML === ""){
-var opts = "";
-defaultCategories.forEach(function(c){ opts += "<option value='" + c.id + "'>" + c.marathi + "</option>"; });
-customCategories.forEach(function(c){ opts += "<option value='" + c.id + "'>" + c.marathi + "</option>"; });
-catSelect.innerHTML = opts;
-}
-if (offers.length === 0){ list.innerHTML = "<p class='text-center text-gray-500 py-4'>कोणतेही offers नाहीत.</p>"; return; }
-var html = "";
-offers.forEach(function(o){
-html += "<div class='bg-gray-50 p-3 rounded-xl flex justify-between items-center border border-gray-200'><div class='flex items-center gap-3'><img src='" + o.bannerUrl + "' class='w-12 h-12 object-cover rounded-lg'><div><p class='font-bold text-[13px] text-gray-900 truncate w-40'>" + o.title + "</p><p class='text-[10px] text-gray-500'>" + (o.targetType === "category" ? "Category: " + o.targetValue : "Products") + "</p></div></div><button onclick=\"deleteOffer('" + o.id + "')\" class='text-red-500 bg-red-100 p-2 rounded-full'>🗑️</button></div>";
-});
-list.innerHTML = html;
+  var list = document.getElementById("adminOffersList");
+  list.innerHTML = "<p class='text-center text-gray-500 py-4'>लोड होत आहे...</p>";
+  await loadOffersFromFirebase();
+  var catSelect = document.getElementById("offerCategorySelect");
+  if (catSelect && catSelect.innerHTML === ""){
+    var opts = "";
+    defaultCategories.forEach(function(c){ opts += "<option value='" + c.id + "'>" + c.marathi + "</option>"; });
+    customCategories.forEach(function(c){ opts += "<option value='" + c.id + "'>" + c.marathi + "</option>"; });
+    catSelect.innerHTML = opts;
+  }
+  if (offers.length === 0){ list.innerHTML = "<p class='text-center text-gray-500 py-4'>कोणतेही offers नाहीत.</p>"; return; }
+  var html = "";
+  offers.forEach(function(o){
+    html += "<div class='bg-gray-50 p-3 rounded-xl flex justify-between items-center border border-gray-200 mb-2'><div class='flex items-center gap-3'><img src='" + o.bannerUrl + "' class='w-12 h-12 object-cover rounded-lg'><div><p class='font-bold text-[13px] text-gray-900 truncate w-40'>" + o.title + "</p><p class='text-[10px] text-gray-500'>" + (o.targetType === "category" ? "Category: " + o.targetValue : "Products") + "</p></div></div><button onclick=\"deleteOffer('" + o.id + "')\" class='text-red-500 bg-red-100 p-2 rounded-full'>🗑️</button></div>";
+  });
+  list.innerHTML = html;
 }
 
 async function saveOffer(){
-var title = document.getElementById("offerTitle").value.trim();
-var bannerUrl = document.getElementById("offerBannerUrl").value.trim();
-var targetType = document.getElementById("offerTargetType").value;
-var targetValue = targetType === "category" ? document.getElementById("offerCategorySelect").value : document.getElementById("offerProductsInput").value.trim();
-
-if (!title || !bannerUrl) return alert("Title आणि Banner URL भरा!");
-if (targetType === "products" && !targetValue) return alert("प्रोडक्ट्स नावे टाका!");
-
-try {
-await db.collection("offers").add({
-title: title,
-bannerUrl: bannerUrl,
-targetType: targetType,
-targetValue: targetValue,
-isActive: true,
-createdAt: new Date()
-});
-document.getElementById("offerTitle").value = "";
-document.getElementById("offerBannerUrl").value = "";
-document.getElementById("offerProductsInput").value = "";
-showToast("✅ Offer जोडला!", "success");
-loadAdminOffers();
-} catch(e){ alert("एरर: " + e.message); }
+  var title = document.getElementById("offerTitle").value.trim();
+  var bannerUrl = document.getElementById("offerBannerUrl").value.trim();
+  var targetType = document.getElementById("offerTargetType").value;
+  var targetValue = targetType === "category" ? document.getElementById("offerCategorySelect").value : document.getElementById("offerProductsInput").value.trim();
+  if (!title || !bannerUrl) return alert("Title आणि Banner URL भरा!");
+  if (targetType === "products" && !targetValue) return alert("प्रोडक्ट्स नावे टाका!");
+  try {
+    await db.collection("offers").add({
+      title: title,
+      bannerUrl: bannerUrl,
+      targetType: targetType,
+      targetValue: targetValue,
+      isActive: true,
+      createdAt: new Date()
+    });
+    document.getElementById("offerTitle").value = "";
+    document.getElementById("offerBannerUrl").value = "";
+    document.getElementById("offerProductsInput").value = "";
+    showToast("✅ Offer जोडला!", "success");
+    loadAdminOffers();
+  } catch(e){ alert("एरर: " + e.message); }
 }
 
 async function deleteOffer(id){
-if (!confirm("हा Offer डिलीट करायचा?")) return;
-try {
-await db.collection("offers").doc(id).delete();
-showToast("🗑️ Deleted!", "info");
-loadAdminOffers();
-} catch(e){ alert("एरर: " + e.message); }
+  if (!confirm("हा Offer डिलीट करायचा?")) return;
+  try {
+    await db.collection("offers").doc(id).delete();
+    showToast("🗑️ Deleted!", "info");
+    loadAdminOffers();
+  } catch(e){ alert("एरर: " + e.message); }
 }
+
 // ==================== ADMIN REFERRALS ====================
 async function loadAdminReferrals(){
   var container = document.getElementById("adminReferralsList");
@@ -2931,13 +2912,7 @@ async function approvePointsRequest(reqId, phone, amount, name){
     if (newRef >= amount){ newRef -= amount; }
     else { var rem = amount - newRef; newRef = 0; newLoy -= rem; }
     if (newLoy < 0) newLoy = 0;
-    await custRef.update({
-      referralPoints: newRef,
-      loyaltyPoints: newLoy,
-      pointsPendingApproval: 0,
-      freeWeeksUsed: (d.freeWeeksUsed || 0) + 1,
-      updatedAt: new Date()
-    });
+    await custRef.update({ referralPoints: newRef, loyaltyPoints: newLoy, pointsPendingApproval: 0, freeWeeksUsed: (d.freeWeeksUsed || 0) + 1, updatedAt: new Date() });
     await db.collection("pointsRequests").doc(reqId).update({ status: "approved", approvedAt: new Date() });
     showToast("✅ " + amount + " points वापरले!", "success");
     loadPointsApprovals();
@@ -3064,7 +3039,6 @@ function renderAdminBillsList(){
   var ca = Object.keys(adminBillsCustomersMap).map(function(k){ return adminBillsCustomersMap[k]; });
   var gp = 0;
   for (var g = 0; g < ca.length; g++) if (ca[g].pendingAmount > 0) gp += ca[g].pendingAmount + (ca[g].deliveryFeeUnpaid || 0);
-  // Group by society
   var grouped = {};
   for (var i = 0; i < ca.length; i++){
     var soc = ca[i].society || "इतर";
@@ -3575,11 +3549,12 @@ document.addEventListener("click", function(e){
   var unblockBtn = t.closest("[data-unblock]");
   if (unblockBtn){ unblockCustomer(unblockBtn.getAttribute("data-unblock")); return; }
   var hideBtn = t.closest("[data-hide]");
-if (hideBtn){ hideCustomer(hideBtn.getAttribute("data-hide"), hideBtn.getAttribute("data-hide-name")); return; }
-var restoreBtn = t.closest("[data-restore]");
-if (restoreBtn){ restoreCustomer(restoreBtn.getAttribute("data-restore")); return; }
-var hardDelBtn = t.closest("[data-hard-del]");
-if (hardDelBtn){ hardDeleteCustomer(hardDelBtn.getAttribute("data-hard-del"), hardDelBtn.getAttribute("data-del-name")); return; }
+  if (hideBtn){ hideCustomer(hideBtn.getAttribute("data-hide"), hideBtn.getAttribute("data-hide-name")); return; }
+  var restoreBtn = t.closest("[data-restore]");
+  if (restoreBtn){ restoreCustomer(restoreBtn.getAttribute("data-restore")); return; }
+  var hardDelBtn = t.closest("[data-hard-del]");
+  if (hardDelBtn){ hardDeleteCustomer(hardDelBtn.getAttribute("data-hard-del"), hardDelBtn.getAttribute("data-del-name")); return; }
+  
   var custF = t.closest("[data-cust-filter]");
   if (custF){
     currentCustFilter = custF.getAttribute("data-cust-filter");
@@ -3629,8 +3604,7 @@ if (hardDelBtn){ hardDeleteCustomer(hardDelBtn.getAttribute("data-hard-del"), ha
     return;
   }
 });
-var offerBtn = t.closest("[data-offer-id]");
-if (offerBtn){ openOfferProducts(offerBtn.getAttribute("data-offer-id")); return; }
+
 // ==================== BIND EVENTS ====================
 function bindAllEvents(){
   document.getElementById("searchBtn").addEventListener("click", function(){ navigateTo("view-search"); });
@@ -3661,6 +3635,7 @@ function bindAllEvents(){
   document.getElementById("adminDashBtn").addEventListener("click", function(){ navigateTo("view-admin-dashboard"); loadDashboardStats(); });
   document.getElementById("adminCustomersBtn").addEventListener("click", function(){ navigateTo("view-admin-customers"); loadCustomersPage(); });
   document.getElementById("adminReferralsBtn").addEventListener("click", function(){ navigateTo("view-admin-referrals"); loadAdminReferrals(); });
+  document.getElementById("adminOffersBtn").addEventListener("click", function(){ navigateTo("view-admin-offers"); loadAdminOffers(); });
   document.getElementById("adminPointsApproveBtn").addEventListener("click", function(){ navigateTo("view-admin-points"); loadPointsApprovals(); });
   document.getElementById("adminCancelsBtn").addEventListener("click", function(){ navigateTo("view-admin-cancels"); loadAdminCancels(); });
   document.getElementById("adminNotifyBtn").addEventListener("click", function(){ navigateTo("view-admin-notify"); loadSocietyList(); });
@@ -3680,15 +3655,16 @@ function bindAllEvents(){
   document.getElementById("custSearch").addEventListener("input", renderCustomersList);
   document.getElementById("adminRefSearch").addEventListener("input", renderAdminReferralsList);
   document.getElementById("addManualPointsBtn").addEventListener("click", addManualPoints);
-document.getElementById("offerTargetType").addEventListener("change", function(e){
-if (e.target.value === "category"){
-document.getElementById("offerCategorySelect").classList.remove("hidden");
-document.getElementById("offerProductsInput").classList.add("hidden");
-} else {
-document.getElementById("offerCategorySelect").classList.add("hidden");
-document.getElementById("offerProductsInput").classList.remove("hidden");
-}
-});
+  
+  document.getElementById("offerTargetType").addEventListener("change", function(e){
+    if (e.target.value === "category"){
+      document.getElementById("offerCategorySelect").classList.remove("hidden");
+      document.getElementById("offerProductsInput").classList.add("hidden");
+    } else {
+      document.getElementById("offerCategorySelect").classList.add("hidden");
+      document.getElementById("offerProductsInput").classList.remove("hidden");
+    }
+  });
 }
 
 // ==================== STARTUP ====================
