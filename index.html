@@ -647,6 +647,43 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <input type="number" id="prodRating" placeholder="4.5" step="0.1" min="0" max="5" class="custom-input" value="4.5">
 <label class="form-label">Image URL</label>
 <input type="url" id="prodImage" placeholder="https://..." class="custom-input">
+<div class="bg-purple-50 p-4 rounded-2xl mb-4 border border-purple-200">
+  <label class="form-label">Product Type निवडा</label>
+
+  <div class="grid grid-cols-2 gap-2">
+    <button type="button"
+      onclick="setProductMode('normal')"
+      id="normalModeBtn"
+      class="bg-green-600 text-white p-3 rounded-xl font-bold">
+      Normal Product
+    </button>
+
+    <button type="button"
+      onclick="setProductMode('variants')"
+      id="variantModeBtn"
+      class="bg-white text-purple-700 border border-purple-300 p-3 rounded-xl font-bold">
+      Product Variants
+    </button>
+  </div>
+
+  <div id="variantPanel" class="hidden mt-4">
+    <h4 class="font-bold text-purple-800 mb-2">
+      📦 Product Variants
+    </h4>
+
+    <p class="text-xs text-gray-600 mb-3">
+      प्रत्येक Variant साठी Weight, MRP, Price आणि Image URL भरा.
+    </p>
+
+    <div id="variantRows"></div>
+
+    <button type="button"
+      onclick="addVariantRow()"
+      class="w-full bg-purple-600 text-white p-3 rounded-xl font-bold mt-2">
+      + Add New Variant
+    </button>
+  </div>
+</div>
 <div class="bg-gray-100 p-4 rounded-2xl mb-3 border border-gray-300">
 <label class="form-label">Unit Type</label>
 <select id="prodUnitType" class="custom-input">
@@ -3231,6 +3268,37 @@ function cancelEdit(){
   document.getElementById("prodIsBestDeal").checked = false;
   document.getElementById("prodCostPrice").value = "";
   autoFillUnitDefaults();
+}
+var currentProductMode = 'normal';
+
+function setProductMode(mode) {
+  currentProductMode = mode;
+
+  var panel = document.getElementById('variantPanel');
+  var normalBtn = document.getElementById('normalModeBtn');
+  var variantBtn = document.getElementById('variantModeBtn');
+
+  if (mode === 'variants') {
+    panel.classList.remove('hidden');
+
+    variantBtn.className =
+      'bg-purple-600 text-white p-3 rounded-xl font-bold';
+
+    normalBtn.className =
+      'bg-white text-green-700 border border-green-300 p-3 rounded-xl font-bold';
+
+    if (document.querySelectorAll('#variantRows > div').length === 0) {
+      addVariantRow();
+    }
+  } else {
+    panel.classList.add('hidden');
+
+    normalBtn.className =
+      'bg-green-600 text-white p-3 rounded-xl font-bold';
+
+    variantBtn.className =
+      'bg-white text-purple-700 border border-purple-300 p-3 rounded-xl font-bold';
+  }
 }
 function addVariantRow(w, m, f, img){
 w = w || ''; m = m || ''; f = f || ''; img = img || '';
