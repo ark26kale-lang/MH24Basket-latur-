@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="mr">
 <head>
 <meta charset="UTF-8">
@@ -407,6 +406,12 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <button id="editProfileBtn" class="w-full bg-white border-2 border-green-600 text-green-700 py-4 rounded-2xl font-bold mb-3">✏️ Edit My Profile</button>
 <button id="myBillsBtn" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🧾 My Bills</button>
 <button id="referEarnBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🎁 Refer & Earn</button>
+
+<!-- 🌐 My Circle बटन येथे ऍड केले आहे (फक्त हा बदल) -->
+<a href="social-society.html" class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md flex justify-center items-center gap-2">
+  🌐 My Circle (Social Society)
+</a>
+
 <button id="aboutUsBtn" class="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-4 rounded-2xl font-bold shadow-md">ℹ️ About Us / आमच्याबद्दल</button>
 </div>
 </div>
@@ -595,6 +600,13 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div><h3 class="text-white premium-title text-lg">🏷️ Current Categories</h3><p class="text-amber-100 text-[11px] mt-0.5">कॅटेगरी व्यवस्थापन</p></div>
 <div class="icon-3d icon-3d-lg">🏷️</div>
 </div>
+
+<!-- 🌐 Social Society Admin बटन येथे ऍड केले आहे (फक्त हा बदल) -->
+<div id="adminSocialBtn" class="bg-gradient-to-br from-pink-500 to-rose-600 p-5 rounded-3xl shadow-lg mb-5 cursor-pointer flex justify-between items-center">
+<div><h3 class="text-white premium-title text-lg">🌐 Social Society Admin</h3><p class="text-pink-100 text-[11px] mt-0.5">Manage Posts & View All Users</p></div>
+<div class="icon-3d icon-3d-lg">👥</div>
+</div>
+
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-orange-500">
 <h3 class="premium-title text-gray-800 mb-4 text-lg">🎯 4 Posters ची सेटिंग</h3>
 <div class="space-y-3">
@@ -916,6 +928,30 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div id="adminBillsLoadMore" class="mt-4 hidden"><button id="loadMoreBillsBtn" class="w-full bg-blue-50 text-blue-700 py-3 rounded-2xl font-bold">📥 अजून लोड करा</button></div>
 </div>
 
+<!-- 🌐 Social Society Admin View (फक्त हा नवीन सेक्शन ऍड केला आहे) -->
+<div id="view-admin-social" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-5">
+<button class="back-btn icon-box-3d w-10 h-10">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 class="premium-title text-[22px] text-gray-900">🌐 Social Society Admin</h2>
+</div>
+
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-blue-500">
+<h3 class="premium-title text-gray-800 mb-3 text-lg">👥 सर्व युजर्स</h3>
+<div id="socialAdminUsersList" class="space-y-2 max-h-60 overflow-y-auto">
+<p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
+</div>
+</div>
+
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-pink-500">
+<h3 class="premium-title text-gray-800 mb-3 text-lg">📝 सर्व पोस्ट्स</h3>
+<div id="socialAdminPostsList" class="space-y-3">
+<p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
+</div>
+</div>
+</div>
+
 </div>
 
 <div class="bottom-nav">
@@ -991,7 +1027,8 @@ var viewStack = [];
 var currentView = "view-home";
 var isNavigatingBack = false;
 
-var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-special-offers","view-offer-products","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-points","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-offers","view-admin-points","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-categories","view-success"];
+// 🌐 फक्त नवीन view-admin-social येथे ALL_VIEWS मध्ये जोडले आहे
+var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-special-offers","view-offer-products","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-points","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-offers","view-admin-points","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-categories","view-admin-social","view-success"];
 
 // ==================== NAVIGATION ====================
 function navigateTo(viewId){
@@ -1716,7 +1753,9 @@ function renderOrderStatusCard(order){
   html += cancelBtn;
   html += "</div>";
   return html;
-}// ==================== BASKET ====================
+}
+
+// ==================== BASKET ====================
 function renderBasket(){
   var c = document.getElementById("basketItems");
   var s = document.getElementById("basketSummary");
@@ -2481,7 +2520,9 @@ async function copyReferralCode(){
   if (!code || code === "------") return;
   try { await navigator.clipboard.writeText(code); showToast("✅ Code copy झाला!", "success"); }
   catch(e){ var tmp = document.createElement("textarea"); tmp.value = code; document.body.appendChild(tmp); tmp.select(); document.execCommand("copy"); document.body.removeChild(tmp); showToast("✅ Code copy झाला!", "success"); }
-}// ==================== ADMIN DASHBOARD ====================
+}
+
+// ==================== ADMIN DASHBOARD ====================
 async function loadDashboardStats(){
   try {
     var thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
@@ -3011,6 +3052,74 @@ async function rejectCancelRequest(reqId, orderId){
     showToast("❌ Rejected", "warn");
     loadAdminCancels();
   } catch(e){ alert("एरर: " + e.message); }
+}
+
+// ==================== ADMIN SOCIAL SOCIETY (New) ====================
+async function loadSocialAdminData() {
+    var postsContainer = document.getElementById("socialAdminPostsList");
+    var usersContainer = document.getElementById("socialAdminUsersList");
+    
+    postsContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>पोस्ट्स लोड होत आहेत...</p>";
+    usersContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>युजर्स लोड होत आहेत...</p>";
+
+    try {
+        // १. सर्व पोस्ट्स आणा (कोणतेही अंतर बंधन नाही)
+        var postsSnap = await db.collection("social_posts").orderBy("createdAt", "desc").get();
+        var postsHtml = "";
+        if (postsSnap.empty) {
+            postsHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही पोस्ट नाही.</p>";
+        } else {
+            postsSnap.forEach(doc => {
+                var p = doc.data();
+                var timeStr = p.createdAt ? new Date(p.createdAt.seconds * 1000).toLocaleString('mr-IN') : "";
+                postsHtml += `
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 flex justify-between items-start mb-2">
+                    <div>
+                        <p class="font-bold text-[13px] text-gray-900">👤 ${p.authorName} (${p.authorPhone})</p>
+                        <p class="text-[11px] text-gray-500 mb-1">${p.society} • ${timeStr}</p>
+                        <p class="text-sm text-gray-700">${p.text}</p>
+                    </div>
+                    <button onclick="deleteSocialPost('${doc.id}')" class="bg-red-100 text-red-600 p-2 rounded-full ml-2 shrink-0">🗑️</button>
+                </div>`;
+            });
+        }
+        postsContainer.innerHTML = postsHtml;
+
+        // २. सर्व युजर्स आणा (Customers कलेक्शन मधून)
+        var usersSnap = await db.collection("customers").get();
+        var usersHtml = "";
+        if (usersSnap.empty) {
+            usersHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतेही युजर्स नाहीत.</p>";
+        } else {
+            usersSnap.forEach(doc => {
+                var u = doc.data();
+                usersHtml += `
+                <div class="bg-blue-50 p-2.5 rounded-xl border border-blue-100 flex justify-between items-center mb-2">
+                    <div>
+                        <p class="font-bold text-[13px] text-gray-900">👤 ${u.name || 'Unknown'}</p>
+                        <p class="text-[11px] text-gray-600">📞 ${u.phone} • 🏠 ${u.society || 'No Society'}</p>
+                    </div>
+                </div>`;
+            });
+        }
+        usersContainer.innerHTML = usersHtml;
+
+    } catch (e) {
+        console.error(e);
+        postsContainer.innerHTML = "<p class='text-center text-red-500 py-4 text-sm'>डेटा लोड करताना एरर आली.</p>";
+        usersContainer.innerHTML = "";
+    }
+}
+
+async function deleteSocialPost(postId) {
+    if (!confirm("ही पोस्ट डिलीट करायची?")) return;
+    try {
+        await db.collection("social_posts").doc(postId).delete();
+        showToast("पोस्ट डिलीट झाली! 🗑️", "success");
+        loadSocialAdminData();
+    } catch(e) {
+        alert("एरर: " + e.message);
+    }
 }
 
 // ==================== ADMIN BILLS ====================
@@ -3766,6 +3875,10 @@ function bindAllEvents(){
   document.getElementById("adminNotifyBtn").addEventListener("click", function(){ navigateTo("view-admin-notify"); loadSocietyList(); });
   document.getElementById("adminProductsBtn").addEventListener("click", function(){ navigateTo("view-admin-products"); renderAdminProductsByCategory(); });
   document.getElementById("adminCatsBtn").addEventListener("click", function(){ navigateTo("view-admin-categories"); renderAdminCategoriesPage(); });
+  
+  // 🌐 नवीन Social Society बटणाचे कनेक्शन
+  document.getElementById("adminSocialBtn").addEventListener("click", function(){ navigateTo("view-admin-social"); loadSocialAdminData(); });
+
   document.getElementById("saveAllPostersBtn").addEventListener("click", saveAllPosters);
   document.getElementById("saveOtherBannerBtn").addEventListener("click", saveOtherBanner);
   document.getElementById("saveCatBtn").addEventListener("click", addCategoryFromForm);
