@@ -2020,7 +2020,7 @@ async function confirmAndSend(){
     if (loyaltyPointsEarned > 0){
       custUpdate.loyaltyPoints = (custUpdate.loyaltyPoints !== undefined ? custUpdate.loyaltyPoints : (custData.loyaltyPoints || 0)) + loyaltyPointsEarned;
     }
-    await custDocRef.update(custUpdate);
+    await custDocRef.set(custUpdate, { merge: true });
 
     window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + m, "_blank");
     setTimeout(function(){
