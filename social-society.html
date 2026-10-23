@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Social Society - तुमच्या परिसरातील समाज</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', 'Mukta', sans-serif; background: #f3f4f6; }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="pb-20">
+
+    <!-- Header -->
+    <header class="glass sticky top-0 z-50 px-4 py-3 flex justify-between items-center border-b border-gray-200">
+        <div class="flex items-center gap-2">
+            <a href="index.html" class="text-gray-600 text-2xl font-bold">←</a>
+            <h1 class="text-xl font-extrabold text-pink-600">Social Society</h1>
+        </div>
+        <span id="distanceBadge" class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full hidden">📍 4km पर्यंत</span>
+    </header>
+
+    <!-- Location Alert -->
+    <div id="locationAlert" class="bg-amber-100 text-amber-800 p-3 text-center text-sm font-semibold">
+        ⏳ तुमचं लोकेशन शोधत आहे... कृपया Allow द्या.
+    </div>
+
+    <!-- Feed Section -->
+    <div class="p-4 max-w-lg mx-auto">
+        
+        <!-- New Post Box -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-6">
+            <textarea id="postText" class="w-full bg-gray-50 rounded-xl p-3 text-sm focus:outline-none mb-2" rows="2" placeholder="तुमच्या परिसरात काय चाललंय? किंवा काही मदत हवी आहे का?"></textarea>
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-400">📍 फक्त जवळच्या (4km) लोकांना दिसेल</span>
+                <button onclick="createPost()" class="bg-pink-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow">पोस्ट करा</button>
+            </div>
+        </div>
+
+        <!-- Posts Container -->
+        <div id="postsContainer" class="space-y-4">
+            <p class="text-center text-gray-500 py-10">लोड होत आहे...</p>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script>
+        // तुमचाच Firebase Config
+        var firebaseConfig = {
+            apiKey: "AIzaSyAlRrFaovXjVso2AK_w04jMFa_YHYSo2AK",
+            authDomain: "mh24-basket.firebaseapp.com",
+            projectId: "mh24-basket",
+            storageBucket: "mh24-basket.firebasestorage.app",
+            messagingSenderId: "124229811215",
+            appId: "1:124229811215:web:deebbd7886cb9180a6377a"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        let currentUser = JSON.parse(localStorage.getItem("mh24_user")) || null;
+        let myLat = null, myLng = null;
+
+        // 1. Haversine Formula (अंतर मोजण्यासाठी)
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            var R = 6371; 
+            var dLat = deg2rad(lat2 - lat1);
+            var dLon = deg2rad(lon2 - lon1); 
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            return R * c; 
+        }
+        function deg2rad(deg) { return deg * (Math.PI/180); }
+
+        // 2. लोकेशन मिळवणे (फक्त या पेजवर)
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        myLat = position.coords.latitude;
+                        myLng = position.coords.longitude;
+                        document.getElementById("locationAlert").classList.add("hidden");
+                        document.getElementById("distanceBadge").classList.remove("hidden");
+                        loadFeed(); 
+                    },
+                    (error) => {
+                        document.getElementById("locationAlert").innerHTML = "❌ लोकेशन नाकारलं! 4km परिसरातील लोकांशी जोडण्यासाठी कृपया लोकेशन Allow करा.";
+                        document.getElementById("locationAlert").className = "bg-red-100 text-red-800 p-3 text-center text-sm font-semibold";
+                    }
+                );
+            } else {
+                alert("तुमच्या ब्राउझरमध्ये लोकेशन सपोर्ट नाही.");
+            }
+        }
+
+        // 3. पोस्ट करणे
+        async function createPost() {
+            if (!myLat || !myLng) return alert("कृपया लोकेशन Allow करा!");
+            if (!currentUser) return alert("कृपया आधी मुख्य ॲपमध्ये जाऊन Profile सेव्ह करा!");
+            
+            var text = document.getElementById("postText").value.trim();
+            if (!text) return alert("काहीतरी लिहा!");
+
+            try {
+                await db.collection("social_posts").add({
+                    text: text,
+                    authorName: currentUser.name,
+                    authorPhone: currentUser.phone,
+                    society: currentUser.society || "Local",
+                    lat: myLat,
+                    lng: myLng,
+                    type: "feed",
+                    createdAt: new Date()
+                });
+                document.getElementById("postText").value = "";
+                alert("✅ पोस्ट झाली!");
+                loadFeed();
+            } catch(e) {
+                alert("Error: " + e.message);
+            }
+        }
+
+        // 4. फीड लोड करणे (फक्त 4km पर्यंतचे)
+        async function loadFeed() {
+            var container = document.getElementById("postsContainer");
+            if(!myLat || !myLng) return;
+            
+            container.innerHTML = "<p class='text-center text-gray-500 py-10'>फीड शोधत आहे...</p>";
+            
+            try {
+                var snap = await db.collection("social_posts").orderBy("createdAt", "desc").limit(50).get();
+                container.innerHTML = "";
+                var foundCount = 0;
+
+                snap.forEach(doc => {
+                    var post = doc.data();
+                    if(!post.lat || !post.lng) return;
+
+                    var dist = getDistanceFromLatLonInKm(myLat, myLng, post.lat, post.lng);
+                    
+                    // 4 किमी ची अट
+                    if (dist <= 4.0) { 
+                        foundCount++;
+                        var timeStr = post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleTimeString('mr-IN', {hour: '2-digit', minute:'2-digit'}) : "";
+                        
+                        var html = `
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center text-pink-600 font-bold">👤</div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-800">${post.authorName}</p>
+                                    <p class="text-[10px] text-gray-500">📍 ${dist.toFixed(1)} km जवळ • ${timeStr}</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700 mt-2">${post.text}</p>
+                        </div>`;
+                        container.innerHTML += html;
+                    }
+                });
+
+                if (foundCount === 0) {
+                    container.innerHTML = "<div class='text-center py-10 bg-white rounded-2xl shadow-sm'><p class='text-gray-500 font-semibold'>तुमच्या 4km परिघात सध्या कोणतीही पोस्ट नाही.</p><p class='text-xs text-gray-400 mt-2'>पहिली पोस्ट तुम्ही करा!</p></div>";
+                }
+            } catch (e) {
+                container.innerHTML = "<p class='text-center text-red-500 py-10'>Error: " + e.message + "</p>";
+            }
+        }
+
+        window.onload = () => { getUserLocation(); };
+    </script>
+</body>
+</html>
