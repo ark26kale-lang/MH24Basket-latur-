@@ -247,6 +247,12 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 
 <div id="view-category" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-4">
+<button class="back-btn icon-box-3d w-10 h-10">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 id="categoryHeaderTitle" class="premium-title text-[22px] text-gray-900 truncate">कॅटेगरी</h2>
+</div>
 <div id="categoryProductGrid" class="grid grid-cols-2 gap-3 mt-1"></div>
 </div>
 
@@ -407,7 +413,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <button id="myBillsBtn" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🧾 My Bills</button>
 <button id="referEarnBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🎁 Refer & Earn</button>
 
-<!-- 🌐 My Circle बटन -->
 <a href="social-society.html" class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md flex justify-center items-center gap-2">
   🌐 My Circle (Social Society)
 </a>
@@ -601,7 +606,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div class="icon-3d icon-3d-lg">🏷️</div>
 </div>
 
-<!-- 🌐 Social Society Admin बटन -->
 <div id="adminSocialBtn" class="bg-gradient-to-br from-pink-500 to-rose-600 p-5 rounded-3xl shadow-lg mb-5 cursor-pointer flex justify-between items-center">
 <div><h3 class="text-white premium-title text-lg">🌐 Social Society Admin</h3><p class="text-pink-100 text-[11px] mt-0.5">Manage Posts, Helpers & Users</p></div>
 <div class="icon-3d icon-3d-lg">👥</div>
@@ -928,7 +932,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div id="adminBillsLoadMore" class="mt-4 hidden"><button id="loadMoreBillsBtn" class="w-full bg-blue-50 text-blue-700 py-3 rounded-2xl font-bold">📥 अजून लोड करा</button></div>
 </div>
 
-<!-- 🌐 Social Society Admin View (नवीन) -->
+<!-- 🌐 Social Society Admin View -->
 <div id="view-admin-social" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-5">
 <button class="back-btn icon-box-3d w-10 h-10">
@@ -1043,8 +1047,15 @@ var viewStack = [];
 var currentView = "view-home";
 var isNavigatingBack = false;
 
-// 🌐 फक्त नवीन view-admin-social येथे ALL_VIEWS मध्ये जोडले आहे
 var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-special-offers","view-offer-products","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-points","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-offers","view-admin-points","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-categories","view-admin-social","view-success"];
+
+// ==================== SECURITY FIX: escapeHTML ====================
+function escapeHTML(str) {
+    if (!str) return "";
+    return String(str).replace(/[&<>'"]/g, function(c) {
+        return {'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[c];
+    });
+}
 
 // ==================== NAVIGATION ====================
 function navigateTo(viewId){
@@ -1442,17 +1453,14 @@ function renderSpecialOffers(){
     return;
   }
   var html = "";
-  var loops = 3;
-  for (var l = 0; l < loops; l++){
-    for (var i = 0; i < offers.length; i++){
-      var o = offers[i];
-      html += "<div class='relative w-full rounded-2xl overflow-hidden shadow-lg cursor-pointer mb-4 active:scale-[0.98] transition-transform' onclick=\"openOfferProducts('" + o.id + "')\">";
-      html += "<img src='" + o.bannerUrl + "' class='w-full h-auto object-cover block'>";
-      html += "<div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5'>";
-      html += "<h3 class='text-white font-extrabold text-[18px] leading-tight'>" + o.title + "</h3>";
-      html += "<p class='text-white/90 text-[12px] font-medium mt-1'>Tap to view products →</p>";
-      html += "</div></div>";
-    }
+  for (var i = 0; i < offers.length; i++){
+    var o = offers[i];
+    html += "<div class='relative w-full rounded-2xl overflow-hidden shadow-lg cursor-pointer mb-4 active:scale-[0.98] transition-transform' onclick=\"openOfferProducts('" + o.id + "')\">";
+    html += "<img src='" + o.bannerUrl + "' class='w-full h-auto object-cover block'>";
+    html += "<div class='absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5'>";
+    html += "<h3 class='text-white font-extrabold text-[18px] leading-tight'>" + escapeHTML(o.title) + "</h3>";
+    html += "<p class='text-white/90 text-[12px] font-medium mt-1'>Tap to view products →</p>";
+    html += "</div></div>";
   }
   container.innerHTML = html;
 }
@@ -1505,7 +1513,7 @@ function renderOtherPage(){
       d.setAttribute("data-open-cat", c.id);
       d.setAttribute("data-cat-name", c.marathi);
       d.setAttribute("data-cat-cols", "3");
-      d.innerHTML = "<div class='w-[76px] h-[76px] mx-auto bg-white rounded-2xl border border-green-100 flex items-center justify-center overflow-hidden mb-1.5 shadow-sm'><img src='" + c.image + "' class='w-full h-full object-cover' loading='lazy'></div><p class='font-bold text-gray-800 text-[10px] leading-tight'>" + c.marathi + "</p>";
+      d.innerHTML = "<div class='w-[76px] h-[76px] mx-auto bg-white rounded-2xl border border-green-100 flex items-center justify-center overflow-hidden mb-1.5 shadow-sm'><img src='" + c.image + "' class='w-full h-full object-cover' loading='lazy'></div><p class='font-bold text-gray-800 text-[10px] leading-tight'>" + escapeHTML(c.marathi) + "</p>";
       catGrid.appendChild(d);
     }
   }
@@ -1533,7 +1541,7 @@ function renderOtherPage(){
       d2.setAttribute("data-open-cat", cc.id);
       d2.setAttribute("data-cat-name", cc.marathi);
       d2.setAttribute("data-cat-cols", "3");
-      d2.innerHTML = "<img src='" + cc.image + "' class='w-full aspect-square object-cover rounded-xl mb-1' loading='lazy'><p class='font-bold text-gray-800 text-[9px] truncate'>" + cc.marathi + "</p>";
+      d2.innerHTML = "<img src='" + cc.image + "' class='w-full aspect-square object-cover rounded-xl mb-1' loading='lazy'><p class='font-bold text-gray-800 text-[9px] truncate'>" + escapeHTML(cc.marathi) + "</p>";
       allGrid.appendChild(d2);
     }
   }
@@ -1542,6 +1550,7 @@ function renderOtherPage(){
 // ==================== OPEN CATEGORY ====================
 function openCategory(catId, catName, gridCols){
   if (catId === "other"){ openOtherCategories(); return; }
+  document.getElementById("categoryHeaderTitle").textContent = catName || "कॅटेगरी";
   var g = document.getElementById("categoryProductGrid");
   g.innerHTML = "";
   var cols = gridCols || 2;
@@ -1789,7 +1798,7 @@ function renderBasket(){
     var billBadge = bt === "pending" ? "<span class='text-[9px] font-extrabold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full'>🕐 Pending</span>" : "<span class='text-[9px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full'>💵 Cash</span>";
     var div = document.createElement("div");
     div.className = "bg-white p-4 rounded-3xl premium-shadow border border-gray-100 relative";
-    div.innerHTML = "<div class='flex gap-3'><img src='" + it.image + "' class='w-[72px] h-[72px] rounded-2xl object-cover shadow-sm'><div class='flex-1 flex flex-col justify-center'><div class='flex items-center gap-2 mb-1 flex-wrap'><h4 class='font-extrabold text-gray-900 text-[15px] leading-tight'>" + it.marathi + "</h4>" + billBadge + "</div><p class='text-[11px] text-gray-500 font-medium mb-2'>" + it.name + "</p><div class='flex items-center justify-between'><div class='flex items-center bg-green-50 rounded-full px-1 py-1 gap-1 border border-green-100'><button data-qty-key='" + it.cartKey + "' data-qty-ch='-1' class='w-7 h-7 flex items-center justify-center text-green-700 font-extrabold text-lg'>−</button><span class='text-[12px] font-extrabold text-gray-800 px-2 min-w-[70px] text-center'>" + qtyStr + "</span><button data-qty-key='" + it.cartKey + "' data-qty-ch='1' class='w-7 h-7 flex items-center justify-center text-green-700 font-extrabold text-lg'>+</button></div><span class='font-extrabold text-green-700 text-lg'>₹" + itemTotal + "</span></div></div></div><button data-remove-key='" + it.cartKey + "' class='absolute top-3 right-3 text-gray-300 p-1'>🗑️</button>";
+    div.innerHTML = "<div class='flex gap-3'><img src='" + it.image + "' class='w-[72px] h-[72px] rounded-2xl object-cover shadow-sm'><div class='flex-1 flex flex-col justify-center'><div class='flex items-center gap-2 mb-1 flex-wrap'><h4 class='font-extrabold text-gray-900 text-[15px] leading-tight'>" + escapeHTML(it.marathi) + "</h4>" + billBadge + "</div><p class='text-[11px] text-gray-500 font-medium mb-2'>" + escapeHTML(it.name) + "</p><div class='flex items-center justify-between'><div class='flex items-center bg-green-50 rounded-full px-1 py-1 gap-1 border border-green-100'><button data-qty-key='" + it.cartKey + "' data-qty-ch='-1' class='w-7 h-7 flex items-center justify-center text-green-700 font-extrabold text-lg'>−</button><span class='text-[12px] font-extrabold text-gray-800 px-2 min-w-[70px] text-center'>" + qtyStr + "</span><button data-qty-key='" + it.cartKey + "' data-qty-ch='1' class='w-7 h-7 flex items-center justify-center text-green-700 font-extrabold text-lg'>+</button></div><span class='font-extrabold text-green-700 text-lg'>₹" + itemTotal + "</span></div></div></div><button data-remove-key='" + it.cartKey + "' class='absolute top-3 right-3 text-gray-300 p-1'>🗑️</button>";
     c.appendChild(div);
   }
   var totals = calcCartTotals();
@@ -1861,7 +1870,7 @@ async function openConfirmModal(){
   if (applyFreeWeek) html += "<div class='flex justify-between text-[13px]'><span class='text-green-700 font-bold'>🎁 " + (firstWeekFree ? "First Week FREE" : "Points Used") + "</span><span class='font-bold text-green-700'>-₹99</span></div>";
   html += "<div class='divider'></div><div class='flex justify-between items-center'><span class='font-bold text-gray-800'>Total</span><span class='font-extrabold text-green-700 text-xl'>₹" + finalTotal + "</span></div></div>";
   if (totalPoints > 0 && !applyFreeWeek) html += "<p class='text-[11px] text-purple-700 mt-2 text-center font-semibold'>💰 तुमचे Points: " + totalPoints + "</p>";
-  html += "<p class='text-[11px] text-gray-500 mt-3 text-center'>📍 " + userProfile.address + "</p>";
+  html += "<p class='text-[11px] text-gray-500 mt-3 text-center'>📍 " + escapeHTML(userProfile.address) + "</p>";
   document.getElementById("confirmModalBody").innerHTML = html;
   document.getElementById("confirmModal").classList.add("show");
 }
@@ -1944,7 +1953,6 @@ async function confirmAndSend(){
   var deliveryFee = (pendingTotal > 0 && !feeAlreadyCharged && !applyFreeWeek) ? DELIVERY_FEE : 0;
   var finalAmount = pendingTotal + cashTotal + deliveryFee;
 
-  // Loyalty points calculation
   var loyaltyPointsEarned = 0;
   if (cashTotal > 0){
     var counter = custData.loyaltyCounter || 0;
@@ -2020,7 +2028,7 @@ async function confirmAndSend(){
     if (loyaltyPointsEarned > 0){
       custUpdate.loyaltyPoints = (custUpdate.loyaltyPoints !== undefined ? custUpdate.loyaltyPoints : (custData.loyaltyPoints || 0)) + loyaltyPointsEarned;
     }
-    await custDocRef.set(custUpdate, { merge: true });
+    await custDocRef.set(custUpdate, { merge: true }); // Fixed Update Error
 
     window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + m, "_blank");
     setTimeout(function(){
@@ -2297,7 +2305,7 @@ function renderServices(){
     var div = document.createElement("div");
     div.className = "bg-white rounded-3xl premium-shadow overflow-hidden relative border border-gray-100 mb-3";
     var delBtn = isAdmin ? "<button data-del-service='" + s.id + "' class='absolute top-3 right-3 bg-red-100 text-red-600 p-2 rounded-full'>🗑️</button>" : "";
-    div.innerHTML = "<img src='" + s.image + "' class='w-full h-32 object-cover' loading='lazy'>" + delBtn + "<div class='p-4'><h3 class='font-extrabold text-[15px] text-gray-900'>" + s.marathi + " <span class='text-[12px] text-gray-500 font-medium'>(" + s.name + ")</span></h3><p class='text-green-700 font-extrabold mt-1'>" + s.charges + "</p><p class='text-[11px] text-gray-500 mt-1'>" + (s.details || "") + "</p><button data-book-service='" + s.id + "' class='w-full mt-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-extrabold text-[12px]'>बुक करा</button></div>";
+    div.innerHTML = "<img src='" + s.image + "' class='w-full h-32 object-cover' loading='lazy'>" + delBtn + "<div class='p-4'><h3 class='font-extrabold text-[15px] text-gray-900'>" + escapeHTML(s.marathi) + " <span class='text-[12px] text-gray-500 font-medium'>(" + escapeHTML(s.name) + ")</span></h3><p class='text-green-700 font-extrabold mt-1'>" + escapeHTML(s.charges) + "</p><p class='text-[11px] text-gray-500 mt-1'>" + escapeHTML(s.details || "") + "</p><button data-book-service='" + s.id + "' class='w-full mt-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-extrabold text-[12px]'>बुक करा</button></div>";
     g.appendChild(div);
   }
 }
@@ -2345,7 +2353,7 @@ function renderWeeklyPlanForm(){
     var v = weeklyPlan[d.key] || "";
     var div = document.createElement("div");
     div.className = "bg-white p-4 rounded-2xl premium-shadow border border-gray-100";
-    div.innerHTML = "<label class='form-label'>" + d.label + "</label><input type='text' id='plan-" + d.key + "' value='" + v + "' placeholder='उदा. कांदा' class='custom-input mb-0'>";
+    div.innerHTML = "<label class='form-label'>" + d.label + "</label><input type='text' id='plan-" + d.key + "' value='" + escapeHTML(v) + "' placeholder='उदा. कांदा' class='custom-input mb-0'>";
     c.appendChild(div);
   }
 }
@@ -2516,7 +2524,7 @@ async function loadReferEarnPage(){
       if (r.status === "approved") badge = "<span class='bg-green-100 text-green-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>✅ " + (r.points || 50) + " points मिळाले</span>";
       else if (r.status === "rejected") badge = "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🚫 Rejected</span>";
       else badge = "<span class='bg-amber-100 text-amber-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>⏳ पहिला आठवडा बाकी</span>";
-      html += "<div class='bg-gray-50 p-3 rounded-2xl border border-gray-100 mb-2'><p class='font-bold text-[13px] text-gray-900'>👤 " + r.newCustomerName + "</p><p class='text-[10px] text-gray-500 mt-0.5'>📞 " + r.newCustomerPhone + "</p><div class='mt-1'>" + badge + "</div></div>";
+      html += "<div class='bg-gray-50 p-3 rounded-2xl border border-gray-100 mb-2'><p class='font-bold text-[13px] text-gray-900'>👤 " + escapeHTML(r.newCustomerName) + "</p><p class='text-[10px] text-gray-500 mt-0.5'>📞 " + r.newCustomerPhone + "</p><div class='mt-1'>" + badge + "</div></div>";
     }
     container.innerHTML = html;
   } catch(e) {
@@ -2709,8 +2717,8 @@ function renderCustomersList(){
     var sn = societies[s];
     var socList = grouped[sn];
     var isExpanded = expandedSocieties[sn] === true || q.length > 0;
-    html += "<div class='society-card' data-toggle-soc='" + sn.replace(/'/g, "&#39;") + "'>";
-    html += "<div class='flex items-center gap-2'><span class='icon-3d icon-3d-md'>🏘️</span><span>" + sn + "</span></div>";
+    html += "<div class='society-card' data-toggle-soc='" + escapeHTML(sn.replace(/'/g, "&#39;")) + "'>";
+    html += "<div class='flex items-center gap-2'><span class='icon-3d icon-3d-md'>🏘️</span><span>" + escapeHTML(sn) + "</span></div>";
     html += "<span class='soc-count'>" + socList.length + "</span>";
     html += "</div>";
     if (isExpanded){
@@ -2723,7 +2731,7 @@ function renderCustomersList(){
         else badge = "<span class='bg-yellow-100 text-yellow-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>🟡 NEW</span>";
         var totalPts = (c.referralPoints || 0) + (c.loyaltyPoints || 0);
         var pointsBadge = totalPts > 0 ? "<span class='bg-purple-100 text-purple-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full ml-1'>💰 " + totalPts + " pts</span>" : "";
-        html += "<div class='bg-white p-3 rounded-2xl premium-shadow border border-gray-100'><div class='flex items-center gap-3 mb-2'><div class='w-10 h-10 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-lg shrink-0'>👤</div><div class='min-w-0 flex-1'><p class='font-extrabold text-[14px] text-gray-900 truncate'>" + c.name + "</p><p class='text-[11px] text-gray-500 truncate'>📞 " + c.phone + " • 🏠 " + c.flat + "</p><div class='flex gap-1 mt-1 flex-wrap'>" + badge + pointsBadge + "</div></div></div>";
+        html += "<div class='bg-white p-3 rounded-2xl premium-shadow border border-gray-100'><div class='flex items-center gap-3 mb-2'><div class='w-10 h-10 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-lg shrink-0'>👤</div><div class='min-w-0 flex-1'><p class='font-extrabold text-[14px] text-gray-900 truncate'>" + escapeHTML(c.name) + "</p><p class='text-[11px] text-gray-500 truncate'>📞 " + c.phone + " • 🏠 " + escapeHTML(c.flat) + "</p><div class='flex gap-1 mt-1 flex-wrap'>" + badge + pointsBadge + "</div></div></div>";
         if (c.orderCount > 0){
           html += "<div class='grid grid-cols-2 gap-2 mb-2'><div class='bg-green-50 p-2 rounded-xl border border-green-200 text-center'><p class='text-[9px] text-green-700 font-bold'>📦 Orders</p><p class='font-extrabold text-green-800 text-[14px]'>" + c.orderCount + "</p></div><div class='bg-blue-50 p-2 rounded-xl border border-blue-200 text-center'><p class='text-[9px] text-blue-700 font-bold'>💰 Total</p><p class='font-extrabold text-blue-800 text-[14px]'>₹" + c.totalSpent + "</p></div></div>";
         }
@@ -2733,17 +2741,17 @@ function renderCustomersList(){
         
         if (c.isHidden){
           html += "<button data-restore='" + c.phone + "' class='flex-1 bg-blue-50 text-blue-700 py-2 rounded-xl text-[11px] font-bold'>🔄 Restore</button>";
-          html += "<button data-hard-del='" + c.phone + "' data-del-name='" + c.name + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>❌ Hard Delete</button>";
+          html += "<button data-hard-del='" + c.phone + "' data-del-name='" + escapeHTML(c.name) + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>❌ Hard Delete</button>";
         } else {
           if (c.isBlocked){
             html += "<button data-unblock='" + c.phone + "' class='flex-1 bg-emerald-50 text-emerald-700 py-2 rounded-xl text-[11px] font-bold'>✅ Unblock</button>";
           } else {
-            html += "<button data-block='" + c.phone + "' data-block-name='" + c.name + "' class='flex-1 bg-red-50 text-red-700 py-2 rounded-xl text-[11px] font-bold'>🚫 Block</button>";
+            html += "<button data-block='" + c.phone + "' data-block-name='" + escapeHTML(c.name) + "' class='flex-1 bg-red-50 text-red-700 py-2 rounded-xl text-[11px] font-bold'>🚫 Block</button>";
           }
         }
         html += "</div>";
         if (!c.isHidden){
-          html += "<button data-hide='" + c.phone + "' data-hide-name='" + c.name + "' class='w-full mt-2 bg-gray-100 text-gray-600 py-2 rounded-xl text-[11px] font-bold'>🗑️ Hide (Fake)</button>";
+          html += "<button data-hide='" + c.phone + "' data-hide-name='" + escapeHTML(c.name) + "' class='w-full mt-2 bg-gray-100 text-gray-600 py-2 rounded-xl text-[11px] font-bold'>🗑️ Hide (Fake)</button>";
         }
         html += "</div>";
       }
@@ -2814,7 +2822,7 @@ async function loadAdminOffers(){
   if (offers.length === 0){ list.innerHTML = "<p class='text-center text-gray-500 py-4'>कोणतेही offers नाहीत.</p>"; return; }
   var html = "";
   offers.forEach(function(o){
-    html += "<div class='bg-gray-50 p-3 rounded-xl flex justify-between items-center border border-gray-200 mb-2'><div class='flex items-center gap-3'><img src='" + o.bannerUrl + "' class='w-12 h-12 object-cover rounded-lg'><div><p class='font-bold text-[13px] text-gray-900 truncate w-40'>" + o.title + "</p><p class='text-[10px] text-gray-500'>" + (o.targetType === "category" ? "Category: " + o.targetValue : "Products") + "</p></div></div><button onclick=\"deleteOffer('" + o.id + "')\" class='text-red-500 bg-red-100 p-2 rounded-full'>🗑️</button></div>";
+    html += "<div class='bg-gray-50 p-3 rounded-xl flex justify-between items-center border border-gray-200 mb-2'><div class='flex items-center gap-3'><img src='" + o.bannerUrl + "' class='w-12 h-12 object-cover rounded-lg'><div><p class='font-bold text-[13px] text-gray-900 truncate w-40'>" + escapeHTML(o.title) + "</p><p class='text-[10px] text-gray-500'>" + (o.targetType === "category" ? "Category: " + o.targetValue : "Products") + "</p></div></div><button onclick=\"deleteOffer('" + o.id + "')\" class='text-red-500 bg-red-100 p-2 rounded-full'>🗑️</button></div>";
   });
   list.innerHTML = html;
 }
@@ -2883,7 +2891,7 @@ async function loadTopPointsList(){
     var medals = ["🥇","🥈","🥉","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"];
     for (var i = 0; i < arr.length; i++){
       var a = arr[i];
-      html += "<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-xl mb-1.5'><div class='flex items-center gap-2 min-w-0'><span class='text-lg icon-3d icon-3d-sm'>" + medals[i] + "</span><div class='min-w-0'><p class='font-bold text-[12px] text-gray-800 truncate'>" + a.name + "</p><p class='text-[10px] text-gray-500'>📞 " + a.phone + "</p></div></div><div class='text-right shrink-0'><p class='font-extrabold text-purple-700 text-[14px]'>" + a.total + " pts</p><p class='text-[9px] text-gray-500'>R:" + a.ref + " L:" + a.loy + "</p></div></div>";
+      html += "<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-xl mb-1.5'><div class='flex items-center gap-2 min-w-0'><span class='text-lg icon-3d icon-3d-sm'>" + medals[i] + "</span><div class='min-w-0'><p class='font-bold text-[12px] text-gray-800 truncate'>" + escapeHTML(a.name) + "</p><p class='text-[10px] text-gray-500'>📞 " + a.phone + "</p></div></div><div class='text-right shrink-0'><p class='font-extrabold text-purple-700 text-[14px]'>" + a.total + " pts</p><p class='text-[9px] text-gray-500'>R:" + a.ref + " L:" + a.loy + "</p></div></div>";
     }
     container.innerHTML = html;
   } catch(e){ console.error(e); container.innerHTML = "<p class='text-center text-red-500 py-4 text-sm'>अडचण.</p>"; }
@@ -2916,13 +2924,13 @@ function renderAdminReferralsList(){
     else badge = "<span class='bg-amber-100 text-amber-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full'>⏳ Pending</span>";
     var actions = "";
     if (r.status === "pending" && r.type !== "manual"){
-      actions = "<div class='flex gap-2 mt-2'><button data-approve-ref='" + r.id + "' data-ref-referrer='" + r.referrerPhone + "' data-ref-points='" + (r.points || 50) + "' data-ref-name='" + r.referrerName + "' class='flex-1 bg-green-500 text-white py-2 rounded-xl text-[11px] font-bold'>✅ Approve (+" + (r.points || 50) + ")</button><button data-reject-ref='" + r.id + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>🚫 Reject</button></div>";
+      actions = "<div class='flex gap-2 mt-2'><button data-approve-ref='" + r.id + "' data-ref-referrer='" + r.referrerPhone + "' data-ref-points='" + (r.points || 50) + "' data-ref-name='" + escapeHTML(r.referrerName) + "' class='flex-1 bg-green-500 text-white py-2 rounded-xl text-[11px] font-bold'>✅ Approve (+" + (r.points || 50) + ")</button><button data-reject-ref='" + r.id + "' class='flex-1 bg-red-500 text-white py-2 rounded-xl text-[11px] font-bold'>🚫 Reject</button></div>";
     }
     if (r.type === "manual"){
-      html += "<div class='bg-purple-50 p-3 rounded-2xl border border-purple-200 mb-2'><div class='flex justify-between items-center'><div><p class='text-[10px] text-purple-700 font-bold uppercase'>💰 Manual Points</p><p class='font-bold text-[12px] text-gray-800'>" + r.referrerPhone + "</p><p class='text-[10px] text-gray-500'>" + (r.reason || "") + "</p></div><span class='font-extrabold text-purple-700'>+" + r.points + "</span></div></div>";
+      html += "<div class='bg-purple-50 p-3 rounded-2xl border border-purple-200 mb-2'><div class='flex justify-between items-center'><div><p class='text-[10px] text-purple-700 font-bold uppercase'>💰 Manual Points</p><p class='font-bold text-[12px] text-gray-800'>" + escapeHTML(r.referrerPhone) + "</p><p class='text-[10px] text-gray-500'>" + escapeHTML(r.reason || "") + "</p></div><span class='font-extrabold text-purple-700'>+" + r.points + "</span></div></div>";
       continue;
     }
-    html += "<div class='bg-white p-4 rounded-2xl premium-shadow border border-gray-100 mb-2'><div class='flex justify-between items-start mb-2'><div class='flex-1'><p class='text-[10px] text-gray-500 font-bold uppercase'>Referrer</p><p class='font-extrabold text-[13px] text-gray-900'>👤 " + r.referrerName + " • " + r.referrerCode + "</p><p class='text-[11px] text-gray-500'>📞 " + r.referrerPhone + "</p></div><div>" + badge + "</div></div><div class='bg-gray-50 p-2.5 rounded-xl mb-2'><p class='text-[10px] text-gray-500 font-bold uppercase'>New Customer</p><p class='font-bold text-[12px] text-gray-800'>👤 " + r.newCustomerName + "</p><p class='text-[11px] text-gray-500'>📞 " + r.newCustomerPhone + "</p></div>" + actions + "</div>";
+    html += "<div class='bg-white p-4 rounded-2xl premium-shadow border border-gray-100 mb-2'><div class='flex justify-between items-start mb-2'><div class='flex-1'><p class='text-[10px] text-gray-500 font-bold uppercase'>Referrer</p><p class='font-extrabold text-[13px] text-gray-900'>👤 " + escapeHTML(r.referrerName) + " • " + r.referrerCode + "</p><p class='text-[11px] text-gray-500'>📞 " + r.referrerPhone + "</p></div><div>" + badge + "</div></div><div class='bg-gray-50 p-2.5 rounded-xl mb-2'><p class='text-[10px] text-gray-500 font-bold uppercase'>New Customer</p><p class='font-bold text-[12px] text-gray-800'>👤 " + escapeHTML(r.newCustomerName) + "</p><p class='text-[11px] text-gray-500'>📞 " + r.newCustomerPhone + "</p></div>" + actions + "</div>";
   }
   container.innerHTML = html;
 }
@@ -2988,7 +2996,7 @@ async function loadPointsApprovals(){
       var r = arr[i];
       var ds = "";
       if (r.createdAt){ var dd = new Date(r.createdAt.seconds * 1000); ds = dd.toLocaleDateString("mr-IN") + " " + dd.toLocaleTimeString("mr-IN", { hour: "2-digit", minute: "2-digit" }); }
-      html += "<div class='bg-white p-4 rounded-2xl premium-shadow border-l-4 border-purple-500 mb-3'><div class='flex justify-between items-start mb-2'><div class='flex-1'><p class='font-extrabold text-[14px] text-gray-900'>👤 " + r.customerName + "</p><p class='text-[11px] text-gray-500'>📞 " + r.customerPhone + "</p><p class='text-[10px] text-gray-400 mt-0.5'>🕐 " + ds + "</p></div><span class='bg-purple-100 text-purple-700 text-[12px] font-extrabold px-3 py-1.5 rounded-full'>💰 " + r.pointsAmount + " pts</span></div><p class='text-[11px] text-gray-600 bg-gray-50 p-2.5 rounded-xl mb-2'>या customer ला <b>" + r.pointsAmount + " Points</b> वापरून 1 आठवडा मोफत मिळवायचा आहे</p><div class='flex gap-2'><button data-approve-points='" + r.id + "' data-pts-phone='" + r.customerPhone + "' data-pts-amount='" + r.pointsAmount + "' data-pts-name='" + r.customerName + "' class='flex-1 bg-green-500 text-white py-2.5 rounded-xl text-[12px] font-bold'>✅ Approve</button><button data-reject-points='" + r.id + "' data-pts-phone='" + r.customerPhone + "' class='flex-1 bg-red-500 text-white py-2.5 rounded-xl text-[12px] font-bold'>🚫 Reject</button></div></div>";
+      html += "<div class='bg-white p-4 rounded-2xl premium-shadow border-l-4 border-purple-500 mb-3'><div class='flex justify-between items-start mb-2'><div class='flex-1'><p class='font-extrabold text-[14px] text-gray-900'>👤 " + escapeHTML(r.customerName) + "</p><p class='text-[11px] text-gray-500'>📞 " + r.customerPhone + "</p><p class='text-[10px] text-gray-400 mt-0.5'>🕐 " + ds + "</p></div><span class='bg-purple-100 text-purple-700 text-[12px] font-extrabold px-3 py-1.5 rounded-full'>💰 " + r.pointsAmount + " pts</span></div><p class='text-[11px] text-gray-600 bg-gray-50 p-2.5 rounded-xl mb-2'>या customer ला <b>" + r.pointsAmount + " Points</b> वापरून 1 आठवडा मोफत मिळवायचा आहे</p><div class='flex gap-2'><button data-approve-points='" + r.id + "' data-pts-phone='" + r.customerPhone + "' data-pts-amount='" + r.pointsAmount + "' data-pts-name='" + escapeHTML(r.customerName) + "' class='flex-1 bg-green-500 text-white py-2.5 rounded-xl text-[12px] font-bold'>✅ Approve</button><button data-reject-points='" + r.id + "' data-pts-phone='" + r.customerPhone + "' class='flex-1 bg-red-500 text-white py-2.5 rounded-xl text-[12px] font-bold'>🚫 Reject</button></div></div>";
     }
     container.innerHTML = html;
   } catch(e){ console.error(e); container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>"; }
@@ -3035,7 +3043,7 @@ async function loadAdminCancels(){
     var html = "";
     for (var i = 0; i < arr.length; i++){
       var r = arr[i];
-      html += "<div class='bg-white p-4 rounded-2xl premium-shadow border-l-4 border-red-500 mb-2'><p class='text-[10px] text-gray-500 font-bold uppercase'>Order #" + r.orderId.slice(-6).toUpperCase() + "</p><p class='font-extrabold text-[14px] text-gray-900 mt-1'>👤 " + r.customerName + "</p><p class='text-[11px] text-gray-500'>📞 " + r.customerPhone + "</p><p class='text-[12px] font-bold text-red-700 mt-1'>Order Amount: ₹" + r.orderAmount + "</p>" + (r.loyaltyPoints > 0 ? "<p class='text-[11px] text-purple-700 font-bold'>Loyalty: " + r.loyaltyPoints + " pts (रद्द होतील)</p>" : "") + "<div class='flex gap-2 mt-3'><button data-approve-cancel='" + r.id + "' data-cancel-order='" + r.orderId + "' data-cancel-cust='" + r.customerPhone + "' data-cancel-points='" + (r.loyaltyPoints || 0) + "' class='flex-1 bg-red-500 text-white py-2.5 rounded-xl text-[12px] font-bold'>✅ Approve Cancel</button><button data-reject-cancel='" + r.id + "' data-cancel-order='" + r.orderId + "' class='flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-[12px] font-bold'>❌ Reject</button></div></div>";
+      html += "<div class='bg-white p-4 rounded-2xl premium-shadow border-l-4 border-red-500 mb-2'><p class='text-[10px] text-gray-500 font-bold uppercase'>Order #" + r.orderId.slice(-6).toUpperCase() + "</p><p class='font-extrabold text-[14px] text-gray-900 mt-1'>👤 " + escapeHTML(r.customerName) + "</p><p class='text-[11px] text-gray-500'>📞 " + r.customerPhone + "</p><p class='text-[12px] font-bold text-red-700 mt-1'>Order Amount: ₹" + r.orderAmount + "</p>" + (r.loyaltyPoints > 0 ? "<p class='text-[11px] text-purple-700 font-bold'>Loyalty: " + r.loyaltyPoints + " pts (रद्द होतील)</p>" : "") + "<div class='flex gap-2 mt-3'><button data-approve-cancel='" + r.id + "' data-cancel-order='" + r.orderId + "' data-cancel-cust='" + r.customerPhone + "' data-cancel-points='" + (r.loyaltyPoints || 0) + "' class='flex-1 bg-red-500 text-white py-2.5 rounded-xl text-[12px] font-bold'>✅ Approve Cancel</button><button data-reject-cancel='" + r.id + "' data-cancel-order='" + r.orderId + "' class='flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-[12px] font-bold'>❌ Reject</button></div></div>";
     }
     container.innerHTML = html;
   } catch(e){ console.error(e); container.innerHTML = "<p class='text-center text-red-500 py-10'>अडचण आली.</p>"; }
@@ -3070,7 +3078,7 @@ async function rejectCancelRequest(reqId, orderId){
   } catch(e){ alert("एरर: " + e.message); }
 }
 
-// ==================== ADMIN SOCIAL SOCIETY (Full) ====================
+// ==================== ADMIN SOCIAL SOCIETY ====================
 async function loadSocialAdminData() {
     var postsContainer = document.getElementById("socialAdminPostsList");
     var usersContainer = document.getElementById("socialAdminUsersList");
@@ -3094,9 +3102,9 @@ async function loadSocialAdminData() {
                 postsHtml += `
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 flex justify-between items-start mb-2">
                     <div>
-                        <p class="font-bold text-[13px] text-gray-900">👤 ${p.authorName} (${p.authorPhone})</p>
-                        <p class="text-[10px] text-pink-600 font-bold mb-1">${p.type || 'Post'} • ${p.society} • ${timeStr}</p>
-                        <p class="text-sm text-gray-700">${p.text}</p>
+                        <p class="font-bold text-[13px] text-gray-900">👤 ${escapeHTML(p.authorName)} (${p.authorPhone})</p>
+                        <p class="text-[10px] text-pink-600 font-bold mb-1">${escapeHTML(p.type || 'Post')} • ${escapeHTML(p.society)} • ${timeStr}</p>
+                        <p class="text-sm text-gray-700">${escapeHTML(p.text)}</p>
                     </div>
                     <button onclick="deleteSocialPost('${doc.id}')" class="bg-red-100 text-red-600 p-2 rounded-full ml-2 shrink-0">🗑️</button>
                 </div>`;
@@ -3119,12 +3127,15 @@ async function loadSocialAdminData() {
                 <div class="bg-blue-50 p-3 rounded-xl border border-blue-100 flex flex-col gap-2 mb-2">
                     <div class="flex justify-between items-center">
                         <div>
-                            <p class="font-bold text-[13px] text-gray-900">👤 ${u.name || 'Unknown'}</p>
-                            <p class="text-[11px] text-gray-600">📞 ${doc.id} • 🏠 ${u.society || 'No Society'}</p>
+                            <p class="font-bold text-[13px] text-gray-900">👤 ${escapeHTML(u.name || 'Unknown')}</p>
+                            <p class="text-[11px] text-gray-600">📞 ${doc.id} • 🏠 ${escapeHTML(u.society || 'No Society')}</p>
                         </div>
-                        <button onclick="toggleBlockUser('${doc.id}', ${isBlocked})" class="${isBlocked ? 'bg-red-500 text-white' : 'bg-red-100 text-red-600'} px-2 py-1 rounded-lg text-[10px] font-bold">
-                            ${isBlocked ? '🚫 Blocked' : 'Block'}
-                        </button>
+                        <div class="flex gap-1">
+                            <button onclick="toggleBlockUser('${doc.id}', ${isBlocked})" class="${isBlocked ? 'bg-red-500 text-white' : 'bg-red-100 text-red-600'} px-2 py-1 rounded-lg text-[10px] font-bold">
+                                ${isBlocked ? '🚫 Blocked' : 'Block'}
+                            </button>
+                            <button onclick="hardDeleteSocialUser('${doc.id}')" class="bg-red-600 text-white p-1 rounded-lg text-[10px] font-bold">🗑️</button>
+                        </div>
                     </div>
                     <div class="flex items-center gap-2 mt-1">
                         <span class="text-[11px] font-bold text-gray-500">Role:</span>
@@ -3151,11 +3162,11 @@ async function loadSocialAdminData() {
 
                 reportsHtml += `
                 <div class="bg-red-50 p-3 rounded-xl border border-red-200 mb-2">
-                    <p class="text-[11px] font-bold text-red-800">🚩 कारण: ${r.reason}</p>
-                    <p class="text-[10px] text-gray-600 mt-1">तक्रार करणारा: ${r.reporterName} (${r.reportedBy})</p>
+                    <p class="text-[11px] font-bold text-red-800">🚩 कारण: ${escapeHTML(r.reason)}</p>
+                    <p class="text-[10px] text-gray-600 mt-1">तक्रार करणारा: ${escapeHTML(r.reporterName)} (${r.reportedBy})</p>
                     <div class="bg-white p-2 rounded-lg mt-2 border border-gray-200">
-                        <p class="text-[10px] font-bold text-gray-800">👤 ${postAuthor} यांची पोस्ट:</p>
-                        <p class="text-xs text-gray-700 mt-0.5">"${postText}"</p>
+                        <p class="text-[10px] font-bold text-gray-800">👤 ${escapeHTML(postAuthor)} यांची पोस्ट:</p>
+                        <p class="text-xs text-gray-700 mt-0.5">"${escapeHTML(postText)}"</p>
                     </div>
                     <div class="flex gap-2 mt-2">
                         <button onclick="dismissReport('${doc.id}')" class="flex-1 bg-gray-200 text-gray-700 py-1.5 rounded-lg text-[10px] font-bold">❌ Dismiss</button>
@@ -3176,9 +3187,9 @@ async function loadSocialAdminData() {
                 helpersHtml += `
                 <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 mb-2 flex flex-col gap-2">
                     <div>
-                        <p class="font-bold text-[13px] text-gray-900">👤 ${h.name} (${h.phone})</p>
-                        <p class="text-[11px] text-blue-700 font-bold">${h.category} • ${h.experience} वर्षे अनुभव</p>
-                        <p class="text-[10px] text-gray-500">🏠 ${h.society}</p>
+                        <p class="font-bold text-[13px] text-gray-900">👤 ${escapeHTML(h.name)} (${h.phone})</p>
+                        <p class="text-[11px] text-blue-700 font-bold">${escapeHTML(h.category)} • ${h.experience} वर्षे अनुभव</p>
+                        <p class="text-[10px] text-gray-500">🏠 ${escapeHTML(h.society)}</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="approveHelper('${doc.id}')" class="flex-1 bg-green-500 text-white py-1.5 rounded-lg text-[10px] font-bold">✅ Approve</button>
@@ -3258,6 +3269,27 @@ async function rejectHelper(id) {
     } catch(e) { alert("Error: " + e.message); }
 }
 
+// ** NEW: Hard Delete Social User (Deletes User + All Their Posts) **
+async function hardDeleteSocialUser(phone) {
+    if (!confirm("❌ हा युजर आणि त्याने केलेल्या सर्व पोस्ट्स कायमच्या डिलीट करायच्या?")) return;
+    if (!confirm("⚠️ शेवटची संधी! डिलीट केल्यावर परत मिळणार नाही.")) return;
+    try {
+        // 1. Delete User
+        await db.collection("customers").doc(phone).delete();
+        
+        // 2. Delete all their posts
+        var snap = await db.collection("social_posts").where("authorPhone", "==", phone).get();
+        var batch = db.batch();
+        snap.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        await batch.commit();
+
+        showToast("❌ युजर आणि पोस्ट्स डिलीट झाल्या!", "info");
+        loadSocialAdminData();
+    } catch(e) { alert("Error: " + e.message); }
+}
+
 // ==================== ADMIN BILLS ====================
 var adminBillsLastDoc = null;
 var adminBillsCustomersMap = {};
@@ -3332,8 +3364,8 @@ function renderAdminBillsList(){
     var sn = societies[s];
     var socList = grouped[sn];
     var isExpanded = expandedBillSocieties[sn] === true;
-    html += "<div class='society-card' data-toggle-bill-soc='" + sn.replace(/'/g, "&#39;") + "'>";
-    html += "<div class='flex items-center gap-2'><span class='icon-3d icon-3d-md'>🏘️</span><span>" + sn + "</span></div>";
+    html += "<div class='society-card' data-toggle-bill-soc='" + escapeHTML(sn.replace(/'/g, "&#39;")) + "'>";
+    html += "<div class='flex items-center gap-2'><span class='icon-3d icon-3d-md'>🏘️</span><span>" + escapeHTML(sn) + "</span></div>";
     html += "<span class='soc-count'>" + socList.length + " customers</span>";
     html += "</div>";
     if (isExpanded){
@@ -3356,7 +3388,7 @@ function buildBillCard(c){
   var fee = c.deliveryFeeUnpaid || 0;
   var totalPending = c.pendingAmount + fee;
   var cb = !ifp
-    ? "<button data-clear-pending='" + c.phone + "' data-clear-name='" + c.name + "' class='w-full mt-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white py-2.5 rounded-xl font-bold text-[13px]'>✓ Pending Clear (₹" + totalPending + ")</button>"
+    ? "<button data-clear-pending='" + c.phone + "' data-clear-name='" + escapeHTML(c.name) + "' class='w-full mt-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white py-2.5 rounded-xl font-bold text-[13px]'>✓ Pending Clear (₹" + totalPending + ")</button>"
     : "<div class='w-full mt-2 bg-emerald-50 text-emerald-800 py-2.5 rounded-xl font-bold text-[13px] text-center'>✅ सर्व Paid आहे</div>";
   var oh = "";
   c.orders.sort(function(a,b){ var da = a.createdAt ? a.createdAt.seconds : 0; var dbb = b.createdAt ? b.createdAt.seconds : 0; return dbb - da; });
@@ -3368,9 +3400,9 @@ function buildBillCard(c){
     if (pAmt > 0 && cAmt > 0) amtLine = "🕐₹" + pAmt + " + 💵₹" + cAmt;
     else if (pAmt > 0) amtLine = "🕐₹" + pAmt;
     else amtLine = "💵₹" + cAmt;
-    oh += "<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-xl mb-1.5'><div><p class='text-[10px] font-extrabold text-gray-700'>#" + o.id.slice(-6).toUpperCase() + "</p><p class='text-[10px] " + pc + " font-extrabold'>" + (pAmt > 0 ? (o.pendingPaid ? "PAID" : "PENDING") : "CASH") + "</p></div><div class='flex items-center gap-2'><span class='font-extrabold text-gray-900 text-[11px]'>" + amtLine + "</span><button data-del-order='" + o.id + "' data-del-name='" + c.name + "' class='text-red-500 bg-red-100 p-1.5 rounded-full'>🗑️</button></div></div>";
+    oh += "<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-xl mb-1.5'><div><p class='text-[10px] font-extrabold text-gray-700'>#" + o.id.slice(-6).toUpperCase() + "</p><p class='text-[10px] " + pc + " font-extrabold'>" + (pAmt > 0 ? (o.pendingPaid ? "PAID" : "PENDING") : "CASH") + "</p></div><div class='flex items-center gap-2'><span class='font-extrabold text-gray-900 text-[11px]'>" + amtLine + "</span><button data-del-order='" + o.id + "' data-del-name='" + escapeHTML(c.name) + "' class='text-red-500 bg-red-100 p-1.5 rounded-full'>🗑️</button></div></div>";
   }
-  return "<div class='bg-white p-4 rounded-3xl premium-shadow border-l-4 " + cbg + " mb-3'><div class='mb-3'><h4 class='font-extrabold text-gray-900 text-[15px]'>👤 " + c.name + "</h4><p class='text-[11px] text-gray-500 mt-1'>📞 " + c.phone + "</p><p class='text-[11px] text-gray-500 mt-0.5'>🏠 Flat: " + c.flat + "</p><p class='text-[10px] text-gray-400 mt-1'>📦 " + c.orderCount + " ऑर्डर्स</p></div><div class='grid grid-cols-2 gap-2 mb-3'><div class='bg-amber-50 p-2.5 rounded-xl border border-amber-200'><p class='text-[9px] font-extrabold text-amber-700'>🕐 Pending</p><p class='font-extrabold text-amber-800 text-lg'>₹" + c.pendingAmount + "</p>" + (fee > 0 ? "<p class='text-[9px] text-amber-600 mt-0.5'>+ ₹" + fee + " fee</p>" : "") + "</div><div class='bg-emerald-50 p-2.5 rounded-xl border border-emerald-200'><p class='text-[9px] font-extrabold text-emerald-700'>💵 Cash</p><p class='font-extrabold text-emerald-800 text-lg'>₹" + c.cashAmount + "</p></div></div>" + cb + "<button data-toggle-orders='" + ps + "' class='w-full mt-2 bg-blue-50 text-blue-700 py-2.5 rounded-xl font-bold text-[11px]'>📋 ऑर्डर्स पहा</button><div id='ord_" + ps + "' class='hidden mt-2'>" + (oh || "<p class='text-xs text-gray-400 text-center py-2'>ऑर्डर नाहीत.</p>") + "</div><div class='flex gap-2 mt-2'><a href='https://wa.me/91" + c.phone + "' target='_blank' class='flex-1 text-center bg-green-50 text-green-700 py-2.5 rounded-xl text-[11px] font-bold'>💬 WhatsApp</a><a href='tel:" + c.phone + "' class='flex-1 text-center bg-blue-50 text-blue-700 py-2.5 rounded-xl text-[11px] font-bold'>📞 Call</a></div></div>";
+  return "<div class='bg-white p-4 rounded-3xl premium-shadow border-l-4 " + cbg + " mb-3'><div class='mb-3'><h4 class='font-extrabold text-gray-900 text-[15px]'>👤 " + escapeHTML(c.name) + "</h4><p class='text-[11px] text-gray-500 mt-1'>📞 " + c.phone + "</p><p class='text-[11px] text-gray-500 mt-0.5'>🏠 Flat: " + escapeHTML(c.flat) + "</p><p class='text-[10px] text-gray-400 mt-1'>📦 " + c.orderCount + " ऑर्डर्स</p></div><div class='grid grid-cols-2 gap-2 mb-3'><div class='bg-amber-50 p-2.5 rounded-xl border border-amber-200'><p class='text-[9px] font-extrabold text-amber-700'>🕐 Pending</p><p class='font-extrabold text-amber-800 text-lg'>₹" + c.pendingAmount + "</p>" + (fee > 0 ? "<p class='text-[9px] text-amber-600 mt-0.5'>+ ₹" + fee + " fee</p>" : "") + "</div><div class='bg-emerald-50 p-2.5 rounded-xl border border-emerald-200'><p class='text-[9px] font-extrabold text-emerald-700'>💵 Cash</p><p class='font-extrabold text-emerald-800 text-lg'>₹" + c.cashAmount + "</p></div></div>" + cb + "<button data-toggle-orders='" + ps + "' class='w-full mt-2 bg-blue-50 text-blue-700 py-2.5 rounded-xl font-bold text-[11px]'>📋 ऑर्डर्स पहा</button><div id='ord_" + ps + "' class='hidden mt-2'>" + (oh || "<p class='text-xs text-gray-400 text-center py-2'>ऑर्डर नाहीत.</p>") + "</div><div class='flex gap-2 mt-2'><a href='https://wa.me/91" + c.phone + "' target='_blank' class='flex-1 text-center bg-green-50 text-green-700 py-2.5 rounded-xl text-[11px] font-bold'>💬 WhatsApp</a><a href='tel:" + c.phone + "' class='flex-1 text-center bg-blue-50 text-blue-700 py-2.5 rounded-xl text-[11px] font-bold'>📞 Call</a></div></div>";
 }
 
 function toggleOrdersList(id){
@@ -3438,12 +3470,12 @@ function renderAdminProductsByCategory(){
     var catName = catId;
     for (var cc = 0; cc < customCategories.length; cc++) if (customCategories[cc].id === catId) catName = customCategories[cc].marathi;
     if (catName === catId) for (var dd = 0; dd < defaultCategories.length; dd++) if (defaultCategories[dd].id === catId) catName = defaultCategories[dd].marathi;
-    html += "<div class='mb-5'><h3 class='text-[14px] font-extrabold text-gray-800 mb-2 pb-1.5 border-b-2 border-green-100'>📁 " + catName + " (" + grouped[catId].length + ")</h3><div class='space-y-2'>";
+    html += "<div class='mb-5'><h3 class='text-[14px] font-extrabold text-gray-800 mb-2 pb-1.5 border-b-2 border-green-100'>📁 " + escapeHTML(catName) + " (" + grouped[catId].length + ")</h3><div class='space-y-2'>";
     for (var p = 0; p < grouped[catId].length; p++){
       var pr = grouped[catId][p];
       var typeLabel = pr.hasVariants ? ((pr.variants ? pr.variants.length : 0) + " variants") : (formatQuantity(pr.minQuantity, pr.unitType) + " • ₹" + pr.priceForMin);
       var dealBadge = pr.isBestDeal ? "<span class='bg-red-100 text-red-700 text-[9px] font-extrabold px-2 py-0.5 rounded-full ml-1'>🔥</span>" : "";
-      html += "<div class='bg-white p-3 rounded-2xl premium-shadow border border-gray-100'><div class='flex justify-between items-center'><div class='flex items-center gap-3'><img src='" + pr.image + "' class='w-11 h-11 rounded-xl object-cover'><div><p class='font-bold text-[13px] text-gray-900'>" + pr.name + " " + dealBadge + "</p><p class='text-[10px] text-gray-500'>" + pr.marathi + "</p><p class='text-[10px] text-gray-500'>" + typeLabel + "</p></div></div><div class='flex gap-1'><button data-edit-pid='" + pr.id + "' class='text-blue-600 bg-blue-50 p-2 rounded-full'>✏️</button><button data-del-pid='" + pr.id + "' class='text-red-500 bg-red-50 p-2 rounded-full'>🗑️</button></div></div></div>";
+      html += "<div class='bg-white p-3 rounded-2xl premium-shadow border border-gray-100'><div class='flex justify-between items-center'><div class='flex items-center gap-3'><img src='" + pr.image + "' class='w-11 h-11 rounded-xl object-cover'><div><p class='font-bold text-[13px] text-gray-900'>" + escapeHTML(pr.name) + " " + dealBadge + "</p><p class='text-[10px] text-gray-500'>" + escapeHTML(pr.marathi) + "</p><p class='text-[10px] text-gray-500'>" + typeLabel + "</p></div></div><div class='flex gap-1'><button data-edit-pid='" + pr.id + "' class='text-blue-600 bg-blue-50 p-2 rounded-full'>✏️</button><button data-del-pid='" + pr.id + "' class='text-red-500 bg-red-50 p-2 rounded-full'>🗑️</button></div></div></div>";
     }
     html += "</div></div>";
   }
@@ -3459,13 +3491,13 @@ function renderAdminCategoriesPage(){
     var c = defaultCategories[i];
     var count = 0;
     for (var j = 0; j < products.length; j++) if (products[j].category === c.id) count++;
-    html += "<div class='bg-white p-3 rounded-2xl premium-shadow border-l-4 border-green-500'><p class='font-bold text-[13px] text-gray-800'>" + c.marathi + "</p><p class='text-[10px] text-gray-400 mt-1'>" + count + " products</p></div>";
+    html += "<div class='bg-white p-3 rounded-2xl premium-shadow border-l-4 border-green-500'><p class='font-bold text-[13px] text-gray-800'>" + escapeHTML(c.marathi) + "</p><p class='text-[10px] text-gray-400 mt-1'>" + count + " products</p></div>";
   }
   for (var k = 0; k < customCategories.length; k++){
     var cc = customCategories[k];
     var cnt = 0;
     for (var m = 0; m < products.length; m++) if (products[m].category === cc.id) cnt++;
-    html += "<div class='bg-white p-3 rounded-2xl premium-shadow border-l-4 border-purple-500'><img src='" + cc.image + "' class='w-full h-16 object-cover rounded-xl mb-2'><p class='font-bold text-[13px] text-gray-800'>" + cc.marathi + "</p><p class='text-[10px] text-gray-400 mt-1'>" + cnt + " products</p><button data-del-cat='" + cc.id + "' class='w-full mt-2 bg-red-50 text-red-600 py-1.5 rounded-lg text-[10px] font-bold'>🗑️ Delete</button></div>";
+    html += "<div class='bg-white p-3 rounded-2xl premium-shadow border-l-4 border-purple-500'><img src='" + cc.image + "' class='w-full h-16 object-cover rounded-xl mb-2'><p class='font-bold text-[13px] text-gray-800'>" + escapeHTML(cc.marathi) + "</p><p class='text-[10px] text-gray-400 mt-1'>" + cnt + " products</p><button data-del-cat='" + cc.id + "' class='w-full mt-2 bg-red-50 text-red-600 py-1.5 rounded-lg text-[10px] font-bold'>🗑️ Delete</button></div>";
   }
   grid.innerHTML = html;
 }
@@ -3730,7 +3762,7 @@ async function loadSocietyList(){
     var sel = document.getElementById("notifySocietySelect");
     var keys = Object.keys(societies).sort();
     sel.innerHTML = "<option value=''>-- सोसायटी निवडा --</option>";
-    for (var i = 0; i < keys.length; i++) sel.innerHTML += "<option value='" + keys[i] + "'>" + keys[i] + "</option>";
+    for (var i = 0; i < keys.length; i++) sel.innerHTML += "<option value='" + escapeHTML(keys[i]) + "'>" + escapeHTML(keys[i]) + "</option>";
     document.getElementById("notifyCustomersList").innerHTML = "<p class='text-gray-500 text-sm text-center py-6'>सोसायटी निवडा...</p>";
     document.getElementById("notifyCount").textContent = "0";
   } catch(e){ console.error(e); }
@@ -3761,7 +3793,7 @@ async function loadSocietyCustomers(){
       var psafe = c.phone.replace(/[^0-9]/g, "");
       var div = document.createElement("div");
       div.className = "bg-gray-50 p-3 rounded-2xl flex justify-between items-center border border-gray-100";
-      div.innerHTML = "<div><p class='font-extrabold text-[13px] text-gray-900'>👤 " + c.name + "</p><p class='text-[11px] text-gray-500 mt-0.5'>📞 " + c.phone + "</p></div><button data-notify-one='" + psafe + "' class='bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-xl text-[11px] font-extrabold'>💬 WhatsApp</button>";
+      div.innerHTML = "<div><p class='font-extrabold text-[13px] text-gray-900'>👤 " + escapeHTML(c.name) + "</p><p class='text-[11px] text-gray-500 mt-0.5'>📞 " + c.phone + "</p></div><button data-notify-one='" + psafe + "' class='bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-xl text-[11px] font-extrabold'>💬 WhatsApp</button>";
       list.appendChild(div);
     }
   } catch(e){ console.error(e); list.innerHTML = "<p class='text-red-500 text-sm text-center py-6'>एरर</p>"; }
@@ -4013,7 +4045,6 @@ function bindAllEvents(){
   document.getElementById("adminProductsBtn").addEventListener("click", function(){ navigateTo("view-admin-products"); renderAdminProductsByCategory(); });
   document.getElementById("adminCatsBtn").addEventListener("click", function(){ navigateTo("view-admin-categories"); renderAdminCategoriesPage(); });
   
-  // 🌐 Social Society Admin Button Connection
   document.getElementById("adminSocialBtn").addEventListener("click", function(){ navigateTo("view-admin-social"); loadSocialAdminData(); });
 
   document.getElementById("saveAllPostersBtn").addEventListener("click", saveAllPosters);
