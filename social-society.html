@@ -46,6 +46,7 @@
                 <button onclick="filterFeed('all')" class="filter-btn bg-pink-600 text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap">सर्व</button>
                 <button onclick="filterFeed('Ask')" class="filter-btn bg-white text-gray-600 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border">❓ Ask</button>
                 <button onclick="filterFeed('Sell')" class="filter-btn bg-white text-gray-600 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border">🛒 Sell</button>
+                <button onclick="filterFeed('Need')" class="filter-btn bg-white text-gray-600 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border">🤝 Need</button>
                 <button onclick="filterFeed('Alert')" class="filter-btn bg-white text-gray-600 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border">🚨 Alert</button>
                 <button onclick="filterFeed('Event')" class="filter-btn bg-white text-gray-600 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border">📅 Event</button>
             </div>
@@ -57,23 +58,44 @@
 
         <!-- ================= TAB 2: DISCOVER ================= -->
         <div id="view-discover" class="view-section">
-            <h2 class="font-extrabold text-lg mb-3">Discover</h2>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 text-center" onclick="alert('Groups feature coming soon!')">
-                    <span class="text-3xl block mb-2">👥</span>
-                    <p class="font-bold text-sm text-gray-800">Groups</p>
+            <h2 class="font-extrabold text-lg mb-3">Discover Local</h2>
+            
+            <!-- 🏪 Nearby Businesses -->
+            <div class="mb-5">
+                <h3 class="text-xs font-extrabold text-gray-500 uppercase tracking-wide mb-2">🏪 Nearby Businesses</h3>
+                <div id="discoverBusinessList" class="space-y-3">
+                    <p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 text-center" onclick="alert('Events feature coming soon!')">
-                    <span class="text-3xl block mb-2">📅</span>
-                    <p class="font-bold text-sm text-gray-800">Events</p>
+            </div>
+
+            <!-- 🛠️ Verified Help -->
+            <div class="mb-5 border-t border-gray-200 pt-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-xs font-extrabold text-blue-600 uppercase tracking-wide">🛠️ Verified Help</h3>
+                    <button onclick="openHelperRegistration()" class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-lg border border-blue-200">+ स्वतःची नोंदणी करा</button>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 text-center" onclick="alert('Business directory coming soon!')">
-                    <span class="text-3xl block mb-2">🏪</span>
-                    <p class="font-bold text-sm text-gray-800">Local Businesses</p>
+                
+                <div class="flex gap-2 overflow-x-auto pb-2 mb-3" style="scrollbar-width:none">
+                    <button onclick="filterHelpers('all')" class="h-filter-btn bg-blue-600 text-white px-3 py-1.5 rounded-full text-[10px] font-bold whitespace-nowrap">सर्व</button>
+                    <button onclick="filterHelpers('Plumber')" class="h-filter-btn bg-white text-gray-600 px-3 py-1.5 rounded-full text-[10px] font-bold whitespace-nowrap border">🔧 प्लंबर</button>
+                    <button onclick="filterHelpers('Electrician')" class="h-filter-btn bg-white text-gray-600 px-3 py-1.5 rounded-full text-[10px] font-bold whitespace-nowrap border">⚡ इलेक्ट्रिशियन</button>
+                    <button onclick="filterHelpers('Maid')" class="h-filter-btn bg-white text-gray-600 px-3 py-1.5 rounded-full text-[10px] font-bold whitespace-nowrap border">🧹 मोलकरीण</button>
+                    <button onclick="filterHelpers('Tutor')" class="h-filter-btn bg-white text-gray-600 px-3 py-1.5 rounded-full text-[10px] font-bold whitespace-nowrap border">📚 ट्यूशन</button>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 text-center" onclick="alert('Trusted help coming soon!')">
-                    <span class="text-3xl block mb-2">🛠️</span>
-                    <p class="font-bold text-sm text-gray-800">Verified Help</p>
+
+                <div id="helpersList" class="space-y-3">
+                    <p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
+                </div>
+            </div>
+
+            <!-- 👥 Society Groups -->
+            <div class="mb-5 border-t border-gray-200 pt-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-xs font-extrabold text-purple-600 uppercase tracking-wide">👥 Society Groups</h3>
+                    <button onclick="promptCreateGroup()" class="bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-1 rounded-lg border border-purple-200">+ नवीन ग्रुप</button>
+                </div>
+                <div id="groupsList" class="space-y-3">
+                    <p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
                 </div>
             </div>
         </div>
@@ -83,16 +105,28 @@
             <h2 class="font-extrabold text-lg mb-3">नवीन पोस्ट टाका</h2>
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                 <label class="block text-xs font-bold text-gray-500 mb-1">पोस्टचा प्रकार (Type)</label>
-                <select id="postType" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm font-semibold mb-3 outline-none">
+                <select id="postType" onchange="handlePostTypeChange()" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm font-semibold mb-3 outline-none">
                     <option value="Ask">❓ Ask (काही विचारायचंय)</option>
                     <option value="Sell">🛒 Sell (विकायचंय)</option>
+                    <option value="Need">🤝 Need It Now (उधार हवंय / देऊ करायचंय)</option>
                     <option value="Alert">🚨 Alert (महत्त्वाची सूचना)</option>
                     <option value="Event">📅 Event (कार्यक्रम)</option>
-                    <option value="Poll">📊 Poll (मतदान)</option>
                 </select>
 
                 <label class="block text-xs font-bold text-gray-500 mb-1">तुमचा मेसेज</label>
-                <textarea id="postText" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm mb-3 outline-none" rows="4" placeholder="तुमच्या परिसरात काय चाललंय?"></textarea>
+                <textarea id="postText" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm mb-3 outline-none" rows="3" placeholder="तुमच्या परिसरात काय चाललंय?"></textarea>
+                
+                <!-- Sell साठी Price बॉक्स -->
+                <div id="sellPriceBox" class="hidden mb-3">
+                    <label class="block text-xs font-bold text-gray-500 mb-1">किंमत (Price ₹)</label>
+                    <input type="number" id="postPrice" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm outline-none" placeholder="उदा. 500">
+                </div>
+
+                <!-- Event साठी Date & Time बॉक्स -->
+                <div id="eventDateBox" class="hidden mb-3">
+                    <label class="block text-xs font-bold text-gray-500 mb-1">कार्यक्रमाची तारीख आणि वेळ</label>
+                    <input type="datetime-local" id="postEventDate" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm outline-none">
+                </div>
                 
                 <button onclick="createPost()" class="w-full bg-pink-600 text-white font-bold py-3 rounded-xl shadow-md active:scale-95 transition">Post करा</button>
             </div>
@@ -108,7 +142,7 @@
 
         <!-- ================= TAB 5: PROFILE ================= -->
         <div id="view-profile" class="view-section">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center relative">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center relative mb-4">
                 <div class="relative w-24 h-24 mx-auto mb-3">
                     <img id="profileImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-full h-full object-cover rounded-full border-4 border-pink-100 shadow-sm">
                     <label for="profileUpload" class="absolute bottom-0 right-0 bg-pink-600 text-white w-8 h-8 flex items-center justify-center rounded-full cursor-pointer shadow-md text-sm">📷</label>
@@ -118,15 +152,61 @@
                 <p id="profPhone" class="text-sm text-gray-500 font-medium"></p>
                 <div class="mt-2"><span id="profRole" class="badge-role role-resident">Resident</span></div>
                 <p id="profAddress" class="text-xs text-gray-400 mt-3 bg-gray-50 p-2 rounded-lg"></p>
+            </div>
+
+            <!-- 🏪 फक्त Business Owners साठी दिसेल -->
+            <div id="businessSetupBox" class="hidden bg-gradient-to-br from-amber-50 to-white p-5 rounded-3xl shadow-sm border-2 border-amber-200 mb-4">
+                <h4 class="font-extrabold text-amber-900 text-sm mb-3">🏪 माझ्या दुकानाची माहिती</h4>
+                <label class="block text-[10px] font-bold text-gray-500 mb-1">दुकानाचे नाव</label>
+                <input type="text" id="bizName" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm mb-2 outline-none" placeholder="उदा. महादेव किराणा स्टोअर">
                 
-                <div class="mt-5 grid grid-cols-2 gap-3">
-                    <a href="index.html" class="bg-green-50 text-green-700 font-bold py-2.5 rounded-xl text-xs border border-green-200">MH24 Basket वर जा</a>
+                <label class="block text-[10px] font-bold text-gray-500 mb-1">कॅटेगरी</label>
+                <select id="bizCategory" class="w-full bg-white border border-gray-200 rounded-xl p-2.5 text-sm mb-3 outline-none">
+                    <option value="किराणा / General Store">किराणा / General Store</option>
+                    <option value="हॉटेल / Food">हॉटेल / Food</option>
+                    <option value="सलून / Salon">सलून / Salon</option>
+                    <option value="औषध दुकान / Medical">औषध दुकान / Medical</option>
+                    <option value="इतर / Other">इतर / Other</option>
+                </select>
+                <button onclick="saveBusinessDetails()" class="w-full bg-amber-500 text-white font-bold py-2.5 rounded-xl shadow-md text-xs">दुकानाची माहिती सेव्ह करा</button>
+            </div>
+
+            <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 mt-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="index.html" class="bg-green-50 text-green-700 font-bold py-2.5 rounded-xl text-xs text-center border border-green-200">MH24 Basket वर जा</a>
                     <button onclick="openNeighborDirectory()" class="bg-blue-50 text-blue-700 font-bold py-2.5 rounded-xl text-xs border border-blue-200">Neighbors पहा</button>
                 </div>
             </div>
         </div>
 
     </main>
+
+    <!-- Helper Registration Modal -->
+    <div id="helperModal" class="fixed inset-0 bg-black/60 z-[100] hidden flex items-end justify-center">
+        <div class="bg-white w-full max-w-lg rounded-t-3xl p-5 h-auto flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-extrabold text-lg text-gray-900">🛠️ कामगार नोंदणी</h2>
+                <button onclick="document.getElementById('helperModal').classList.add('hidden')" class="text-gray-400 text-2xl font-bold">&times;</button>
+            </div>
+            <label class="block text-xs font-bold text-gray-500 mb-1">तुमचं नाव *</label>
+            <input type="text" id="hName" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-sm mb-2 outline-none" placeholder="उदा. रमेश पाटील">
+            
+            <label class="block text-xs font-bold text-gray-500 mb-1">कामाचा प्रकार *</label>
+            <select id="hCategory" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-sm mb-2 outline-none">
+                <option value="Plumber">🔧 प्लंबर (Plumber)</option>
+                <option value="Electrician">⚡ इलेक्ट्रिशियन (Electrician)</option>
+                <option value="Maid">🧹 मोलकरीण (Maid)</option>
+                <option value="Tutor">📚 ट्यूशन (Tutor)</option>
+                <option value="Other">इतर (Other)</option>
+            </select>
+
+            <label class="block text-xs font-bold text-gray-500 mb-1">अनुभव (वर्षे) *</label>
+            <input type="number" id="hExp" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-sm mb-3 outline-none" placeholder="उदा. 5">
+            
+            <button onclick="submitHelperRegistration()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md active:scale-95 transition">नोंदणी सबमिट करा</button>
+            <p class="text-center text-[10px] text-gray-500 mt-2">नोंदणी केल्यानंतर ॲडमिन तपासणी करून तुम्हाला मंजुरी देईल.</p>
+        </div>
+    </div>
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 w-full glass border-t border-gray-200 flex justify-around items-center z-50 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
@@ -171,6 +251,8 @@
         let currentUser = JSON.parse(localStorage.getItem("mh24_user")) || null;
         let myLat = null, myLng = null;
         let currentFilter = "all";
+        let currentUserRole = "resident"; 
+        let currentHelperFilter = "all";
 
         // ================== NAVIGATION ==================
         function switchTab(tabId, element) {
@@ -181,21 +263,35 @@
             element.classList.add('active');
 
             if(tabId === 'home') loadFeed();
+            if(tabId === 'discover') {
+                loadBusinesses(); 
+                loadHelpers(); 
+                loadGroups();
+            }
             if(tabId === 'alerts') loadAlerts();
             if(tabId === 'profile') loadProfile();
         }
 
-        // ================== 1. LOCATION ENGINE (4km Lock) ==================
+        // ================== 1. LOCATION ENGINE ==================
         function getUserLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
+                    async (position) => { 
                         myLat = position.coords.latitude;
                         myLng = position.coords.longitude;
                         document.getElementById("locationAlert").classList.add("hidden");
                         document.getElementById("locationBadge").classList.remove("hidden");
-                        loadFeed(); // Load feed after location is found
-                        loadProfile(); // Load profile image
+                        
+                        if (currentUser && currentUser.phone) {
+                            try {
+                                await db.collection("customers").doc(currentUser.phone).update({
+                                    lat: myLat, lng: myLng, lastLocationUpdate: new Date()
+                                });
+                            } catch(e) { console.log("Location save error"); }
+                        }
+
+                        loadFeed(); 
+                        loadProfile(); 
                     },
                     (error) => {
                         document.getElementById("locationAlert").innerHTML = "❌ लोकेशन नाकारलं! 4km फीड बघण्यासाठी कृपया लोकेशन Allow करा.";
@@ -217,6 +313,18 @@
         }
 
         // ================== 2. FEED & POSTS ==================
+        function timeSince(date) {
+            if (!date) return "";
+            var seconds = Math.floor((new Date() - date) / 1000);
+            var interval = seconds / 60;
+            if (interval < 1) return "आत्ताच";
+            if (interval < 60) return Math.floor(interval) + " मिनिटांपूर्वी";
+            interval = seconds / 3600;
+            if (interval < 24) return Math.floor(interval) + " तासांपूर्वी";
+            interval = seconds / 86400;
+            return Math.floor(interval) + " दिवसांपूर्वी";
+        }
+
         async function loadFeed() {
             var container = document.getElementById("postsContainer");
             if(!myLat || !myLng) return;
@@ -234,33 +342,52 @@
 
                     var dist = getDistance(myLat, myLng, post.lat, post.lng);
                     
-                    // 🔒 4KM LOCK & Filter Logic
                     if (dist <= 4.0 && (currentFilter === 'all' || post.type === currentFilter)) {
                         foundCount++;
-                        var timeStr = post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleTimeString('mr-IN', {hour: '2-digit', minute:'2-digit'}) : "";
+                        var timeAgo = post.createdAt ? timeSince(new Date(post.createdAt.seconds * 1000)) : "";
                         
-                        // Icon logic
                         var icon = "📝";
                         var badgeColor = "bg-gray-100 text-gray-700";
                         if(post.type === 'Ask') { icon = "❓"; badgeColor = "bg-blue-100 text-blue-700"; }
                         if(post.type === 'Sell') { icon = "🛒"; badgeColor = "bg-green-100 text-green-700"; }
+                        if(post.type === 'Need') { icon = "🤝"; badgeColor = "bg-indigo-100 text-indigo-700"; }
                         if(post.type === 'Alert') { icon = "🚨"; badgeColor = "bg-red-100 text-red-700"; }
                         if(post.type === 'Event') { icon = "📅"; badgeColor = "bg-purple-100 text-purple-700"; }
-                        if(post.type === 'Poll') { icon = "📊"; badgeColor = "bg-amber-100 text-amber-700"; }
+
+                        var roleBadge = post.authorRole === 'business' ? '<span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-1.5 py-0.5 rounded ml-1">🏪 BUSINESS</span>' : '';
+
+                        var extraInfo = "";
+                        if(post.type === 'Sell' && post.price) {
+                            extraInfo = `<div class="mt-2 text-green-700 font-extrabold text-lg">₹ ${post.price}</div>`;
+                        }
+                        if(post.type === 'Event' && post.eventDate) {
+                            var ed = new Date(post.eventDate).toLocaleString('mr-IN');
+                            extraInfo = `<div class="mt-2 text-purple-700 font-bold text-xs bg-purple-50 p-2 rounded-lg inline-block">📅 ${ed}</div>`;
+                        }
+                        if(post.type === 'Need') {
+                            extraInfo = `
+                            <div class="mt-3 bg-blue-50 border border-blue-200 p-2.5 rounded-xl flex justify-between items-center">
+                                <p class="text-[11px] font-bold text-blue-800">🤝 मदत हवी आहे / दिली जाईल</p>
+                                <a href="https://wa.me/91${post.authorPhone}?text=नमस्कार ${post.authorName}, मी तुमच्या 'Need It Now' पोस्टबद्दल बोलत आहे." target="_blank" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-[10px] font-extrabold shadow-sm">💬 मेसेज करा</a>
+                            </div>`;
+                        }
 
                         var html = `
-                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                            <div class="flex items-center justify-between mb-2">
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative">
+                            <button onclick="reportPost('${doc.id}')" class="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition text-lg" title="Report Post">🚩</button>
+                            
+                            <div class="flex items-center justify-between mb-2 pr-6">
                                 <div class="flex items-center gap-2">
                                     <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center text-pink-600 font-bold">👤</div>
                                     <div>
-                                        <p class="text-sm font-bold text-gray-800">${post.authorName}</p>
-                                        <p class="text-[10px] text-gray-500">📍 ${dist.toFixed(1)} km जवळ • ${timeStr}</p>
+                                        <p class="text-sm font-bold text-gray-800 flex items-center">${post.authorName} ${roleBadge}</p>
+                                        <p class="text-[10px] text-gray-500">📍 ${dist.toFixed(1)} km • ⏱️ ${timeAgo}</p>
                                     </div>
                                 </div>
                                 <span class="text-[9px] font-extrabold px-2 py-1 rounded-md ${badgeColor}">${icon} ${post.type || 'Post'}</span>
                             </div>
                             <p class="text-sm text-gray-700 mt-2">${post.text}</p>
+                            ${extraInfo}
                         </div>`;
                         container.innerHTML += html;
                     }
@@ -288,16 +415,19 @@
                     var post = doc.data();
                     if(!post.lat || !post.lng) return;
                     var dist = getDistance(myLat, myLng, post.lat, post.lng);
+                    
                     if (dist <= 4.0) {
                         foundCount++;
-                        var timeStr = post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleTimeString('mr-IN') : "";
+                        var timeAgo = post.createdAt ? timeSince(new Date(post.createdAt.seconds * 1000)) : "";
+                        
                         container.innerHTML += `
-                        <div class="bg-red-50 p-4 rounded-2xl shadow-sm border border-red-200">
-                            <div class="flex items-center gap-2 mb-2">
+                        <div class="bg-red-50 p-4 rounded-2xl shadow-sm border border-red-200 relative">
+                            <button onclick="reportPost('${doc.id}')" class="absolute top-4 right-4 text-red-300 hover:text-red-600 transition text-lg">🚩</button>
+                            <div class="flex items-center gap-2 mb-2 pr-6">
                                 <span class="text-xl">🚨</span>
                                 <div>
                                     <p class="text-sm font-bold text-red-900">${post.authorName}</p>
-                                    <p class="text-[10px] text-red-600 font-bold">📍 ${dist.toFixed(1)} km • ${timeStr}</p>
+                                    <p class="text-[10px] text-red-600 font-bold">📍 ${dist.toFixed(1)} km • ⏱️ ${timeAgo}</p>
                                 </div>
                             </div>
                             <p class="text-sm text-red-800 font-medium mt-2">${post.text}</p>
@@ -306,8 +436,21 @@
                 });
                 if (foundCount === 0) container.innerHTML = "<p class='text-center text-gray-500 py-10 text-sm'>कोणतेही अलर्ट्स नाहीत.</p>";
             } catch(e) {
-                // Fallback if index is missing
-                container.innerHTML = "<p class='text-center text-red-500 text-sm py-10'>Alerts लोड करता आले नाहीत. (Index Missing)</p>";
+                container.innerHTML = "<p class='text-center text-red-500 text-sm py-10'>Alerts लोड करता आले नाहीत.</p>";
+            }
+        }
+
+        function handlePostTypeChange() {
+            var type = document.getElementById("postType").value;
+            if (type === 'Sell') {
+                document.getElementById("sellPriceBox").classList.remove("hidden");
+                document.getElementById("eventDateBox").classList.add("hidden");
+            } else if (type === 'Event') {
+                document.getElementById("eventDateBox").classList.remove("hidden");
+                document.getElementById("sellPriceBox").classList.add("hidden");
+            } else {
+                document.getElementById("sellPriceBox").classList.add("hidden");
+                document.getElementById("eventDateBox").classList.add("hidden");
             }
         }
 
@@ -315,22 +458,35 @@
             if (!myLat || !myLng) return alert("कृपया लोकेशन Allow करा!");
             if (!currentUser) return alert("कृपया आधी MH24 Basket मध्ये जाऊन Profile सेव्ह करा!");
             
+            var custDoc = await db.collection("customers").doc(currentUser.phone).get();
+            if(custDoc.exists && custDoc.data().isBlocked === true) {
+                return alert("🚫 तुम्हाला पोस्ट करण्यापासून ब्लॉक केले आहे.");
+            }
+
             var text = document.getElementById("postText").value.trim();
             var type = document.getElementById("postType").value;
+            var price = document.getElementById("postPrice").value;
+            var eventDate = document.getElementById("postEventDate").value;
+
             if (!text) return alert("काहीतरी लिहा!");
 
             try {
                 await db.collection("social_posts").add({
                     text: text,
-                    type: type, // Ask, Sell, Alert, Event, Poll
+                    type: type,
+                    price: type === 'Sell' ? price : null, 
+                    eventDate: type === 'Event' ? eventDate : null, 
                     authorName: currentUser.name,
                     authorPhone: currentUser.phone,
+                    authorRole: currentUserRole, 
                     society: currentUser.society || "Local",
                     lat: myLat,
                     lng: myLng,
                     createdAt: new Date()
                 });
                 document.getElementById("postText").value = "";
+                document.getElementById("postPrice").value = "";
+                document.getElementById("postEventDate").value = "";
                 alert("✅ पोस्ट झाली!");
                 switchTab('home', document.querySelectorAll('.nav-item')[0]);
             } catch(e) { alert("Error: " + e.message); }
@@ -345,7 +501,211 @@
             loadFeed();
         }
 
-        // ================== 3. PROFILE & ROLE ==================
+        // ================== REPORT POST ==================
+        async function reportPost(postId) {
+            if (!currentUser) return alert("कृपया आधी Profile सेव्ह करा!");
+            
+            var reason = prompt("🚩 ही पोस्ट का रिपोर्ट करत आहात? (उदा. खोटी बातमी, स्पॅम, चुकीची माहिती)");
+            if (reason === null || reason.trim() === "") return; 
+            
+            try {
+                await db.collection("reported_posts").add({
+                    postId: postId,
+                    reportedBy: currentUser.phone,
+                    reporterName: currentUser.name,
+                    reason: reason,
+                    status: "pending",
+                    reportedAt: new Date()
+                });
+                alert("✅ तुमची तक्रार ॲडमिनकडे पाठवली गेली आहे. धन्यवाद!");
+            } catch(e) {
+                alert("रिपोर्ट करताना एरर आली: " + e.message);
+            }
+        }
+
+        // ================== DISCOVER: BUSINESSES ==================
+        async function loadBusinesses() {
+            var container = document.getElementById("discoverBusinessList");
+            if(!myLat || !myLng) return;
+            
+            container.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>दुकानं शोधत आहे...</p>";
+            
+            try {
+                var snap = await db.collection("customers").where("role", "==", "business").get();
+                container.innerHTML = "";
+                var foundCount = 0;
+
+                snap.forEach(doc => {
+                    var b = doc.data();
+                    foundCount++;
+                    var businessName = b.businessName || b.name; 
+                    var category = b.businessCategory || "Local Service";
+                    
+                    container.innerHTML += `
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-xl shadow-inner">🏪</div>
+                        <div class="flex-1">
+                            <p class="font-extrabold text-[14px] text-gray-900">${businessName}</p>
+                            <p class="text-[11px] text-amber-600 font-bold mb-0.5">${category}</p>
+                            <p class="text-[10px] text-gray-500 truncate">📍 ${b.society || 'Nearby'}</p>
+                        </div>
+                        <a href="https://wa.me/91${doc.id}" target="_blank" class="bg-green-50 text-green-600 p-2.5 rounded-full text-lg shadow-sm">💬</a>
+                    </div>`;
+                });
+
+                if (foundCount === 0) {
+                    container.innerHTML = "<div class='text-center py-6 bg-white rounded-2xl shadow-sm'><p class='text-gray-500 text-sm'>परिसरात सध्या कोणतेही बिझनेस रजिस्टर नाहीत.</p></div>";
+                }
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = "<p class='text-center text-red-500 py-4 text-sm'>Error loading businesses.</p>";
+            }
+        }
+
+        // ================== DISCOVER: VERIFIED HELP ==================
+        function openHelperRegistration() {
+            if (!currentUser) return alert("कृपया आधी MH24 Basket मध्ये Profile सेव्ह करा!");
+            document.getElementById("hName").value = currentUser.name;
+            document.getElementById("helperModal").classList.remove("hidden");
+        }
+
+        async function submitHelperRegistration() {
+            var name = document.getElementById("hName").value.trim();
+            var category = document.getElementById("hCategory").value;
+            var exp = document.getElementById("hExp").value;
+            
+            if (!name || !exp) return alert("कृपया सर्व माहिती भरा!");
+
+            try {
+                await db.collection("social_helpers").add({
+                    name: name,
+                    phone: currentUser.phone, 
+                    category: category,
+                    experience: exp,
+                    society: currentUser.society || "Local",
+                    lat: myLat, lng: myLng, 
+                    status: "pending", 
+                    createdAt: new Date()
+                });
+                document.getElementById("helperModal").classList.add("hidden");
+                alert("✅ तुमची नोंदणी ॲडमिनकडे पाठवली आहे! मंजुरीनंतर तुम्ही इतरांना दिसाल.");
+                document.getElementById("hExp").value = "";
+            } catch(e) { alert("Error: " + e.message); }
+        }
+
+        async function loadHelpers() {
+            var container = document.getElementById("helpersList");
+            if(!myLat || !myLng) return;
+            
+            container.innerHTML = "<p class='text-center text-gray-500 py-4 text-xs'>कामगार शोधत आहे...</p>";
+            
+            try {
+                var snap = await db.collection("social_helpers").where("status", "==", "approved").get();
+                container.innerHTML = "";
+                var found = 0;
+
+                snap.forEach(doc => {
+                    var h = doc.data();
+                    if(currentHelperFilter !== 'all' && h.category !== currentHelperFilter) return;
+                    if(h.lat && h.lng) {
+                        var dist = getDistance(myLat, myLng, h.lat, h.lng);
+                        if(dist > 4.0) return; 
+                    }
+
+                    found++;
+                    var icons = { "Plumber": "🔧", "Electrician": "⚡", "Maid": "🧹", "Tutor": "📚", "Other": "🛠️" };
+                    var icon = icons[h.category] || "🛠️";
+
+                    container.innerHTML += `
+                    <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl shadow-inner">${icon}</div>
+                        <div class="flex-1">
+                            <p class="font-extrabold text-[13px] text-gray-900">${h.name} <span class="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded ml-1 font-bold">✓ Verified</span></p>
+                            <p class="text-[10px] text-blue-600 font-bold">${h.category} • ${h.experience} वर्षे अनुभव</p>
+                            <p class="text-[10px] text-gray-500">📍 ${h.society}</p>
+                        </div>
+                        <a href="https://wa.me/91${h.phone}?text=नमस्कार ${h.name}, मला ${h.category} चं काम आहे." target="_blank" class="bg-green-50 text-green-600 p-2.5 rounded-full text-lg shadow-sm">💬</a>
+                    </div>`;
+                });
+
+                if(found === 0) {
+                    container.innerHTML = "<p class='text-center text-gray-500 py-4 text-xs'>या कॅटेगरीमध्ये सध्या कोणतेही कामगार नाहीत.</p>";
+                }
+            } catch(e) {
+                console.error(e);
+                container.innerHTML = "<p class='text-center text-red-500 text-xs py-4'>डेटा लोड करता आला नाही.</p>";
+            }
+        }
+
+        function filterHelpers(cat) {
+            currentHelperFilter = cat;
+            document.querySelectorAll('.h-filter-btn').forEach(btn => {
+                btn.className = "h-filter-btn bg-white text-gray-600 px-3 py-1.5 rounded-full text-[10px] font-bold whitespace-nowrap border";
+            });
+            event.target.className = "h-filter-btn bg-blue-600 text-white px-3 py-1.5 rounded-full text-[10px] font-bold whitespace-nowrap";
+            loadHelpers();
+        }
+
+        // ================== DISCOVER: SOCIETY GROUPS ==================
+        async function loadGroups() {
+            var container = document.getElementById("groupsList");
+            try {
+                var snap = await db.collection("social_groups").get();
+                container.innerHTML = "";
+                if(snap.empty) {
+                    container.innerHTML = "<p class='text-center text-gray-500 text-sm py-2'>अजून कोणताही ग्रुप नाही. पहिला ग्रुप तुम्ही बनवा!</p>";
+                    return;
+                }
+                snap.forEach(doc => {
+                    var g = doc.data();
+                    var isMember = g.members && g.members.includes(currentUser.phone);
+                    container.innerHTML += `
+                    <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-sm text-gray-900">${g.name}</p>
+                            <p class="text-[10px] text-gray-500">📍 ${g.society} • ${g.members ? g.members.length : 0} सदस्य</p>
+                        </div>
+                        <button onclick="joinGroup('${doc.id}')" class="${isMember ? 'bg-green-100 text-green-700' : 'bg-purple-600 text-white'} px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                            ${isMember ? '✓ Joined' : 'Join'}
+                        </button>
+                    </div>`;
+                });
+            } catch(e) { console.error(e); }
+        }
+
+        async function promptCreateGroup() {
+            var gName = prompt("तुमच्या सोसायटी ग्रुपचं नाव टाका:");
+            if(!gName) return;
+            try {
+                await db.collection("social_groups").add({
+                    name: gName,
+                    society: currentUser.society || "Local Area",
+                    admin: currentUser.phone,
+                    members: [currentUser.phone],
+                    createdAt: new Date()
+                });
+                alert("✅ ग्रुप तयार झाला!");
+                loadGroups();
+            } catch(e) { alert("Error: " + e.message); }
+        }
+
+        async function joinGroup(groupId) {
+            try {
+                var groupRef = db.collection("social_groups").doc(groupId);
+                var doc = await groupRef.get();
+                var members = doc.data().members || [];
+                if(!members.includes(currentUser.phone)) {
+                    members.push(currentUser.phone);
+                    await groupRef.update({ members: members });
+                    alert("✅ तुम्ही ग्रुप जॉईन केला!");
+                } else {
+                    alert("तुम्ही आधीच या ग्रुपमध्ये आहात.");
+                }
+                loadGroups();
+            } catch(e) { alert("Error: " + e.message); }
+        }
+
+        // ================== PROFILE & ROLE ==================
         async function loadProfile() {
             if (!currentUser || !currentUser.phone) {
                 document.getElementById("profName").textContent = "Profile Save नाही";
@@ -362,13 +722,22 @@
                     if (d.profilePhoto) {
                         document.getElementById("profileImg").src = d.profilePhoto;
                     }
-                    // Role Logic (Default is Resident)
-                    var role = d.role || "resident";
+                    
+                    currentUserRole = d.role || "resident";
                     var roleEl = document.getElementById("profRole");
-                    roleEl.textContent = role.toUpperCase();
-                    if(role === 'business') roleEl.className = "badge-role role-business";
-                    else if(role === 'admin') roleEl.className = "badge-role role-admin";
-                    else roleEl.className = "badge-role role-resident";
+                    roleEl.textContent = currentUserRole.toUpperCase();
+                    
+                    if(currentUserRole === 'business') {
+                        roleEl.className = "badge-role role-business";
+                        document.getElementById("businessSetupBox").classList.remove("hidden"); 
+                        if(d.businessName) document.getElementById("bizName").value = d.businessName;
+                        if(d.businessCategory) document.getElementById("bizCategory").value = d.businessCategory;
+                    } else if(currentUserRole === 'admin') {
+                        roleEl.className = "badge-role role-admin";
+                    } else {
+                        roleEl.className = "badge-role role-resident";
+                        document.getElementById("businessSetupBox").classList.add("hidden"); 
+                    }
                 }
             } catch(e) { console.error("Error loading profile data", e); }
         }
@@ -376,12 +745,12 @@
         function uploadProfilePhoto(event) {
             var file = event.target.files[0];
             if (!file) return;
-            if (file.size > 500000) return alert("फोटो 500KB पेक्षा लहान असावा!"); // Simple validation
+            if (file.size > 500000) return alert("फोटो 500KB पेक्षा लहान असावा!"); 
 
             var reader = new FileReader();
             reader.onload = async function(e) {
                 var base64Image = e.target.result;
-                document.getElementById("profileImg").src = base64Image; // Preview
+                document.getElementById("profileImg").src = base64Image; 
                 
                 if (currentUser && currentUser.phone) {
                     try {
@@ -395,6 +764,85 @@
                 }
             };
             reader.readAsDataURL(file);
+        }
+
+        async function saveBusinessDetails() {
+            var bName = document.getElementById("bizName").value.trim();
+            var bCat = document.getElementById("bizCategory").value;
+            if(!bName) return alert("कृपया दुकानाचे नाव टाका!");
+
+            try {
+                await db.collection("customers").doc(currentUser.phone).update({
+                    businessName: bName,
+                    businessCategory: bCat
+                });
+                alert("✅ दुकानाची माहिती सेव्ह झाली!");
+            } catch(e) {
+                alert("Error: " + e.message);
+            }
+        }
+
+        // ================== NEIGHBOR DIRECTORY ==================
+        async function openNeighborDirectory() {
+            if (!myLat || !myLng) return alert("कृपया लोकेशन Allow करा!");
+            
+            var dirHtml = `
+                <div class="fixed inset-0 bg-black/60 z-[100] flex items-end justify-center" id="dirModal">
+                    <div class="bg-white w-full max-w-lg rounded-t-3xl p-5 h-[80vh] flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-extrabold text-lg text-gray-900">👥 माझे शेजारी (4km)</h2>
+                            <button onclick="document.getElementById('dirModal').remove()" class="text-gray-400 text-2xl font-bold">&times;</button>
+                        </div>
+                        <div id="neighborList" class="flex-1 overflow-y-auto space-y-3 pb-4">
+                            <p class="text-center text-gray-500 text-sm">शोधत आहे...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', dirHtml);
+
+            try {
+                var snap = await db.collection("customers").get();
+                var listContainer = document.getElementById("neighborList");
+                listContainer.innerHTML = "";
+                var found = 0;
+
+                snap.forEach(doc => {
+                    var u = doc.data();
+                    if(doc.id === currentUser.phone) return; 
+                    if(!u.lat || !u.lng) return; 
+
+                    var dist = getDistance(myLat, myLng, u.lat, u.lng);
+                    if(dist <= 4.0) {
+                        found++;
+                        var roleBadge = u.role === 'business' ? '<span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-1.5 py-0.5 rounded ml-1">🏪 BUSINESS</span>' : '';
+                        var bName = u.businessName ? `<p class="text-[10px] text-amber-600 font-bold">${u.businessName}</p>` : '';
+
+                        listContainer.innerHTML += `
+                            <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100 flex justify-between items-center">
+                                <div class="flex items-center gap-3">
+                                    <img src="${u.profilePhoto || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                                    <div>
+                                        <p class="font-bold text-sm text-gray-900">${u.name} ${roleBadge}</p>
+                                        <p class="text-[10px] text-gray-500">📍 ${dist.toFixed(1)} km • 🏠 ${u.society || 'Nearby'}</p>
+                                        ${bName}
+                                    </div>
+                                </div>
+                                <a href="https://wa.me/91${doc.id}?text=नमस्कार ${u.name}, मी तुमचा शेजारी ${currentUser.name}." target="_blank" class="bg-green-500 text-white p-2.5 rounded-full text-lg shadow-sm">
+                                    💬
+                                </a>
+                            </div>
+                        `;
+                    }
+                });
+
+                if(found === 0) {
+                    listContainer.innerHTML = "<p class='text-center text-gray-500 text-sm py-4'>तुमच्या 4km परिघात दुसरे कोणीही नाही.</p>";
+                }
+
+            } catch(e) {
+                document.getElementById("neighborList").innerHTML = "<p class='text-center text-red-500 text-sm'>डेटा लोड करता आला नाही.</p>";
+            }
         }
 
         // ================== STARTUP ==================
