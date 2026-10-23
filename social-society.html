@@ -247,6 +247,14 @@
         firebase.initializeApp(firebaseConfig);
         var db = firebase.firestore();
 
+        // ================== SECURITY FIX: escapeHTML ==================
+        function escapeHTML(str) {
+            if (!str) return "";
+            return String(str).replace(/[&<>'"]/g, function(c) {
+                return {'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[c];
+            });
+        }
+
         // ================== GLOBAL STATE ==================
         let currentUser = JSON.parse(localStorage.getItem("mh24_user")) || null;
         let myLat = null, myLng = null;
@@ -358,7 +366,7 @@
 
                         var extraInfo = "";
                         if(post.type === 'Sell' && post.price) {
-                            extraInfo = `<div class="mt-2 text-green-700 font-extrabold text-lg">₹ ${post.price}</div>`;
+                            extraInfo = `<div class="mt-2 text-green-700 font-extrabold text-lg">₹ ${escapeHTML(post.price)}</div>`;
                         }
                         if(post.type === 'Event' && post.eventDate) {
                             var ed = new Date(post.eventDate).toLocaleString('mr-IN');
@@ -380,13 +388,13 @@
                                 <div class="flex items-center gap-2">
                                     <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center text-pink-600 font-bold">👤</div>
                                     <div>
-                                        <p class="text-sm font-bold text-gray-800 flex items-center">${post.authorName} ${roleBadge}</p>
+                                        <p class="text-sm font-bold text-gray-800 flex items-center">${escapeHTML(post.authorName)} ${roleBadge}</p>
                                         <p class="text-[10px] text-gray-500">📍 ${dist.toFixed(1)} km • ⏱️ ${timeAgo}</p>
                                     </div>
                                 </div>
-                                <span class="text-[9px] font-extrabold px-2 py-1 rounded-md ${badgeColor}">${icon} ${post.type || 'Post'}</span>
+                                <span class="text-[9px] font-extrabold px-2 py-1 rounded-md ${badgeColor}">${icon} ${escapeHTML(post.type || 'Post')}</span>
                             </div>
-                            <p class="text-sm text-gray-700 mt-2">${post.text}</p>
+                            <p class="text-sm text-gray-700 mt-2">${escapeHTML(post.text)}</p>
                             ${extraInfo}
                         </div>`;
                         container.innerHTML += html;
@@ -426,11 +434,11 @@
                             <div class="flex items-center gap-2 mb-2 pr-6">
                                 <span class="text-xl">🚨</span>
                                 <div>
-                                    <p class="text-sm font-bold text-red-900">${post.authorName}</p>
+                                    <p class="text-sm font-bold text-red-900">${escapeHTML(post.authorName)}</p>
                                     <p class="text-[10px] text-red-600 font-bold">📍 ${dist.toFixed(1)} km • ⏱️ ${timeAgo}</p>
                                 </div>
                             </div>
-                            <p class="text-sm text-red-800 font-medium mt-2">${post.text}</p>
+                            <p class="text-sm text-red-800 font-medium mt-2">${escapeHTML(post.text)}</p>
                         </div>`;
                     }
                 });
@@ -545,9 +553,9 @@
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
                         <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-xl shadow-inner">🏪</div>
                         <div class="flex-1">
-                            <p class="font-extrabold text-[14px] text-gray-900">${businessName}</p>
-                            <p class="text-[11px] text-amber-600 font-bold mb-0.5">${category}</p>
-                            <p class="text-[10px] text-gray-500 truncate">📍 ${b.society || 'Nearby'}</p>
+                            <p class="font-extrabold text-[14px] text-gray-900">${escapeHTML(businessName)}</p>
+                            <p class="text-[11px] text-amber-600 font-bold mb-0.5">${escapeHTML(category)}</p>
+                            <p class="text-[10px] text-gray-500 truncate">📍 ${escapeHTML(b.society || 'Nearby')}</p>
                         </div>
                         <a href="https://wa.me/91${doc.id}" target="_blank" class="bg-green-50 text-green-600 p-2.5 rounded-full text-lg shadow-sm">💬</a>
                     </div>`;
@@ -620,9 +628,9 @@
                     <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
                         <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl shadow-inner">${icon}</div>
                         <div class="flex-1">
-                            <p class="font-extrabold text-[13px] text-gray-900">${h.name} <span class="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded ml-1 font-bold">✓ Verified</span></p>
-                            <p class="text-[10px] text-blue-600 font-bold">${h.category} • ${h.experience} वर्षे अनुभव</p>
-                            <p class="text-[10px] text-gray-500">📍 ${h.society}</p>
+                            <p class="font-extrabold text-[13px] text-gray-900">${escapeHTML(h.name)} <span class="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded ml-1 font-bold">✓ Verified</span></p>
+                            <p class="text-[10px] text-blue-600 font-bold">${escapeHTML(h.category)} • ${h.experience} वर्षे अनुभव</p>
+                            <p class="text-[10px] text-gray-500">📍 ${escapeHTML(h.society)}</p>
                         </div>
                         <a href="https://wa.me/91${h.phone}?text=नमस्कार ${h.name}, मला ${h.category} चं काम आहे." target="_blank" class="bg-green-50 text-green-600 p-2.5 rounded-full text-lg shadow-sm">💬</a>
                     </div>`;
@@ -662,8 +670,8 @@
                     container.innerHTML += `
                     <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
                         <div>
-                            <p class="font-bold text-sm text-gray-900">${g.name}</p>
-                            <p class="text-[10px] text-gray-500">📍 ${g.society} • ${g.members ? g.members.length : 0} सदस्य</p>
+                            <p class="font-bold text-sm text-gray-900">${escapeHTML(g.name)}</p>
+                            <p class="text-[10px] text-gray-500">📍 ${escapeHTML(g.society)} • ${g.members ? g.members.length : 0} सदस्य</p>
                         </div>
                         <button onclick="joinGroup('${doc.id}')" class="${isMember ? 'bg-green-100 text-green-700' : 'bg-purple-600 text-white'} px-3 py-1.5 rounded-lg text-[10px] font-bold">
                             ${isMember ? '✓ Joined' : 'Join'}
@@ -816,15 +824,15 @@
                     if(dist <= 4.0) {
                         found++;
                         var roleBadge = u.role === 'business' ? '<span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-1.5 py-0.5 rounded ml-1">🏪 BUSINESS</span>' : '';
-                        var bName = u.businessName ? `<p class="text-[10px] text-amber-600 font-bold">${u.businessName}</p>` : '';
+                        var bName = u.businessName ? `<p class="text-[10px] text-amber-600 font-bold">${escapeHTML(u.businessName)}</p>` : '';
 
                         listContainer.innerHTML += `
                             <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100 flex justify-between items-center">
                                 <div class="flex items-center gap-3">
                                     <img src="${u.profilePhoto || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}" class="w-10 h-10 rounded-full object-cover border border-gray-200">
                                     <div>
-                                        <p class="font-bold text-sm text-gray-900">${u.name} ${roleBadge}</p>
-                                        <p class="text-[10px] text-gray-500">📍 ${dist.toFixed(1)} km • 🏠 ${u.society || 'Nearby'}</p>
+                                        <p class="font-bold text-sm text-gray-900">${escapeHTML(u.name)} ${roleBadge}</p>
+                                        <p class="text-[10px] text-gray-500">📍 ${dist.toFixed(1)} km • 🏠 ${escapeHTML(u.society || 'Nearby')}</p>
                                         ${bName}
                                     </div>
                                 </div>
