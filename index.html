@@ -407,7 +407,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <button id="myBillsBtn" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🧾 My Bills</button>
 <button id="referEarnBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md">🎁 Refer & Earn</button>
 
-<!-- 🌐 My Circle बटन येथे ऍड केले आहे (फक्त हा बदल) -->
+<!-- 🌐 My Circle बटन -->
 <a href="social-society.html" class="w-full bg-gradient-to-r from-pink-500 to-rose-600 text-white py-4 rounded-2xl font-bold mb-3 shadow-md flex justify-center items-center gap-2">
   🌐 My Circle (Social Society)
 </a>
@@ -601,9 +601,9 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div class="icon-3d icon-3d-lg">🏷️</div>
 </div>
 
-<!-- 🌐 Social Society Admin बटन येथे ऍड केले आहे (फक्त हा बदल) -->
+<!-- 🌐 Social Society Admin बटन -->
 <div id="adminSocialBtn" class="bg-gradient-to-br from-pink-500 to-rose-600 p-5 rounded-3xl shadow-lg mb-5 cursor-pointer flex justify-between items-center">
-<div><h3 class="text-white premium-title text-lg">🌐 Social Society Admin</h3><p class="text-pink-100 text-[11px] mt-0.5">Manage Posts & View All Users</p></div>
+<div><h3 class="text-white premium-title text-lg">🌐 Social Society Admin</h3><p class="text-pink-100 text-[11px] mt-0.5">Manage Posts, Helpers & Users</p></div>
 <div class="icon-3d icon-3d-lg">👥</div>
 </div>
 
@@ -928,7 +928,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div id="adminBillsLoadMore" class="mt-4 hidden"><button id="loadMoreBillsBtn" class="w-full bg-blue-50 text-blue-700 py-3 rounded-2xl font-bold">📥 अजून लोड करा</button></div>
 </div>
 
-<!-- 🌐 Social Society Admin View (फक्त हा नवीन सेक्शन ऍड केला आहे) -->
+<!-- 🌐 Social Society Admin View (नवीन) -->
 <div id="view-admin-social" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-5">
 <button class="back-btn icon-box-3d w-10 h-10">
@@ -937,16 +937,32 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <h2 class="premium-title text-[22px] text-gray-900">🌐 Social Society Admin</h2>
 </div>
 
+<!-- 🚩 Reported Posts Box -->
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-red-500">
+<h3 class="premium-title text-gray-800 mb-3 text-lg">🚩 Reported Posts (तक्रारी)</h3>
+<div id="socialReportedPostsList" class="space-y-2 max-h-60 overflow-y-auto">
+<p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
+</div>
+</div>
+
+<!-- 🛠️ Helper Approvals Box -->
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-blue-500">
-<h3 class="premium-title text-gray-800 mb-3 text-lg">👥 सर्व युजर्स</h3>
-<div id="socialAdminUsersList" class="space-y-2 max-h-60 overflow-y-auto">
+<h3 class="premium-title text-gray-800 mb-3 text-lg">🛠️ Verified Help Approvals</h3>
+<div id="socialHelpersApprovalsList" class="space-y-2 max-h-60 overflow-y-auto">
+<p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
+</div>
+</div>
+
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-indigo-500">
+<h3 class="premium-title text-gray-800 mb-3 text-lg">👥 सर्व युजर्स (Role & Block)</h3>
+<div id="socialAdminUsersList" class="space-y-2 max-h-80 overflow-y-auto">
 <p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
 </div>
 </div>
 
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-pink-500">
 <h3 class="premium-title text-gray-800 mb-3 text-lg">📝 सर्व पोस्ट्स</h3>
-<div id="socialAdminPostsList" class="space-y-3">
+<div id="socialAdminPostsList" class="space-y-3 max-h-80 overflow-y-auto">
 <p class="text-center text-gray-500 py-4 text-sm">लोड होत आहे...</p>
 </div>
 </div>
@@ -3054,21 +3070,24 @@ async function rejectCancelRequest(reqId, orderId){
   } catch(e){ alert("एरर: " + e.message); }
 }
 
-// ==================== ADMIN SOCIAL SOCIETY (New) ====================
+// ==================== ADMIN SOCIAL SOCIETY (Full) ====================
 async function loadSocialAdminData() {
     var postsContainer = document.getElementById("socialAdminPostsList");
     var usersContainer = document.getElementById("socialAdminUsersList");
+    var reportsContainer = document.getElementById("socialReportedPostsList");
+    var helpersContainer = document.getElementById("socialHelpersApprovalsList");
     
-    postsContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>पोस्ट्स लोड होत आहेत...</p>";
-    usersContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>युजर्स लोड होत आहेत...</p>";
+    postsContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>लोड होत आहे...</p>";
+    usersContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>लोड होत आहे...</p>";
+    reportsContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>लोड होत आहे...</p>";
+    helpersContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>लोड होत आहे...</p>";
 
     try {
-        // १. सर्व पोस्ट्स आणा (कोणतेही अंतर बंधन नाही)
+        // 1. Posts
         var postsSnap = await db.collection("social_posts").orderBy("createdAt", "desc").get();
         var postsHtml = "";
-        if (postsSnap.empty) {
-            postsHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही पोस्ट नाही.</p>";
-        } else {
+        if (postsSnap.empty) { postsHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही पोस्ट नाही.</p>"; } 
+        else {
             postsSnap.forEach(doc => {
                 var p = doc.data();
                 var timeStr = p.createdAt ? new Date(p.createdAt.seconds * 1000).toLocaleString('mr-IN') : "";
@@ -3076,7 +3095,7 @@ async function loadSocialAdminData() {
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 flex justify-between items-start mb-2">
                     <div>
                         <p class="font-bold text-[13px] text-gray-900">👤 ${p.authorName} (${p.authorPhone})</p>
-                        <p class="text-[11px] text-gray-500 mb-1">${p.society} • ${timeStr}</p>
+                        <p class="text-[10px] text-pink-600 font-bold mb-1">${p.type || 'Post'} • ${p.society} • ${timeStr}</p>
                         <p class="text-sm text-gray-700">${p.text}</p>
                     </div>
                     <button onclick="deleteSocialPost('${doc.id}')" class="bg-red-100 text-red-600 p-2 rounded-full ml-2 shrink-0">🗑️</button>
@@ -3085,30 +3104,112 @@ async function loadSocialAdminData() {
         }
         postsContainer.innerHTML = postsHtml;
 
-        // २. सर्व युजर्स आणा (Customers कलेक्शन मधून)
+        // 2. Users
         var usersSnap = await db.collection("customers").get();
         var usersHtml = "";
-        if (usersSnap.empty) {
-            usersHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतेही युजर्स नाहीत.</p>";
-        } else {
+        if (usersSnap.empty) { usersHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतेही युजर्स नाहीत.</p>"; } 
+        else {
             usersSnap.forEach(doc => {
                 var u = doc.data();
+                var currentRole = u.role || "resident";
+                var roleColor = currentRole === 'business' ? 'text-amber-600' : 'text-green-600';
+                var isBlocked = u.isBlocked || false;
+                
                 usersHtml += `
-                <div class="bg-blue-50 p-2.5 rounded-xl border border-blue-100 flex justify-between items-center mb-2">
-                    <div>
-                        <p class="font-bold text-[13px] text-gray-900">👤 ${u.name || 'Unknown'}</p>
-                        <p class="text-[11px] text-gray-600">📞 ${u.phone} • 🏠 ${u.society || 'No Society'}</p>
+                <div class="bg-blue-50 p-3 rounded-xl border border-blue-100 flex flex-col gap-2 mb-2">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-[13px] text-gray-900">👤 ${u.name || 'Unknown'}</p>
+                            <p class="text-[11px] text-gray-600">📞 ${doc.id} • 🏠 ${u.society || 'No Society'}</p>
+                        </div>
+                        <button onclick="toggleBlockUser('${doc.id}', ${isBlocked})" class="${isBlocked ? 'bg-red-500 text-white' : 'bg-red-100 text-red-600'} px-2 py-1 rounded-lg text-[10px] font-bold">
+                            ${isBlocked ? '🚫 Blocked' : 'Block'}
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="text-[11px] font-bold text-gray-500">Role:</span>
+                        <select onchange="updateSocialRole('${doc.id}', this.value)" class="text-[11px] font-bold ${roleColor} bg-white border border-gray-300 rounded-lg p-1 outline-none w-full">
+                            <option value="resident" ${currentRole === 'resident' ? 'selected' : ''}>🏠 Resident</option>
+                            <option value="business" ${currentRole === 'business' ? 'selected' : ''}>🏪 Business Owner</option>
+                        </select>
                     </div>
                 </div>`;
             });
         }
         usersContainer.innerHTML = usersHtml;
 
+        // 3. Reported Posts
+        var reportsSnap = await db.collection("reported_posts").where("status", "==", "pending").get();
+        var reportsHtml = "";
+        if (reportsSnap.empty) { reportsHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही तक्रार नाही.</p>"; } 
+        else {
+            for (const doc of reportsSnap.docs) {
+                var r = doc.data();
+                var postDoc = await db.collection("social_posts").doc(r.postId).get();
+                var postText = postDoc.exists ? postDoc.data().text : "पोस्ट डिलीट झाली आहे.";
+                var postAuthor = postDoc.exists ? postDoc.data().authorName : "Unknown";
+
+                reportsHtml += `
+                <div class="bg-red-50 p-3 rounded-xl border border-red-200 mb-2">
+                    <p class="text-[11px] font-bold text-red-800">🚩 कारण: ${r.reason}</p>
+                    <p class="text-[10px] text-gray-600 mt-1">तक्रार करणारा: ${r.reporterName} (${r.reportedBy})</p>
+                    <div class="bg-white p-2 rounded-lg mt-2 border border-gray-200">
+                        <p class="text-[10px] font-bold text-gray-800">👤 ${postAuthor} यांची पोस्ट:</p>
+                        <p class="text-xs text-gray-700 mt-0.5">"${postText}"</p>
+                    </div>
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="dismissReport('${doc.id}')" class="flex-1 bg-gray-200 text-gray-700 py-1.5 rounded-lg text-[10px] font-bold">❌ Dismiss</button>
+                        <button onclick="deleteReportedPost('${doc.id}', '${r.postId}')" class="flex-1 bg-red-600 text-white py-1.5 rounded-lg text-[10px] font-bold">🗑️ Delete Post</button>
+                    </div>
+                </div>`;
+            }
+        }
+        reportsContainer.innerHTML = reportsHtml;
+
+        // 4. Helpers Approvals
+        var helpersSnap = await db.collection("social_helpers").where("status", "==", "pending").get();
+        var helpersHtml = "";
+        if (helpersSnap.empty) { helpersHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही नवीन नोंदणी नाही.</p>"; } 
+        else {
+            helpersSnap.forEach(doc => {
+                var h = doc.data();
+                helpersHtml += `
+                <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 mb-2 flex flex-col gap-2">
+                    <div>
+                        <p class="font-bold text-[13px] text-gray-900">👤 ${h.name} (${h.phone})</p>
+                        <p class="text-[11px] text-blue-700 font-bold">${h.category} • ${h.experience} वर्षे अनुभव</p>
+                        <p class="text-[10px] text-gray-500">🏠 ${h.society}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="approveHelper('${doc.id}')" class="flex-1 bg-green-500 text-white py-1.5 rounded-lg text-[10px] font-bold">✅ Approve</button>
+                        <button onclick="rejectHelper('${doc.id}')" class="flex-1 bg-red-500 text-white py-1.5 rounded-lg text-[10px] font-bold">🚫 Reject</button>
+                    </div>
+                </div>`;
+            });
+        }
+        helpersContainer.innerHTML = helpersHtml;
+
     } catch (e) {
         console.error(e);
-        postsContainer.innerHTML = "<p class='text-center text-red-500 py-4 text-sm'>डेटा लोड करताना एरर आली.</p>";
-        usersContainer.innerHTML = "";
+        postsContainer.innerHTML = "<p class='text-center text-red-500 py-4 text-sm'>एरर आली.</p>";
     }
+}
+
+async function updateSocialRole(phone, newRole) {
+    try {
+        await db.collection("customers").doc(phone).update({ role: newRole });
+        showToast("Role अपडेट झाला! ✅", "success");
+        loadSocialAdminData();
+    } catch(e) { alert("Role अपडेट करताना एरर: " + e.message); }
+}
+
+async function toggleBlockUser(phone, isCurrentlyBlocked) {
+    if(!confirm(isCurrentlyBlocked ? "Unblock करायचं?" : "हा युजर ब्लॉक करायचा? तो पोस्ट करू शकणार नाही.")) return;
+    try {
+        await db.collection("customers").doc(phone).update({ isBlocked: !isCurrentlyBlocked });
+        showToast(isCurrentlyBlocked ? "Unblocked!" : "Blocked!", "success");
+        loadSocialAdminData();
+    } catch(e) { alert("Error: " + e.message); }
 }
 
 async function deleteSocialPost(postId) {
@@ -3117,9 +3218,44 @@ async function deleteSocialPost(postId) {
         await db.collection("social_posts").doc(postId).delete();
         showToast("पोस्ट डिलीट झाली! 🗑️", "success");
         loadSocialAdminData();
-    } catch(e) {
-        alert("एरर: " + e.message);
-    }
+    } catch(e) { alert("एरर: " + e.message); }
+}
+
+async function dismissReport(reportId) {
+    if (!confirm("ही तक्रार रद्द करायची? (पोस्ट डिलीट होणार नाही)")) return;
+    try {
+        await db.collection("reported_posts").doc(reportId).update({ status: "dismissed" });
+        showToast("तक्रार रद्द झाली!", "info");
+        loadSocialAdminData();
+    } catch(e) { alert("Error: " + e.message); }
+}
+
+async function deleteReportedPost(reportId, postId) {
+    if (!confirm("🚨 ही पोस्ट कायमची डिलीट करायची आणि तक्रार निकाली काढायची?")) return;
+    try {
+        await db.collection("social_posts").doc(postId).delete();
+        await db.collection("reported_posts").doc(reportId).update({ status: "resolved" });
+        showToast("पोस्ट डिलीट झाली!", "success");
+        loadSocialAdminData();
+    } catch(e) { alert("Error: " + e.message); }
+}
+
+async function approveHelper(id) {
+    if (!confirm("या कामगाराला Verified म्हणून मंजुरी द्यायची?")) return;
+    try {
+        await db.collection("social_helpers").doc(id).update({ status: "approved" });
+        showToast("✅ कामगार मंजूर झाला!", "success");
+        loadSocialAdminData();
+    } catch(e) { alert("Error: " + e.message); }
+}
+
+async function rejectHelper(id) {
+    if (!confirm("ही नोंदणी नाकारायची?")) return;
+    try {
+        await db.collection("social_helpers").doc(id).update({ status: "rejected" });
+        showToast("🚫 नोंदणी नाकारली!", "warn");
+        loadSocialAdminData();
+    } catch(e) { alert("Error: " + e.message); }
 }
 
 // ==================== ADMIN BILLS ====================
@@ -3465,6 +3601,7 @@ productData.discount = discount;
 productData.priceForMin = variants[0].price;
 productData.mrpForMin = variants[0].mrp;
 productData.image = variants[0].image || img;
+productData.costPriceForMin = parseFloat(document.getElementById("prodCostPrice").value) || 0; 
 } else {
 var unitType = document.getElementById("prodUnitType").value;
 var minQty = parseFloat(document.getElementById("prodMinQty").value);
@@ -3876,7 +4013,7 @@ function bindAllEvents(){
   document.getElementById("adminProductsBtn").addEventListener("click", function(){ navigateTo("view-admin-products"); renderAdminProductsByCategory(); });
   document.getElementById("adminCatsBtn").addEventListener("click", function(){ navigateTo("view-admin-categories"); renderAdminCategoriesPage(); });
   
-  // 🌐 नवीन Social Society बटणाचे कनेक्शन
+  // 🌐 Social Society Admin Button Connection
   document.getElementById("adminSocialBtn").addEventListener("click", function(){ navigateTo("view-admin-social"); loadSocialAdminData(); });
 
   document.getElementById("saveAllPostersBtn").addEventListener("click", saveAllPosters);
