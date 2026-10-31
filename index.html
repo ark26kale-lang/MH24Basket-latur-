@@ -1068,14 +1068,18 @@ function navigateTo(viewId){
   showView(viewId);
 }
 
-if (viewId === "view-services") {
-    renderServices();
+function showView(viewId){
+  for (var i = 0; i < ALL_VIEWS.length; i++){
+    var el = document.getElementById(ALL_VIEWS[i]);
+    if (el) el.classList.add("hidden");
+  }
+  if (viewId === "view-services"){
     var ab = document.getElementById("adminServiceBtn");
-    if (ab) {
-        if (isAdmin) ab.classList.remove("hidden");
-        else ab.classList.add("hidden");
+    if (ab){
+      if (isAdmin) ab.classList.remove("hidden");
+      else ab.classList.add("hidden");
     }
-}
+  }
   var target = document.getElementById(viewId);
   if (target) target.classList.remove("hidden");
   currentView = viewId;
@@ -1103,7 +1107,8 @@ if (viewId === "view-services") {
   if (viewId === "view-points") loadPointsPage();
   if (viewId === "view-special-offers") loadOffersFromFirebase();
   updateCartBadge();
-  }
+}
+
 function goBack(){
   if (viewStack.length > 0){
     isNavigatingBack = true;
@@ -2803,18 +2808,8 @@ async function hardDeleteCustomer(phone, name){
   if (!confirm("❌ " + name + " यांना कायमचा DELETE करायचं?\n\n⚠️ हे पूर्णपणे निघून जाईल:\n• Customer Profile\n• Referral Points\n• Loyalty Points\n\nOrders इतिहास राहील.\n\nपक्का?")) return;
   if (!confirm("⚠️ शेवटची संधी! " + name + " कायमचा Delete होईल. पुढे परत मिळणार नाही. पक्का?")) return;
   try {
-    // १. ग्राहक प्रोफाईल डिलीट करा
     await db.collection("customers").doc(phone).delete();
-    
-    // २. सोशल सोसायटी मधील त्याच्या सर्व पोस्ट्स डिलीट करा
-    var postsSnap = await db.collection("social_posts").where("authorPhone", "==", phone).get();
-    var batch = db.batch();
-    postsSnap.forEach(function(doc) {
-        batch.delete(doc.ref);
-    });
-    await batch.commit();
-
-    showToast("❌ Deleted (Profile + Posts)!", "info");
+    showToast("❌ Deleted!", "info");
     loadCustomersPage();
   } catch(e){ alert("एरर: " + e.message); }
 }
@@ -4114,18 +4109,6 @@ if (adminToken){
   isAdmin = true;
   var ab = document.getElementById("adminServiceBtn");
   if (ab) ab.classList.remove("hidden");
-}
-if (userProfile && userProfile.phone) {
-    db.collection("customers").doc(userProfile.phone).get().then(function(doc){
-        if (!doc.exists) {
-            // जर ग्राहक डिलीट झाला असेल तर लोकल स्टोरेज क्लिअर करा
-            userProfile = null;
-            localStorage.removeItem("mh24_user");
-            document.getElementById("profileForm").classList.remove("hidden");
-            document.getElementById("profileDisplay").classList.add("hidden");
-            showToast("तुमचे खाते ॲडमिनने डिलीट केले आहे. कृपया पुन्हा नोंदणी करा.", "error");
-        }
-    }).catch(function(e){ console.log("Profile check error", e); });
 }
 var carousel = document.getElementById("posterCarousel");
 if (carousel){
