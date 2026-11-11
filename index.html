@@ -81,6 +81,7 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 .society-card{background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff;padding:16px 20px;border-radius:18px;font-weight:800;font-size:15px;margin-bottom:12px;cursor:pointer;box-shadow:0 6px 20px rgba(234,88,12,.3);transition:transform .15s;display:flex;justify-content:space-between;align-items:center}
 .society-card:active{transform:scale(.98)}
 .society-card .soc-count{background:rgba(255,255,255,.25);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.service-hero{position:relative;border-radius:24px;overflow:hidden;box-shadow:0 12px 40px rgba(15,23,42,.15);margin-bottom:20px;background:linear-gradient(135deg,#0f766e,#0d9488);padding:32px 24px;color:#fff}
 </style>
 </head>
 <body>
@@ -303,24 +304,54 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 </div>
 
+<!-- ✅ PUBLIC SERVICES PAGE — फक्त services दिसतात, add form नाही -->
 <div id="view-services" class="hidden fade-in">
-<div class="flex items-center gap-3 mb-5">
+<div class="flex items-center gap-3 mb-4">
 <button class="back-btn icon-box-3d w-10 h-10">
 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
 </button>
-<h2 class="premium-title text-[22px] text-gray-900">सेवा / काम</h2>
+<h2 class="premium-title text-[22px] text-gray-900">🛠️ आमच्या सेवा</h2>
 </div>
-<div id="adminServiceBtn" class="mb-4 hidden"><button id="addServBtn" class="w-full bg-blue-50 text-blue-700 py-3 rounded-2xl font-bold text-sm border border-blue-200">+ नवीन सेवा जोडा</button></div>
-<div id="addServiceForm" class="bg-white p-5 rounded-3xl premium-shadow mb-5 hidden border-t-4 border-blue-500">
-<h3 class="premium-title text-gray-800 mb-4 text-lg">नवीन सेवा जोडा</h3>
-<input type="text" id="servName" placeholder="Service Name" class="custom-input">
-<input type="text" id="servMarathi" placeholder="सेवेचे नाव" class="custom-input">
-<input type="text" id="servCharges" placeholder="Charges" class="custom-input">
-<input type="url" id="servImage" placeholder="Image URL" class="custom-input">
-<textarea id="servDetails" placeholder="माहिती" class="custom-input" rows="2"></textarea>
-<button id="saveServBtn" class="btn-primary">Save Service</button>
+<div class="service-hero mb-5">
+<h2 class="premium-title text-[26px] leading-tight">विश्वासू सेवा<br>तुमच्या दारात</h2>
+<p class="text-teal-100 text-[13px] mt-2 font-medium">Verified professionals • Fair pricing • Same-day service</p>
+<div class="mt-4 flex items-center gap-2 text-[11px] font-bold">
+<span class="bg-white/20 backdrop-blur px-3 py-1.5 rounded-full">✅ Trusted</span>
+<span class="bg-white/20 backdrop-blur px-3 py-1.5 rounded-full">💰 Fair Price</span>
+<span class="bg-white/20 backdrop-blur px-3 py-1.5 rounded-full">⚡ Quick</span>
+</div>
 </div>
 <div id="servicesGrid" class="grid grid-cols-1 gap-4"></div>
+</div>
+
+<!-- ✅ NEW: SERVICE DETAILS PAGE (product सारखं) -->
+<div id="view-service-detail" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-4">
+<button class="back-btn icon-box-3d w-10 h-10">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 id="sdHeaderName" class="premium-title text-[18px] text-gray-900 truncate"></h2>
+</div>
+<div class="bg-white rounded-3xl premium-shadow overflow-hidden mb-4">
+<img id="sdImage" class="w-full object-cover block" style="aspect-ratio:5/4" loading="lazy" decoding="async">
+</div>
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-4">
+<h3 id="sdName" class="premium-title text-[24px] text-gray-900"></h3>
+<p id="sdMarathi" class="text-[14px] text-gray-500 mt-1 font-medium"></p>
+<div class="mt-4 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-4">
+<p class="text-[10px] font-extrabold text-green-700 uppercase tracking-wider">💰 Charges</p>
+<p id="sdCharges" class="text-[24px] font-extrabold text-green-800 mt-1"></p>
+</div>
+<div class="mt-3 flex items-center gap-2 text-[11px] text-gray-500 font-bold">
+<span class="bg-green-50 px-3 py-1.5 rounded-full text-green-700">✅ Verified</span>
+<span class="bg-blue-50 px-3 py-1.5 rounded-full text-blue-700">⚡ Quick Response</span>
+</div>
+</div>
+<div id="sdDetailsBox" class="bg-white p-5 rounded-3xl premium-shadow mb-4 hidden">
+<p class="form-label">📝 सेवेबद्दल माहिती</p>
+<p id="sdDetails" class="text-[13px] text-gray-700 leading-relaxed"></p>
+</div>
+<button id="sdBookBtn" class="btn-whatsapp mb-4">📞 आता बुक करा</button>
 </div>
 
 <div id="view-service-booking" class="hidden fade-in">
@@ -602,6 +633,11 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div><h3 class="text-white premium-title text-lg">📦 Current Products</h3><p class="text-cyan-100 text-[11px] mt-0.5">Category-wise</p></div>
 <div class="icon-3d icon-3d-lg">📦</div>
 </div>
+<!-- ✅ NEW: Services Management Card -->
+<div id="adminServicesBtn" class="bg-gradient-to-br from-teal-600 to-cyan-700 p-5 rounded-3xl shadow-lg mb-4 cursor-pointer flex justify-between items-center">
+<div><h3 class="text-white premium-title text-lg">🛠️ Services Management</h3><p class="text-teal-100 text-[11px] mt-0.5">Add • Edit • Delete Services</p></div>
+<div class="icon-3d icon-3d-lg">🛠️</div>
+</div>
 <div id="adminCatsBtn" class="bg-gradient-to-br from-amber-600 to-orange-700 p-5 rounded-3xl shadow-lg mb-5 cursor-pointer flex justify-between items-center">
 <div><h3 class="text-white premium-title text-lg">🏷️ Current Categories</h3><p class="text-amber-100 text-[11px] mt-0.5">कॅटेगरी व्यवस्थापन</p></div>
 <div class="icon-3d icon-3d-lg">🏷️</div>
@@ -732,6 +768,43 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <label for="prodIsBestDeal" class="text-sm font-bold text-yellow-800">🔥 Best Deals मध्ये दाखवा</label>
 </div>
 <button id="prodSaveBtn" class="btn-primary">Save Product</button>
+</div>
+</div>
+
+<!-- ✅ NEW: ADMIN SERVICES MANAGEMENT -->
+<div id="view-admin-services" class="hidden fade-in">
+<div class="flex items-center gap-3 mb-5">
+<button class="back-btn icon-box-3d w-10 h-10">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+</button>
+<h2 class="premium-title text-[22px] text-gray-900">🛠️ Services Management</h2>
+</div>
+
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-teal-500">
+<div id="editingServiceBanner" class="hidden bg-yellow-100 border-2 border-yellow-400 rounded-2xl p-3 mb-4 flex justify-between items-center">
+<div><p class="text-[11px] font-extrabold text-yellow-800">✏️ EDITING MODE</p><p class="text-[13px] font-bold text-yellow-900 mt-0.5" id="editingServiceName"></p></div>
+<button type="button" id="cancelServEditBtn" class="bg-white text-yellow-800 border border-yellow-400 px-3 py-1.5 rounded-full text-[11px] font-bold">✕ Cancel</button>
+</div>
+<h3 class="premium-title text-gray-800 mb-4 text-lg">➕ नवीन सेवा जोडा</h3>
+<label class="form-label">Service Name (English)</label>
+<input type="text" id="adminServName" placeholder="उदा. Plumber" class="custom-input">
+<label class="form-label">सेवेचे नाव (मराठी)</label>
+<input type="text" id="adminServMarathi" placeholder="उदा. प्लंबर" class="custom-input">
+<label class="form-label">Charges</label>
+<input type="text" id="adminServCharges" placeholder="उदा. ₹500 पासून" class="custom-input">
+<label class="form-label">माहिती</label>
+<textarea id="adminServDetails" placeholder="सेवेबद्दल माहिती..." class="custom-input" rows="2"></textarea>
+<label class="form-label">Photo — URL किंवा Gallery Upload</label>
+<input type="url" id="adminServImage" placeholder="Image URL (ऐच्छिक, Gallery वापरू शकता)" class="custom-input">
+<input type="file" id="adminServImageFile" accept="image/jpeg,image/png,image/webp" class="custom-input" style="font-size:12px">
+<img id="adminServImagePreview" class="hidden w-full rounded-xl border border-gray-200 mb-3" style="aspect-ratio:5/4;object-fit:cover" alt="Preview">
+<p class="text-[11px] text-gray-500 mb-3">💡 Recommended size: <b>5000×4000 (5:4 ratio)</b> — landscape photo</p>
+<button id="saveAdminServBtn" class="btn-primary">Save Service</button>
+</div>
+
+<div class="bg-white p-5 rounded-3xl premium-shadow mb-5">
+<h3 class="premium-title text-gray-800 mb-3 text-lg">📋 सध्याच्या सेवा</h3>
+<div id="adminServicesList" class="space-y-2"><p class="text-center text-gray-500 py-4">लोड होत आहे...</p></div>
 </div>
 </div>
 
@@ -942,7 +1015,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <div id="adminBillsLoadMore" class="mt-4 hidden"><button id="loadMoreBillsBtn" class="w-full bg-blue-50 text-blue-700 py-3 rounded-2xl font-bold">📥 अजून लोड करा</button></div>
 </div>
 
-<!-- 🌐 Social Society Admin View -->
 <div id="view-admin-social" class="hidden fade-in">
 <div class="flex items-center gap-3 mb-5">
 <button class="back-btn icon-box-3d w-10 h-10">
@@ -951,7 +1023,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 <h2 class="premium-title text-[22px] text-gray-900">🌐 Social Society Admin</h2>
 </div>
 
-<!-- 🚩 Reported Posts Box -->
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-red-500">
 <h3 class="premium-title text-gray-800 mb-3 text-lg">🚩 Reported Posts (तक्रारी)</h3>
 <div id="socialReportedPostsList" class="space-y-2 max-h-60 overflow-y-auto">
@@ -959,7 +1030,6 @@ body{font-family:'Plus Jakarta Sans','Mukta',sans-serif;background:var(--bg);pad
 </div>
 </div>
 
-<!-- 🛠️ Helper Approvals Box -->
 <div class="bg-white p-5 rounded-3xl premium-shadow mb-5 border-t-4 border-blue-500">
 <h3 class="premium-title text-gray-800 mb-3 text-lg">🛠️ Verified Help Approvals</h3>
 <div id="socialHelpersApprovalsList" class="space-y-2 max-h-60 overflow-y-auto">
@@ -1035,6 +1105,7 @@ var cart = JSON.parse(localStorage.getItem("mh24_cart")) || [];
 var weeklyPlan = JSON.parse(localStorage.getItem("mh24_weekly_plan")) || {};
 var posterConfigs = {1:"other", 2:"services", 3:"other", 4:"mybills"};
 var currentService = null;
+var editingServiceId = null;
 var isAdmin = false;
 var adminToken = localStorage.getItem("mh24_admin_token") || null;
 var otherBanner = { imageUrl: "", title: "", subtitle: "" };
@@ -1057,9 +1128,9 @@ var viewStack = [];
 var currentView = "view-home";
 var isNavigatingBack = false;
 
-var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-special-offers","view-offer-products","view-category","view-product-detail","view-services","view-service-booking","view-basket","view-profile","view-points","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-offers","view-admin-points","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-categories","view-admin-social","view-success"];
+var ALL_VIEWS = ["view-home","view-search","view-other-categories","view-special-offers","view-offer-products","view-category","view-product-detail","view-services","view-service-detail","view-service-booking","view-basket","view-profile","view-points","view-about-us","view-refer-earn","view-weekly-plan","view-my-bills","view-admin","view-admin-bills","view-admin-dashboard","view-admin-customers","view-admin-referrals","view-admin-offers","view-admin-points","view-admin-cancels","view-admin-notify","view-admin-products","view-admin-services","view-admin-categories","view-admin-social","view-success"];
 
-// ==================== SECURITY FIX: escapeHTML ====================
+// ==================== ESCAPE HTML ====================
 function escapeHTML(str) {
     if (!str) return "";
     return String(str).replace(/[&<>'"]/g, function(c) {
@@ -1083,13 +1154,6 @@ function showView(viewId){
     var el = document.getElementById(ALL_VIEWS[i]);
     if (el) el.classList.add("hidden");
   }
-  if (viewId === "view-services"){
-    var ab = document.getElementById("adminServiceBtn");
-    if (ab){
-      if (isAdmin) ab.classList.remove("hidden");
-      else ab.classList.add("hidden");
-    }
-  }
   var target = document.getElementById(viewId);
   if (target) target.classList.remove("hidden");
   currentView = viewId;
@@ -1099,7 +1163,7 @@ function showView(viewId){
   if (viewId === "view-home" || viewId === "view-other-categories" || viewId === "view-special-offers" || viewId === "view-offer-products" || viewId === "view-category" || viewId === "view-product-detail"){
     var h = document.getElementById("nav-home"); if (h) h.classList.add("active");
   }
-  if (viewId === "view-services" || viewId === "view-service-booking"){
+  if (viewId === "view-services" || viewId === "view-service-detail" || viewId === "view-service-booking"){
     var s = document.getElementById("nav-services"); if (s) s.classList.add("active");
   }
   if (viewId === "view-basket" || viewId === "view-success"){
@@ -1111,6 +1175,7 @@ function showView(viewId){
   if (viewId === "view-basket") renderBasket();
   if (viewId === "view-profile") renderProfile();
   if (viewId === "view-services") renderServices();
+  if (viewId === "view-admin-services") renderAdminServicesPage();
   if (viewId === "view-weekly-plan") renderWeeklyPlanForm();
   if (viewId === "view-my-bills") loadMyBills();
   if (viewId === "view-other-categories") renderOtherPage();
@@ -1275,39 +1340,26 @@ function normalizeProduct(p){
   return p;
 }
 
-// ==================== DELIVERY TIME LOGIC ====================
+// ==================== DELIVERY SLOT ====================
 function getDeliverySlot(cashExists, pendingExists, orderTime){
   orderTime = orderTime || new Date();
-  var hour = orderTime.getHours();
-  var minute = orderTime.getMinutes();
-  var totalMinutes = hour * 60 + minute;
+  var totalMinutes = orderTime.getHours() * 60 + orderTime.getMinutes();
   var slots = [];
-
-  var cutoff1 = 18 * 60 + 30;  // 6:30 PM
-  var cutoff2 = 19 * 60 + 30;  // 7:30 PM
-
+  var cutoff1 = 18 * 60 + 30;
+  var cutoff2 = 19 * 60 + 30;
   if (cashExists){
-    if (totalMinutes < cutoff1){
-      slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Cash Items)");
-    } else if (totalMinutes < cutoff2){
+    if (totalMinutes < cutoff1 || totalMinutes < cutoff2){
       slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Cash Items)");
     } else {
       slots.push("उद्या संध्याकाळी 4:30 PM - 5:30 PM (Cash Items)");
     }
   }
-
   if (pendingExists){
-    if (totalMinutes >= 21 * 60 + 30){
-      slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Pending Items)");
-    } else {
-      slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Pending Items)");
-    }
+    slots.push("उद्या सकाळी 6:30 AM - 8:30 AM (Pending Items)");
   }
-
   return slots;
 }
 
-// ==================== BLOCK CHECK ====================
 async function isCustomerBlocked(phone){
   try {
     var doc = await db.collection("customers").doc(phone).get();
@@ -1446,7 +1498,7 @@ function buildProductTile(p, wide){
   return tile;
 }
 
-// ==================== SPECIAL OFFERS SYSTEM ====================
+// ==================== SPECIAL OFFERS ====================
 async function loadOffersFromFirebase(){
   try {
     var snap = await db.collection("offers").orderBy("createdAt", "desc").get();
@@ -1565,7 +1617,6 @@ function renderOtherPage(){
   }
 }
 
-// ==================== OPEN CATEGORY ====================
 function openCategory(catId, catName, gridCols){
   if (catId === "other"){ openOtherCategories(); return; }
   document.getElementById("categoryHeaderTitle").textContent = catName || "कॅटेगरी";
@@ -1668,18 +1719,18 @@ function openProductDetail(pid){
 }
 
 function selectVariant(idx){
-pdVariantIndex = idx;
-pdQty = 1;
-document.querySelectorAll('#pdVariants .variant-btn').forEach(function(b){ b.classList.remove('active'); });
-var btn = document.getElementById('vBtn' + idx);
-if (btn) btn.classList.add('active');
-var p = currentProductDetail;
-if (p && p.variants && p.variants[idx] && p.variants[idx].image){
-document.getElementById('pdImage').src = p.variants[idx].image;
-} else if (p && p.image) {
-document.getElementById('pdImage').src = p.image;
-}
-updatePDPrice();
+  pdVariantIndex = idx;
+  pdQty = 1;
+  document.querySelectorAll('#pdVariants .variant-btn').forEach(function(b){ b.classList.remove('active'); });
+  var btn = document.getElementById('vBtn' + idx);
+  if (btn) btn.classList.add('active');
+  var p = currentProductDetail;
+  if (p && p.variants && p.variants[idx] && p.variants[idx].image){
+    document.getElementById('pdImage').src = p.variants[idx].image;
+  } else if (p && p.image) {
+    document.getElementById('pdImage').src = p.image;
+  }
+  updatePDPrice();
 }
 
 function updatePDPrice(){
@@ -2069,7 +2120,7 @@ async function confirmAndSend(){
     if (loyaltyPointsEarned > 0){
       custUpdate.loyaltyPoints = (custUpdate.loyaltyPoints !== undefined ? custUpdate.loyaltyPoints : (custData.loyaltyPoints || 0)) + loyaltyPointsEarned;
     }
-    await custDocRef.set(custUpdate, { merge: true }); // Fixed Update Error
+    await custDocRef.set(custUpdate, { merge: true });
 
     window.open("https://wa.me/" + ADMIN_PHONE + "?text=" + m, "_blank");
     setTimeout(function(){
@@ -2192,7 +2243,7 @@ async function renderProfile(){
   }
 }
 
-// ==================== POINTS PAGE ====================
+// ==================== POINTS ====================
 async function loadPointsPage(){
   if (!userProfile || !userProfile.phone){
     alert("आधी प्रोफाइल सेव्ह करा!");
@@ -2307,7 +2358,6 @@ async function loadMyBills(){
   }
 }
 
-// ==================== CANCEL ORDER ====================
 async function requestCancelOrder(orderId){
   if (!confirm("🚫 Order cancel request पाठवायची?")) return;
   try {
@@ -2336,19 +2386,58 @@ async function requestCancelOrder(orderId){
   } catch(e){ alert("एरर: " + e.message); }
 }
 
-// ==================== SERVICES ====================
+// ==================== SERVICES (PUBLIC — only view, tap to details) ====================
 function renderServices(){
   var g = document.getElementById("servicesGrid");
+  if (!g) return;
   g.innerHTML = "";
-  if (services.length === 0){ g.innerHTML = "<p class='text-center text-gray-500 py-10 text-sm font-semibold'>सेवा नाहीत.</p>"; return; }
+  if (services.length === 0){
+    g.innerHTML = "<div class='text-center py-12 bg-white rounded-3xl premium-shadow'><span class='icon-3d icon-3d-lg'>🛠️</span><p class='text-gray-500 font-semibold mt-3'>सध्या सेवा उपलब्ध नाहीत.</p><p class='text-gray-400 text-[11px] mt-1'>लवकरच येत आहेत!</p></div>";
+    return;
+  }
   for (var i = 0; i < services.length; i++){
     var s = services[i];
     var div = document.createElement("div");
-    div.className = "bg-white rounded-3xl premium-shadow overflow-hidden relative border border-gray-100 mb-3";
-    var delBtn = isAdmin ? "<button data-del-service='" + s.id + "' class='absolute top-3 right-3 bg-red-100 text-red-600 p-2 rounded-full'>🗑️</button>" : "";
-    div.innerHTML = "<img src='" + s.image + "' class='w-full h-32 object-cover' loading='lazy'>" + delBtn + "<div class='p-4'><h3 class='font-extrabold text-[15px] text-gray-900'>" + escapeHTML(s.marathi) + " <span class='text-[12px] text-gray-500 font-medium'>(" + escapeHTML(s.name) + ")</span></h3><p class='text-green-700 font-extrabold mt-1'>" + escapeHTML(s.charges) + "</p><p class='text-[11px] text-gray-500 mt-1'>" + escapeHTML(s.details || "") + "</p><button data-book-service='" + s.id + "' class='w-full mt-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-extrabold text-[12px]'>बुक करा</button></div>";
+    div.className = "bg-white rounded-3xl premium-shadow overflow-hidden cursor-pointer active:scale-[0.98] transition-transform";
+    div.setAttribute("data-open-service", s.id);
+    div.innerHTML =
+      "<div class='relative'>" +
+        "<img src='" + s.image + "' class='w-full object-cover block bg-gray-100' style='aspect-ratio:5/4' loading='lazy' onerror=\"this.src='https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80'\">" +
+        "<div class='absolute top-3 right-3 bg-white/95 backdrop-blur px-3 py-1.5 rounded-full shadow-md'>" +
+          "<span class='text-[12px] font-extrabold text-green-700'>" + escapeHTML(s.charges) + "</span>" +
+        "</div>" +
+      "</div>" +
+      "<div class='p-4'>" +
+        "<h3 class='premium-title text-[18px] text-gray-900'>" + escapeHTML(s.marathi) + "</h3>" +
+        "<p class='text-[12px] text-gray-500 mt-0.5 font-medium'>" + escapeHTML(s.name) + "</p>" +
+        (s.details ? "<p class='text-[12px] text-gray-600 mt-2' style='display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden'>" + escapeHTML(s.details) + "</p>" : "") +
+        "<div class='mt-3 flex items-center justify-between'>" +
+          "<span class='text-[11px] font-bold text-green-700 bg-green-50 px-3 py-1.5 rounded-full'>👉 Details पहा</span>" +
+          "<span class='text-[18px] text-green-700'>→</span>" +
+        "</div>" +
+      "</div>";
     g.appendChild(div);
   }
+}
+
+function openServiceDetail(id){
+  var s = null;
+  for (var i = 0; i < services.length; i++) if (services[i].id === id) { s = services[i]; break; }
+  if (!s) return;
+  currentService = s;
+  document.getElementById("sdImage").src = s.image || "";
+  document.getElementById("sdHeaderName").textContent = s.marathi || s.name;
+  document.getElementById("sdName").textContent = s.marathi || s.name;
+  document.getElementById("sdMarathi").textContent = s.name || "";
+  document.getElementById("sdCharges").textContent = s.charges || "";
+  if (s.details){
+    document.getElementById("sdDetailsBox").classList.remove("hidden");
+    document.getElementById("sdDetails").textContent = s.details;
+  } else {
+    document.getElementById("sdDetailsBox").classList.add("hidden");
+  }
+  document.getElementById("sdBookBtn").setAttribute("data-book-service", s.id);
+  navigateTo("view-service-detail");
 }
 
 function openServiceBooking(id){
@@ -2377,6 +2466,110 @@ function submitServiceBooking(){
   document.getElementById("bookNotes").value = "";
   showToast("बुकिंग पाठवली! ✅", "success");
   navigateTo("view-services");
+}
+
+// ==================== ADMIN: SERVICES MANAGEMENT ====================
+function renderAdminServicesPage(){
+  var list = document.getElementById("adminServicesList");
+  if (!list) return;
+  if (services.length === 0){
+    list.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>अजून सेवा जोडलेली नाही.</p>";
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < services.length; i++){
+    var s = services[i];
+    html += "<div class='bg-gray-50 p-3 rounded-2xl flex justify-between items-center border border-gray-200 mb-2'>" +
+      "<div class='flex items-center gap-3 min-w-0 flex-1'>" +
+        "<img src='" + s.image + "' class='w-14 h-14 object-cover rounded-xl shrink-0 bg-gray-100' onerror=\"this.src='https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=200&q=80'\">" +
+        "<div class='min-w-0'>" +
+          "<p class='font-bold text-[13px] text-gray-900 truncate'>" + escapeHTML(s.marathi) + "</p>" +
+          "<p class='text-[10px] text-gray-500 truncate'>" + escapeHTML(s.name) + " • " + escapeHTML(s.charges) + "</p>" +
+        "</div>" +
+      "</div>" +
+      "<div class='flex gap-1 shrink-0'>" +
+        "<button data-edit-serv='" + s.id + "' class='text-blue-600 bg-blue-50 p-2 rounded-full'>✏️</button>" +
+        "<button data-del-serv='" + s.id + "' class='text-red-500 bg-red-50 p-2 rounded-full'>🗑️</button>" +
+      "</div>" +
+    "</div>";
+  }
+  list.innerHTML = html;
+}
+
+function editService(id){
+  var s = null;
+  for (var i = 0; i < services.length; i++) if (services[i].id === id) s = services[i];
+  if (!s){ alert("सेवा सापडली नाही!"); return; }
+  editingServiceId = id;
+  document.getElementById("adminServName").value = s.name || "";
+  document.getElementById("adminServMarathi").value = s.marathi || "";
+  document.getElementById("adminServCharges").value = s.charges || "";
+  document.getElementById("adminServDetails").value = s.details || "";
+  document.getElementById("adminServImage").value = s.image || "";
+  document.getElementById("adminServImageFile").value = "";
+  var preview = document.getElementById("adminServImagePreview");
+  if (s.image){ preview.src = s.image; preview.classList.remove("hidden"); }
+  else preview.classList.add("hidden");
+  document.getElementById("editingServiceBanner").classList.remove("hidden");
+  document.getElementById("editingServiceName").textContent = "🛠️ " + s.marathi;
+  document.getElementById("saveAdminServBtn").textContent = "💾 Update Service";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function cancelServiceEdit(){
+  editingServiceId = null;
+  document.getElementById("editingServiceBanner").classList.add("hidden");
+  document.getElementById("saveAdminServBtn").textContent = "Save Service";
+  document.getElementById("adminServName").value = "";
+  document.getElementById("adminServMarathi").value = "";
+  document.getElementById("adminServCharges").value = "";
+  document.getElementById("adminServDetails").value = "";
+  document.getElementById("adminServImage").value = "";
+  document.getElementById("adminServImageFile").value = "";
+  document.getElementById("adminServImagePreview").classList.add("hidden");
+  document.getElementById("adminServImagePreview").removeAttribute("src");
+}
+
+async function saveServiceFromAdmin(){
+  var name = document.getElementById("adminServName").value.trim();
+  var marathi = document.getElementById("adminServMarathi").value.trim();
+  var charges = document.getElementById("adminServCharges").value.trim();
+  var details = document.getElementById("adminServDetails").value.trim();
+  var imageUrl = document.getElementById("adminServImage").value.trim();
+  var file = document.getElementById("adminServImageFile").files[0];
+  if (!name || !marathi || !charges) return alert("Name, मराठी नाव आणि Charges भरा!");
+  try {
+    var finalImage = imageUrl;
+    if (file){
+      finalImage = await uploadProductPhoto(file);
+    }
+    if (!finalImage && !editingServiceId) return alert("फोटो निवडा किंवा Image URL टाका!");
+    var data = {
+      name: name,
+      marathi: marathi,
+      charges: charges,
+      details: details,
+      image: finalImage || ""
+    };
+    if (editingServiceId){
+      await db.collection("services").doc(editingServiceId).set(data, { merge: true });
+      showToast("सेवा अपडेट! ✅", "success");
+    } else {
+      await db.collection("services").add(Object.assign({ createdAt: new Date() }, data));
+      showToast("सेवा जोडली! ✅", "success");
+    }
+    cancelServiceEdit();
+    loadServicesFromFirebase();
+  } catch(e){ alert("एरर: " + e.message); }
+}
+
+async function deleteServiceById(id){
+  if (!confirm("ही सेवा डिलीट करायची?")) return;
+  try {
+    await db.collection("services").doc(id).delete();
+    showToast("सेवा डिलीट! 🗑️", "info");
+    loadServicesFromFirebase();
+  } catch(e){ alert("एरर: " + e.message); }
 }
 
 // ==================== WEEKLY PLAN ====================
@@ -2448,6 +2641,7 @@ async function loadServicesFromFirebase(){
     services = [];
     s.forEach(function(d){ services.push(Object.assign({ id: d.id }, d.data())); });
     if (!document.getElementById("view-services").classList.contains("hidden")) renderServices();
+    if (!document.getElementById("view-admin-services").classList.contains("hidden")) renderAdminServicesPage();
   } catch(e){ console.error(e); }
 }
 
@@ -2513,7 +2707,7 @@ function updateProductDropdown(){
   }
 }
 
-// ==================== REFERRAL FUNCTIONS ====================
+// ==================== REFERRAL ====================
 async function loadReferEarnPage(){
   if (!userProfile || !userProfile.phone){ alert("आधी प्रोफाइल सेव्ह करा!"); navigateTo("view-profile"); return; }
   var nmPart = "CUS";
@@ -2854,7 +3048,7 @@ async function hardDeleteCustomer(phone, name){
   } catch(e){ alert("एरर: " + e.message); }
 }
 
-// ==================== ADMIN OFFERS LOGIC ====================
+// ==================== ADMIN OFFERS ====================
 async function loadAdminOffers(){
   var list = document.getElementById("adminOffersList");
   list.innerHTML = "<p class='text-center text-gray-500 py-4'>लोड होत आहे...</p>";
@@ -3025,7 +3219,7 @@ async function addManualPoints(){
   } catch(e){ alert("एरर: " + e.message); }
 }
 
-// ==================== ADMIN POINTS APPROVALS ====================
+// ==================== ADMIN POINTS ====================
 async function loadPointsApprovals(){
   var container = document.getElementById("pointsApprovalsList");
   container.innerHTML = "<p class='text-center text-gray-500 py-10 font-semibold text-sm'>लोड होत आहे...</p>";
@@ -3125,7 +3319,7 @@ async function rejectCancelRequest(reqId, orderId){
   } catch(e){ alert("एरर: " + e.message); }
 }
 
-// ==================== ADMIN SOCIAL SOCIETY ====================
+// ==================== SOCIAL ADMIN ====================
 async function loadSocialAdminData() {
     var postsContainer = document.getElementById("socialAdminPostsList");
     var usersContainer = document.getElementById("socialAdminUsersList");
@@ -3138,7 +3332,6 @@ async function loadSocialAdminData() {
     helpersContainer.innerHTML = "<p class='text-center text-gray-500 py-4 text-sm'>लोड होत आहे...</p>";
 
     try {
-        // 1. Posts
         var postsSnap = await db.collection("social_posts").orderBy("createdAt", "desc").get();
         var postsHtml = "";
         if (postsSnap.empty) { postsHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही पोस्ट नाही.</p>"; } 
@@ -3159,7 +3352,6 @@ async function loadSocialAdminData() {
         }
         postsContainer.innerHTML = postsHtml;
 
-        // 2. Users
         var usersSnap = await db.collection("customers").get();
         var usersHtml = "";
         if (usersSnap.empty) { usersHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतेही युजर्स नाहीत.</p>"; } 
@@ -3196,7 +3388,6 @@ async function loadSocialAdminData() {
         }
         usersContainer.innerHTML = usersHtml;
 
-        // 3. Reported Posts
         var reportsSnap = await db.collection("reported_posts").where("status", "==", "pending").get();
         var reportsHtml = "";
         if (reportsSnap.empty) { reportsHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही तक्रार नाही.</p>"; } 
@@ -3224,7 +3415,6 @@ async function loadSocialAdminData() {
         }
         reportsContainer.innerHTML = reportsHtml;
 
-        // 4. Helpers Approvals
         var helpersSnap = await db.collection("social_helpers").where("status", "==", "pending").get();
         var helpersHtml = "";
         if (helpersSnap.empty) { helpersHtml = "<p class='text-center text-gray-500 py-4 text-sm'>कोणतीही नवीन नोंदणी नाही.</p>"; } 
@@ -3316,22 +3506,15 @@ async function rejectHelper(id) {
     } catch(e) { alert("Error: " + e.message); }
 }
 
-// ** NEW: Hard Delete Social User (Deletes User + All Their Posts) **
 async function hardDeleteSocialUser(phone) {
     if (!confirm("❌ हा युजर आणि त्याने केलेल्या सर्व पोस्ट्स कायमच्या डिलीट करायच्या?")) return;
     if (!confirm("⚠️ शेवटची संधी! डिलीट केल्यावर परत मिळणार नाही.")) return;
     try {
-        // 1. Delete User
         await db.collection("customers").doc(phone).delete();
-        
-        // 2. Delete all their posts
         var snap = await db.collection("social_posts").where("authorPhone", "==", phone).get();
         var batch = db.batch();
-        snap.forEach(doc => {
-            batch.delete(doc.ref);
-        });
+        snap.forEach(doc => { batch.delete(doc.ref); });
         await batch.commit();
-
         showToast("❌ युजर आणि पोस्ट्स डिलीट झाल्या!", "info");
         loadSocialAdminData();
     } catch(e) { alert("Error: " + e.message); }
@@ -3613,13 +3796,10 @@ var currentProductMode = 'normal';
 
 function setProductMode(mode) {
   currentProductMode = mode;
-
   var panel = document.getElementById('variantPanel');
   var normalBtn = document.getElementById('normalModeBtn');
   var variantBtn = document.getElementById('variantModeBtn');
-
   if (!panel || !normalBtn || !variantBtn) return;
-
   if (mode === 'variants') {
     panel.classList.remove('hidden');
     normalBtn.className = 'bg-white text-green-700 border border-green-300 p-3 rounded-xl font-bold';
@@ -3632,13 +3812,13 @@ function setProductMode(mode) {
   }
 }
 function addVariantRow(w, m, f, img){
-w = w || ''; m = m || ''; f = f || ''; img = img || '';
-var variantCounter = document.querySelectorAll('#variantRows > div').length + 1;
-var id = 'var_' + variantCounter + '_' + Date.now();
-var row = document.createElement('div');
-row.className = 'bg-white p-3 rounded-xl mb-2 border border-purple-100 flex flex-col gap-2'; 
-row.id = id;
-row.innerHTML = `
+  w = w || ''; m = m || ''; f = f || ''; img = img || '';
+  var variantCounter = document.querySelectorAll('#variantRows > div').length + 1;
+  var id = 'var_' + variantCounter + '_' + Date.now();
+  var row = document.createElement('div');
+  row.className = 'bg-white p-3 rounded-xl mb-2 border border-purple-100 flex flex-col gap-2';
+  row.id = id;
+  row.innerHTML = `
 <div class="flex gap-2 items-center">
 <input placeholder="वजन (उदा. 500g)" value="${w}" class="custom-input flex-1 mb-0 vWeight" style="font-size:13px">
 <button type="button" onclick="document.getElementById('${id}').remove()" class="text-red-500 bg-red-50 rounded-full w-8 h-8 flex items-center justify-center font-bold shrink-0">×</button>
@@ -3649,26 +3829,26 @@ row.innerHTML = `
 </div>
 <input placeholder="Image URL (Optional)" value="${img}" class="custom-input mb-0 vImage" style="font-size:11px">
 `;
-document.getElementById('variantRows').appendChild(row);
+  document.getElementById('variantRows').appendChild(row);
 }
 
 function getVariantRows(){
-var rows = document.querySelectorAll('#variantRows > div');
-var variants = [];
-rows.forEach(function(r){
-var w = r.querySelector('.vWeight').value.trim();
-var m = parseFloat(r.querySelector('.vMRP').value) || 0;
-var f = parseFloat(r.querySelector('.vPrice').value) || 0;
-var img = r.querySelector('.vImage').value.trim();
-if (w && m && f){
-var disc = m > 0 ? Math.round(((m - f) / m) * 100) : 0;
-variants.push({ weight: w, mrp: m, price: f, discount: disc, image: img });
-}
-});
-return variants;
+  var rows = document.querySelectorAll('#variantRows > div');
+  var variants = [];
+  rows.forEach(function(r){
+    var w = r.querySelector('.vWeight').value.trim();
+    var m = parseFloat(r.querySelector('.vMRP').value) || 0;
+    var f = parseFloat(r.querySelector('.vPrice').value) || 0;
+    var img = r.querySelector('.vImage').value.trim();
+    if (w && m && f){
+      var disc = m > 0 ? Math.round(((m - f) / m) * 100) : 0;
+      variants.push({ weight: w, mrp: m, price: f, discount: disc, image: img });
+    }
+  });
+  return variants;
 }
 
-// Cloudinary direct unsigned upload. Keep these values aligned with the Cloudinary dashboard.
+// Cloudinary
 var MH24_CLOUDINARY_CLOUD = "whmbkg5k";
 var MH24_CLOUDINARY_PRESET = "mh24_products";
 function setProductImagePreview(slot, src){
@@ -3696,6 +3876,14 @@ document.addEventListener("change", function(e){
     var file = e.target.files && e.target.files[0];
     if (file) setProductImagePreview(slot, URL.createObjectURL(file));
   }
+  if (e.target && e.target.id === "adminServImageFile"){
+    var sfile = e.target.files && e.target.files[0];
+    if (sfile){
+      var preview = document.getElementById("adminServImagePreview");
+      preview.src = URL.createObjectURL(sfile);
+      preview.classList.remove("hidden");
+    }
+  }
 });
 
 async function addProduct(){
@@ -3712,38 +3900,38 @@ async function addProduct(){
   if (!n || !m) return alert("नाव भरा!");
   var productData = {name:n, marathi:m, category:c, description:desc, rating:rating, image:img, isBestDeal:isBestDeal};
 
-if(currentProductMode === 'variants'){
-var variants = getVariantRows();
-if(variants.length === 0) return alert("किमान 1 Variant भरा!");
-var discount = variants[0].mrp > 0 ? Math.round(((variants[0].mrp - variants[0].price) / variants[0].mrp) * 100) : 0;
-productData.hasVariants = true;
-productData.variants = variants;
-productData.discount = discount;
-productData.priceForMin = variants[0].price;
-productData.mrpForMin = variants[0].mrp;
-productData.image = variants[0].image || img;
-productData.costPriceForMin = parseFloat(document.getElementById("prodCostPrice").value) || 0; 
-} else {
-var unitType = document.getElementById("prodUnitType").value;
-var minQty = parseFloat(document.getElementById("prodMinQty").value);
-var stepQty = parseFloat(document.getElementById("prodStepQty").value);
-var mrpForMin = parseFloat(document.getElementById("prodMRP").value);
-var priceForMin = parseFloat(document.getElementById("prodFinalPrice").value);
-var costPriceForMin = parseFloat(document.getElementById("prodCostPrice").value) || 0;
-if (!minQty || !stepQty || !mrpForMin || !priceForMin) return alert("सर्व माहिती भरा!");
-var discount2 = mrpForMin > 0 ? Math.round(((mrpForMin - priceForMin) / mrpForMin) * 100) : 0;
-productData.hasVariants = false;
-productData.unitType = unitType;
-productData.minQuantity = minQty;
-productData.stepQuantity = stepQty;
-productData.mrpForMin = mrpForMin;
-productData.priceForMin = priceForMin;
-productData.costPriceForMin = costPriceForMin;
-productData.pricePerBaseUnit = priceForMin / minQty;
-productData.mrpPerBaseUnit = mrpForMin / minQty;
-productData.costPerBaseUnit = costPriceForMin / minQty;
-productData.discount = discount2;
-}
+  if(currentProductMode === 'variants'){
+    var variants = getVariantRows();
+    if(variants.length === 0) return alert("किमान 1 Variant भरा!");
+    var discount = variants[0].mrp > 0 ? Math.round(((variants[0].mrp - variants[0].price) / variants[0].mrp) * 100) : 0;
+    productData.hasVariants = true;
+    productData.variants = variants;
+    productData.discount = discount;
+    productData.priceForMin = variants[0].price;
+    productData.mrpForMin = variants[0].mrp;
+    productData.image = variants[0].image || img;
+    productData.costPriceForMin = parseFloat(document.getElementById("prodCostPrice").value) || 0;
+  } else {
+    var unitType = document.getElementById("prodUnitType").value;
+    var minQty = parseFloat(document.getElementById("prodMinQty").value);
+    var stepQty = parseFloat(document.getElementById("prodStepQty").value);
+    var mrpForMin = parseFloat(document.getElementById("prodMRP").value);
+    var priceForMin = parseFloat(document.getElementById("prodFinalPrice").value);
+    var costPriceForMin = parseFloat(document.getElementById("prodCostPrice").value) || 0;
+    if (!minQty || !stepQty || !mrpForMin || !priceForMin) return alert("सर्व माहिती भरा!");
+    var discount2 = mrpForMin > 0 ? Math.round(((mrpForMin - priceForMin) / mrpForMin) * 100) : 0;
+    productData.hasVariants = false;
+    productData.unitType = unitType;
+    productData.minQuantity = minQty;
+    productData.stepQuantity = stepQty;
+    productData.mrpForMin = mrpForMin;
+    productData.priceForMin = priceForMin;
+    productData.costPriceForMin = costPriceForMin;
+    productData.pricePerBaseUnit = priceForMin / minQty;
+    productData.mrpPerBaseUnit = mrpForMin / minQty;
+    productData.costPerBaseUnit = costPriceForMin / minQty;
+    productData.discount = discount2;
+  }
   try {
     if (photoFile1){ img = await uploadProductPhoto(photoFile1); }
     if (photoFile2){ img2 = await uploadProductPhoto(photoFile2); }
@@ -3824,32 +4012,7 @@ async function saveOtherBanner(){
   } catch(e){ alert("एरर: " + e.message); }
 }
 
-async function addServiceFromForm(){
-  var name = document.getElementById("servName").value;
-  var marathi = document.getElementById("servMarathi").value;
-  var charges = document.getElementById("servCharges").value;
-  var image = document.getElementById("servImage").value || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80";
-  var details = document.getElementById("servDetails").value;
-  if (!name || !marathi || !charges) return alert("सर्व भरा!");
-  try {
-    await db.collection("services").add({ name: name, marathi: marathi, charges: charges, image: image, details: details });
-    document.getElementById("servName").value = "";
-    document.getElementById("servMarathi").value = "";
-    document.getElementById("servCharges").value = "";
-    document.getElementById("servImage").value = "";
-    document.getElementById("servDetails").value = "";
-    alert("सेवा जोडली! ✅");
-    document.getElementById("addServiceForm").classList.add("hidden");
-    loadServicesFromFirebase();
-  } catch(e){ alert("एरर!"); }
-}
-
-async function deleteServiceById(id){
-  if (confirm("डिलीट?")){
-    try { await db.collection("services").doc(id).delete(); alert("डिलीट!"); loadServicesFromFirebase(); }
-    catch(e){ alert("एरर!"); }
-  }
-}
+async function addServiceFromForm(){ /* Deprecated - see saveServiceFromAdmin */ }
 
 // ==================== NOTIFY ====================
 async function loadSocietyList(){
@@ -3975,8 +4138,6 @@ function checkSecretAdmin(){
         adminToken = "admin_" + Date.now();
         localStorage.setItem("mh24_admin_token", adminToken);
         localStorage.setItem("mh24_admin_attempts", "0");
-        var b = document.getElementById("adminServiceBtn");
-        if (b) b.classList.remove("hidden");
         if (result.firstTime) alert("✅ पहिल्यांदा Admin password सेट झाला!");
         navigateTo("view-admin");
         setTimeout(function(){ try { history.replaceState(null, null, window.location.pathname); } catch(e){} }, 300);
@@ -4014,6 +4175,14 @@ document.addEventListener("click", function(e){
   if (addBtn){ e.stopPropagation(); addToCartById(addBtn.getAttribute("data-add-pid")); return; }
   var tile = t.closest("[data-pid]");
   if (tile){ openProductDetail(tile.getAttribute("data-pid")); return; }
+  var bookBtn = t.closest("[data-book-service]");
+  if (bookBtn){ e.stopPropagation(); openServiceBooking(bookBtn.getAttribute("data-book-service")); return; }
+  var serviceCard = t.closest("[data-open-service]");
+  if (serviceCard){ openServiceDetail(serviceCard.getAttribute("data-open-service")); return; }
+  var editServBtn = t.closest("[data-edit-serv]");
+  if (editServBtn){ editService(editServBtn.getAttribute("data-edit-serv")); return; }
+  var delServBtn = t.closest("[data-del-serv]");
+  if (delServBtn){ deleteServiceById(delServBtn.getAttribute("data-del-serv")); return; }
   var catBtn = t.closest("[data-open-cat]");
   if (catBtn){ e.stopPropagation(); openCategory(catBtn.getAttribute("data-open-cat"), catBtn.getAttribute("data-cat-name"), parseInt(catBtn.getAttribute("data-cat-cols") || "2")); return; }
   if (t.closest(".back-btn")){ goBack(); return; }
@@ -4023,10 +4192,6 @@ document.addEventListener("click", function(e){
   if (qtyBtn){ updateQtyByKey(qtyBtn.getAttribute("data-qty-key"), parseInt(qtyBtn.getAttribute("data-qty-ch"))); return; }
   var remBtn = t.closest("[data-remove-key]");
   if (remBtn){ removeItemByKey(remBtn.getAttribute("data-remove-key")); return; }
-  var dsBtn = t.closest("[data-del-service]");
-  if (dsBtn){ deleteServiceById(dsBtn.getAttribute("data-del-service")); return; }
-  var bsBtn = t.closest("[data-book-service]");
-  if (bsBtn){ openServiceBooking(bsBtn.getAttribute("data-book-service")); return; }
   var toBtn = t.closest("[data-toggle-orders]");
   if (toBtn){ toggleOrdersList("ord_" + toBtn.getAttribute("data-toggle-orders")); return; }
   var doBtn = t.closest("[data-del-order]");
@@ -4130,8 +4295,6 @@ function bindAllEvents(){
   document.getElementById("saveWeeklyBtn").addEventListener("click", saveWeeklyPlan);
   document.getElementById("clearWeeklyBtn").addEventListener("click", clearWeeklyPlan);
   document.getElementById("submitBookingBtn").addEventListener("click", submitServiceBooking);
-  document.getElementById("addServBtn").addEventListener("click", function(){ document.getElementById("addServiceForm").classList.toggle("hidden"); });
-  document.getElementById("saveServBtn").addEventListener("click", addServiceFromForm);
   document.getElementById("adminBillsBtn").addEventListener("click", function(){ navigateTo("view-admin-bills"); loadCustomerBills(true); });
   document.getElementById("adminDashBtn").addEventListener("click", function(){ navigateTo("view-admin-dashboard"); loadDashboardStats(); });
   document.getElementById("adminCustomersBtn").addEventListener("click", function(){ navigateTo("view-admin-customers"); loadCustomersPage(); });
@@ -4141,9 +4304,14 @@ function bindAllEvents(){
   document.getElementById("adminCancelsBtn").addEventListener("click", function(){ navigateTo("view-admin-cancels"); loadAdminCancels(); });
   document.getElementById("adminNotifyBtn").addEventListener("click", function(){ navigateTo("view-admin-notify"); loadSocietyList(); });
   document.getElementById("adminProductsBtn").addEventListener("click", function(){ navigateTo("view-admin-products"); renderAdminProductsByCategory(); });
+  document.getElementById("adminServicesBtn").addEventListener("click", function(){ navigateTo("view-admin-services"); renderAdminServicesPage(); });
   document.getElementById("adminCatsBtn").addEventListener("click", function(){ navigateTo("view-admin-categories"); renderAdminCategoriesPage(); });
   
   document.getElementById("adminSocialBtn").addEventListener("click", function(){ navigateTo("view-admin-social"); loadSocialAdminData(); });
+
+  // Admin Services Management
+  document.getElementById("saveAdminServBtn").addEventListener("click", saveServiceFromAdmin);
+  document.getElementById("cancelServEditBtn").addEventListener("click", cancelServiceEdit);
 
   document.getElementById("saveAllPostersBtn").addEventListener("click", saveAllPosters);
   document.getElementById("saveOtherBannerBtn").addEventListener("click", saveOtherBanner);
@@ -4198,8 +4366,6 @@ if (urlReferralCode){
 }
 if (adminToken){
   isAdmin = true;
-  var ab = document.getElementById("adminServiceBtn");
-  if (ab) ab.classList.remove("hidden");
 }
 var carousel = document.getElementById("posterCarousel");
 if (carousel){
